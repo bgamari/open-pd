@@ -10,5 +10,6 @@ git mv myproject.sch $NAME.sch
 git rm init.sh
 sed -i -e 's/myproject/$NAME/g' Makefile
 git commit -a -m "Rename project to $NAME"
+mv ../skeleton-geda-project ../$NAME
 
 echo "Done."
