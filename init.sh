@@ -8,7 +8,7 @@ fi;
 
 git mv myproject.sch $NAME.sch
 git rm init.sh
-sed -e 's/myproject/$NAME/g' Makefile
+sed -i -e 's/myproject/$NAME/g' Makefile
 git commit -a -m "Rename project to $NAME"
 
 echo "Done."
