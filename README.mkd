@@ -1,0 +1,5 @@
+# Skeleton gEDA project
+
+To begin,
+
+

@@ -1,0 +1,3 @@
+;                                                         -*-Scheme-*-
+(component-library "sym")
+(hierarchy-netattrib-mangle "disabled")
