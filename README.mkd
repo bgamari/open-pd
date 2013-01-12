@@ -1,5 +1,16 @@
 # Skeleton gEDA project
 
-To begin,
+To begin, run the `init.sh` script.
 
+## Makefile rules
 
+The included Makefile has a variety of useful rules,
+
+ * `tsymbols`: Generate tragesym symbols
+ * `check-symbols`: Run `gsymcheck` on the generated symbols
+ * `pcb`: Update the pcb file and netlist
+ * `$NAME.pdf`: Generate a PDF of the PCB layout
+ * `$NAME.ps`: Generate a Postscript of the PCB layout
+ * `$NAME.bom`: Generate a textual bill of materials
+ * `gerbers.zip`: Generate a Zip file containing Gerbers of the layout
+ * `osh-park-gerbers.zip`: Generate a Zip file containing Gerbers appropriate to send to [OSH Park](http://www.oshpark.com/)
