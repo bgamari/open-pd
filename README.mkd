@@ -1,6 +1,22 @@
-# Skeleton gEDA project
+# A skeleton gEDA project
 
-To begin, run the `init.sh` script.
+To begin, run the `init.sh` script. This will prompt you for your name
+of your new project and seed the required configuration.
+
+Open `$NAME.sch` with `gschem`. It is important that `gschem` is
+started from the root directory of the project. Draw your schematic.
+
+When the schematic is largely complete you can run `make pcb` to seed
+the PCB layout. Open the `$NAME.pcb` in the `pcb` tool. 
+
+
+## Requirements
+
+This requires a complete gEDA installation. On Ubuntu, the required
+packages can be easily installed with `apt-get`,
+
+    apt-get install geda geda-netlist geda-utils pcb
+
 
 ## Makefile rules
 
@@ -14,3 +30,4 @@ The included Makefile has a variety of useful rules,
  * `$NAME.bom`: Generate a textual bill of materials
  * `gerbers.zip`: Generate a Zip file containing Gerbers of the layout
  * `osh-park-gerbers.zip`: Generate a Zip file containing Gerbers appropriate to send to [OSH Park](http://www.oshpark.com/)
+
