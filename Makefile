@@ -1,4 +1,4 @@
-name=amp
+name=myproject
 
 %.sym : %.tsym
 	tragesym $< $@
