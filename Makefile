@@ -17,7 +17,7 @@ clean :
 	rm -f $(TSYMBOLS)
 
 pcb : symbols
-	gsch2pcb -v myproject.schs | tee pcb.log
+	gsch2pcb -v myproject.proj | tee pcb.log
 
 %.ps : %.pcb
 	pcb -x ps --psfile $@ $<
