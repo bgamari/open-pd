@@ -3,23 +3,27 @@ name=myproject
 %.sym : %.tsym
 	tragesym $< $@
 
-SYMS = $(wildcard sym/*.tsym)
-SYMBOLS := $(SYMS:.tsym=.sym)
+TSYMS = $(wildcard sym/*.tsym)
+TSYMBOLS := $(TSYMS:.tsym=.sym)
+SYMBOLS := $(sort $(TSYMBOLS) $(wildcard sym/*.sym))
 
-symbols : $(SYMBOLS)
+tsymbols : $(TSYMBOLS)
 
-check-symbols : $(SYMBOLS)
+check-symbols : $(TSYMBOLS)
 	gsymcheck $(SYMBOLS)
 
 .PHONY : clean
 clean :
-	rm -f $(SYMBOLS)
+	rm -f $(TSYMBOLS)
 
 pcb : symbols
 	gsch2pcb -v myproject.schs | tee pcb.log
 
 %.ps : %.pcb
 	pcb -x ps --psfile $@ $<
+
+%.bom : %.sch
+	gnetlist -g partslist3 -o $@ $<
 
 %.pdf : %.ps
 	ps2pdf $< $@
@@ -49,7 +53,4 @@ osh-park-gerbers : gerbers
 osh-park-gerbers.zip : osh-park-gerbers
 	rm -f $@
 	zip -j $@ osh-park-gerbers/*
-
-%.bom : %.sch
-	   gnetlist -g partslist3 -o $@ $<
 
