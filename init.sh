@@ -18,7 +18,7 @@ fi;
 
 git mv myproject.sch $name.sch
 git rm init.sh
-sed -i -e 's/myproject/$name/g' Makefile
+sed -i -e "s/myproject/$name/g" Makefile
 
 echo >$name.gsch2pcb <<EOF
 schematics $NAME.sch
