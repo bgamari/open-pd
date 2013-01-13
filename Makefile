@@ -12,12 +12,14 @@ tsymbols : $(TSYMBOLS)
 check-symbols : $(TSYMBOLS)
 	gsymcheck $(SYMBOLS)
 
+symbols : $(SYMBOLS)
+
 .PHONY : clean
 clean :
 	rm -f $(TSYMBOLS)
 
 pcb : symbols
-	gsch2pcb -v myproject.proj | tee pcb.log
+	gsch2pcb -v myproject.gsch2pcb | tee pcb.log
 
 %.ps : %.pcb
 	pcb -x ps --psfile $@ $<

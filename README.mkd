@@ -3,6 +3,9 @@
 `skeleton-geda-project` is meant to serve as a batteries-included
 foundation for a [gEDA](http://www.geda-project.org/) project.
 
+
+## Getting started
+
 To begin, run the `init.sh` script. This will prompt you for your name
 of your new project and seed the required configuration.
 
@@ -20,6 +23,7 @@ of the board).
 Feel free to overwrite this readme when you no longer need it.
 `skeleton-geda-project` is available at
 <http://www.github.com/bgamari/skeleton-geda-project>.
+
 
 ## Requirements
 
@@ -44,10 +48,13 @@ The included Makefile has a variety of useful rules,
 
 ## Where can I find symbols/footprints?
 
-If you are in need of a symbol or footprint, Google is always a
-reasonable place to start. Moreover, there are several repositories of
-high-quality symbols and footprints,
+If you are in need of a symbol or footprint, Google and Github are
+always reasonable places to start searching. Moreover, there are
+several repositories of high-quality symbols and footprints
+distributed under a variety of terms,
 
+ * `gschem` and `pcb` come with a limited set of symbols and
+   footprints of varying quality
  * [gedasymbols.org](http://www.gedasymbols.org/)
  * [luciani.org](http://www.luciani.org/geda/pcb/pcb-footprint-list.html)
  * [Bdale's component library](http://git.gag.com/?p=hw/bdale;a=summary)
@@ -74,8 +81,9 @@ rule, it's best to only add the `.tsym` source to version control.
 
 One can also create symbols using `gschem` by creating a new
 schematic, drawing the symbol and pins, and saving in the `sym/`
-directory with a `.sym` file extension.
-
+directory with a `.sym` file extension. See 
+<http://ashwith.wordpress.com/2010/09/23/creating-your-own-symbols-in-gschem/>
+for more details on this process.
 
 ## How do I make footprints?
 
@@ -83,7 +91,7 @@ There are several tools for generating footprints. See the
 [gEDA wiki](http://wiki.geda-project.org/geda:pcb_footprints) for more details.
 
 
-## How and why would I use hierarchical symbols?
+## How and why would I use hierarchical sheets?
 
 It is good practice to preserve clean separation between the
 functional units of a design. This is especially true in large designs
@@ -107,10 +115,13 @@ components in instances of a unit will be identified by a unique
 `refdes` of the component (e.g. `refdes=C1` in instance `refdes=CH1`
 will be called `refdes=CH1/C1`).
 
+The [sedrename](https://github.com/bgamari/pcb-sedrename) `pcb` plugin
+is very useful for composing layouts with multiple repeated units.
 
 # Other resources
 
- * [gEDA wiki](http://wiki.geda-project.org/)
+ * The [gEDA wiki](http://wiki.geda-project.org/) contains a wealth of
+   information, although isn't always well organized
  * [sedrename](https://github.com/bgamari/pcb-sedrename) is a useful
    utility when working with designs composed of many repeated units.
 
