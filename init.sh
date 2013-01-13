@@ -20,16 +20,14 @@ git mv myproject.sch $name.sch
 git rm init.sh
 sed -i -e "s/myproject/$name/g" Makefile
 
-echo >$name.gsch2pcb <<EOF
+echo >project <<EOF
 schematics $NAME.sch
 output-name $name
 skip-m4
 EOF
-git add $name.gsch2pcb
-
+git add project
 git commit -a -m "rename project to $name"
 
-git add $name.gsch2pcb
 mv ../skeleton-geda-project ../$name
 
 echo <<EOF
