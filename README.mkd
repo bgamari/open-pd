@@ -10,16 +10,21 @@ Open `NAME.sch` with `gschem`. It is important that `gschem` is
 started from the root directory of the project. Draw your schematic.
 
 When the schematic is largely complete you can run `make pcb` to seed
-the PCB layout. Open the `NAME.pcb` in the `pcb` tool. 
+the initial PCB layout and update it after the schematic is
+changed. After running this, you'll need to update the netlist
+(`File->Load netlist file` and select `NAME.net`) and add any new
+components (`File->Load layout data to paste-buffer`, select
+`NAME.new.pcb`, and click to place the new elements on a vacant part
+of the board).
 
-Feel free to overwrite this readme when you are done with it. 
+Feel free to overwrite this readme when you no longer need it.
 `skeleton-geda-project` is available at
 <http://www.github.com/bgamari/skeleton-geda-project>.
 
 ## Requirements
 
 This requires a complete gEDA installation. On Ubuntu, the required
-packages can be easily installed with `apt-get`,
+packages can be installed with `apt-get`,
 
     apt-get install geda geda-netlist geda-utils pcb
 
@@ -41,11 +46,11 @@ The included Makefile has a variety of useful rules,
 
 If you are in need of a symbol or footprint, Google is always a
 reasonable place to start. Moreover, there are several repositories of
-high-quality symbols/footprints,
+high-quality symbols and footprints,
 
  * [gedasymbols.org](http://www.gedasymbols.org/)
  * [luciani.org](http://www.luciani.org/geda/pcb/pcb-footprint-list.html)
- * 
+ * [Bdale's component library](http://git.gag.com/?p=hw/bdale;a=summary)
  
 ## How do I make symbols?
 
@@ -55,11 +60,15 @@ where more control over layout and presentation is needed, `gschem` is
 preferred.
 
 ### With `tragesym`
-The easiest way to make a symbol is with the excellent `tragesym` utility.
-You will find an example `tragesym` description in the
-`sym/l79lxx.tsym`. Simply copy this file and update the `name`,
-`device`, `footprint`, `description`, and `author` fields in addition
-to the pin definitions.
+The `tragesym` utility (packaged in the `geda-utils` package in
+Debian-derived distributions) is a useful tool for generating symbols
+from a simple text description. You will find an example `tragesym`
+description in the `sym/l79lxx.tsym`. Simply copy this file and update
+the `name`, `device`, `footprint`, `description`, and `author` fields
+in addition to the pin definitions. The Makefiles `tsymbols` rule will
+`.sym` files from all `.tsym` files in the `sym/` directory. As a
+rule, it's best to only add the `.tsym` source to version control.
+
 
 ### With `gschem`
 
@@ -74,9 +83,34 @@ There are several tools for generating footprints. See the
 [gEDA wiki](http://wiki.geda-project.org/geda:pcb_footprints) for more details.
 
 
+## How and why would I use hierarchical symbols?
+
+It is good practice to preserve clean separation between the
+functional units of a design. This is especially true in large designs
+which are too large to fit on a single sheet or which consist of a
+block replicated several times. Hierarchical sheets allow one split a
+schematic into logical units which can be easily replicated.
+
+To create a unit, simply design the unit in a normal schematic, saving
+it in the `sym/` directory. Nets which are to be exposed outside of
+the sheet should be assigned a `net` attribute
+(e.g. `net=CLK:1`). Finally, create a separate symbol file to
+represent the unit (also in the `sym/` directory). The symbol should
+possess a `source` attribute pointing to the unit's schematic
+(e.g. `source=my_unit.sch`) as well as pins for each of the nets the
+unit exposes. Each pin should possess a `net` attribute matching the
+name specified in the schematic.
+
+Units can be inserted like any other symbol. In the netlist,
+components in instances of a unit will be identified by a unique
+`refdes` consisting of the `refdes` of the instance followed by the
+`refdes` of the component (e.g. `refdes=C1` in instance `refdes=CH1`
+will be called `refdes=CH1/C1`).
+
 
 # Other resources
 
  * [gEDA wiki](http://wiki.geda-project.org/)
-
+ * [sedrename](https://github.com/bgamari/pcb-sedrename) is a useful
+   utility when working with designs composed of many repeated units.
 
