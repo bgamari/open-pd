@@ -15,6 +15,12 @@ if [ "$name" = "" ]; then
     exit 1
 fi;
 
+if [ -e ../$name ]; then
+    echo "Error: ../$name already exists"
+    exit 1
+fi;
+git clone . ../$name
+cd ../$name
 
 git mv myproject.sch $name.sch
 git rm init.sh
@@ -26,7 +32,7 @@ output-name $name
 skip-m4
 EOF
 git add project
-git commit -a -m "rename project to $name"
+git commit -a -m "start project $name"
 
 mv ../skeleton-geda-project ../$name
 
