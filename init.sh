@@ -34,8 +34,6 @@ EOF
 git add project
 git commit -a -m "start project $name"
 
-mv ../skeleton-geda-project ../$name
-
 echo <<EOF
 
 Your project is now ready.
