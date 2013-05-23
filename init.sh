@@ -26,7 +26,7 @@ git mv myproject.sch $name.sch
 git rm init.sh
 sed -i -e "s/myproject/$name/g" Makefile
 
-echo >project <<EOF
+cat >project <<EOF
 schematics $NAME.sch
 output-name $name
 skip-m4
