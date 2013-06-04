@@ -70,3 +70,4 @@ hackvana-gerbers : gerbers
 hackvana-gerbers.zip : hackvana-gerbers
 	rm -f $@
 	zip -j $@ hackvana-gerbers/*
+	@echo "Be sure to add a version number to the zip file name"
