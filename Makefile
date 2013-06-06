@@ -42,6 +42,7 @@ gerbers.zip : gerbers
 
 .PHONY : osh-park-gerbers
 osh-park-gerbers : gerbers
+	rm -Rf $@
 	mkdir -p $@
 	cp gerbers/$(name).top.gbr "$@/Top Layer.ger"
 	cp gerbers/$(name).bottom.gbr "$@/Bottom Layer.ger"
@@ -57,6 +58,7 @@ osh-park-gerbers.zip : osh-park-gerbers
 	zip -j $@ osh-park-gerbers/*
 
 hackvana-gerbers : gerbers
+	rm -Rf $@
 	mkdir -p $@
 	cp gerbers/$(name).top.gbr $@/$(name).front.gtl
 	cp gerbers/$(name).bottom.gbr $@/$(name).back.gbl
