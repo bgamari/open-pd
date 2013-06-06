@@ -64,7 +64,6 @@ hackvana-gerbers : gerbers
 	cp gerbers/$(name).bottommask.gbr $@/$(name).backmask.gbs
 	cp gerbers/$(name).topsilk.gbr $@/$(name).frontsilk.gto
 	cp gerbers/$(name).bottomsilk.gbr $@/$(name).backsilk.gbo
-	cp gerbers/$(name).fab.gbr $@/$(name).fab.gbr
 	cp gerbers/$(name).outline.gbr $@/$(name).outline.gbr
 	cp gerbers/$(name).plated-drill.cnc $@/$(name).plated-drill.cnc
 
