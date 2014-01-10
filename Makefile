@@ -6,6 +6,7 @@ name=myproject
 TSYMS = $(wildcard sym/*.tsym)
 TSYMBOLS := $(TSYMS:.tsym=.sym)
 SYMBOLS := $(sort $(TSYMBOLS) $(wildcard sym/*.sym))
+SCHEMATICS := $(name).sch $(wildcard sym/*.sch)
 
 tsymbols : $(TSYMBOLS)
 
@@ -29,6 +30,12 @@ pcb : symbols
 
 %.pdf : %.ps
 	ps2pdf $< $@
+
+%.sch.pdf : %.sch
+	gaf export -o $@ $<
+
+schematics.pdf : $(SCHEMATICS:.sch=.sch.pdf)
+	pdfjoin -o $@ $+
 
 .PHONY : gerbers
 gerbers : $(name).pcb $(name).bom
