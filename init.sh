@@ -33,6 +33,7 @@ skip-m4
 EOF
 git add project
 git commit -a -m "start project $name"
+git remote remove origin
 
 echo <<EOF
 
