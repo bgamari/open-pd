@@ -1,0 +1,75 @@
+[options]
+wordswap	yes
+rotate_labels	yes
+sort_labels	no
+generate_pinseq	yes
+sym_width	4800
+pinwidthvertical	300
+pinwidthhorizontal	300
+
+[geda_attr]
+version	20060113 1
+name	Kinetis K20
+device	K20
+refdes	U?
+footprint	QFP48
+description	Kinetis K20 MCU
+documentation	http://www.freescale.com/
+author	Ben Gamari <bgamari@gmail.com>
+numslots	0
+dist-license
+use-license
+
+[pins]
+#pinnr	seq	type	style	posit.	net	label
+1		pwr	line	l		VDD
+2		pwr	line	l		VSS
+3		io	line	l		USB0_DP
+4		io	line	l		USB0_DM
+5		pwr	line	l		VOUT33
+6		pwr	line	l		VREGIN
+7		io	line	l		ADC0_DP0
+8		io	line	l		ADC0_DM0
+9		pwr	line	l		VDDA
+10		pwr	line	l		VREFH
+11		pwr	line	l		VREFL
+12		pwr	line	l		VSSA
+13		pwr	line	b		VREF_OUT
+14		pwr	line	b		XTAL32
+15		pwr	line	b		EXTAL32
+16		pwr	line	b		VBAT
+17		io	line	b		PTA0
+18		io	line	b		PTA1
+19		io	line	b		PTA2
+20		io	line	b		PTA3
+21		io	line	b		PTA4
+22		io	line	b		VDD
+23		io	line	b		VSS
+24		io	line	b		PTA18
+
+36		io	line	r		PTC3
+35		io	line	r		PTC2
+34		io	line	r		PTC1
+33		io	line	r		PTC0
+32		io	line	r		PTB17
+31		io	line	r		PTB16
+30		io	line	r		PTB3
+29		io	line	r		PTB2
+28		io	line	r		PTB1
+27		io	line	r		PTB0
+26		io	line	r		RESET
+25		io	line	r		PTA19
+
+48		io	line	t		PTD7
+47		io	line	t		PTD6
+46		io	line	t		PTD5
+45		io	line	t		PTD4
+44		io	line	t		PTD3
+43		io	line	t		PTD2
+42		io	line	t		PTD1
+41		io	line	t		PTD0
+40		io	line	t		PTC7
+39		io	line	t		PTC6
+38		io	line	t		PTC5
+37		io	line	t		PTC4
+
