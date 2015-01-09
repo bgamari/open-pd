@@ -1,4 +1,4 @@
-name=myproject
+name=power-meter
 
 %.sym : %.tsym
 	tragesym $< $@
