@@ -30,7 +30,7 @@ Feel free to overwrite this readme when you no longer need it.
 This requires a complete gEDA installation. On Ubuntu, the required
 packages can be installed with `apt-get`,
 
-    apt-get install geda geda-netlist geda-utils pcb
+    apt-get install geda geda-gnetlist geda-utils pcb-gtk
 
 
 ## Makefile rules
