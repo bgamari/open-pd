@@ -141,8 +141,6 @@ C 52700 25900 1 0 0 analog-switch.sym
 {
 T 54900 26500 5 10 0 0 0 0 1
 device=ADG733
-T 54900 26300 5 10 0 0 0 0 1
-footprint=TSSOP-16
 T 53600 26800 5 10 1 1 0 0 1
 refdes=U4
 T 52700 25900 5 10 0 0 0 0 1
@@ -152,8 +150,6 @@ C 51300 25400 1 0 0 analog-switch.sym
 {
 T 53500 26000 5 10 0 0 0 0 1
 device=ADG733
-T 53500 25800 5 10 0 0 0 0 1
-footprint=TSSOP-16
 T 52200 26300 5 10 1 1 0 0 1
 refdes=U4
 T 51300 25400 5 10 0 0 0 0 1
@@ -163,8 +159,6 @@ C 52700 25700 1 180 1 analog-switch.sym
 {
 T 54900 25100 5 10 0 0 180 6 1
 device=ADG733
-T 54900 25300 5 10 0 0 180 6 1
-footprint=TSSOP-16
 T 53600 24800 5 10 1 1 180 6 1
 refdes=U4
 T 52700 25700 5 10 0 0 0 0 1
@@ -174,19 +168,15 @@ C 56800 25700 1 180 0 analog-switch.sym
 {
 T 54600 25100 5 10 0 0 180 0 1
 device=ADG733
-T 54600 25300 5 10 0 0 180 0 1
-footprint=TSSOP-16
-T 55900 24800 5 10 1 1 180 0 1
-refdes=U5
 T 56200 25100 5 10 0 1 0 0 1
 slot=4
+T 55700 24700 5 10 1 1 0 0 1
+refdes=U5
 }
 C 56800 25900 1 0 1 analog-switch.sym
 {
 T 54600 26500 5 10 0 0 0 6 1
 device=ADG733
-T 54600 26300 5 10 0 0 0 6 1
-footprint=TSSOP-16
 T 55900 26800 5 10 1 1 0 6 1
 refdes=U5
 T 56300 26200 5 10 0 1 0 0 1
@@ -196,8 +186,6 @@ C 58200 25400 1 0 1 analog-switch.sym
 {
 T 56000 26000 5 10 0 0 0 6 1
 device=ADG733
-T 56000 25800 5 10 0 0 0 6 1
-footprint=TSSOP-16
 T 57300 26300 5 10 1 1 0 6 1
 refdes=U5
 T 57400 25700 5 10 0 1 0 0 1
@@ -241,7 +229,7 @@ refdes=U1
 T 56300 35550 5 10 0 0 0 0 1
 device=K20
 T 56300 35750 5 10 0 0 0 0 1
-footprint=QFP48
+footprint=TQFP48
 }
 N 56100 33100 56100 32500 4
 {
@@ -325,7 +313,7 @@ refdes=USB
 T 48300 37000 5 10 1 1 0 0 1
 device=USB
 T 48600 48050 5 10 0 0 0 0 1
-footprint=usbminib
+footprint=micro-usb
 }
 C 49500 36900 1 270 0 5V-plus-1.sym
 C 53800 35300 1 90 0 5V-plus-1.sym
@@ -392,8 +380,8 @@ T 69700 33100 5 10 1 1 0 6 1
 refdes=SCREEN
 T 69300 33050 5 10 0 0 0 0 1
 device=CONNECTOR_6
-T 69300 33250 5 10 0 0 0 0 1
-footprint=SIP6N
+T 69800 30900 5 10 0 1 0 0 1
+footprint=HEADER6_1
 }
 C 68700 32300 1 270 0 gnd-1.sym
 C 69000 32400 1 90 0 3.3V-plus-1.sym
@@ -669,8 +657,8 @@ T 69700 36800 5 10 1 1 0 6 1
 refdes=DEBUG
 T 69300 36750 5 10 0 0 0 0 1
 device=CONNECTOR_7
-T 69300 36950 5 10 0 0 0 0 1
-footprint=SIP7N
+T 69700 35800 5 10 0 1 0 0 1
+footprint=HEADER7_1
 }
 N 58200 37600 58200 38000 4
 {
@@ -1023,6 +1011,8 @@ T 69000 29800 5 10 1 1 0 0 1
 refdes=RESET
 T 69200 29800 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
+T 68800 29200 5 10 0 1 0 0 1
+footprint=tl3301
 }
 C 68800 28400 1 0 0 smt-pushbutton-no.sym
 {
@@ -1030,6 +1020,8 @@ T 69200 29000 5 10 1 1 0 0 1
 refdes=UP
 T 69200 29000 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
+T 68800 28400 5 10 0 1 0 0 1
+footprint=tl3301
 }
 C 68800 27700 1 0 0 smt-pushbutton-no.sym
 {
@@ -1037,6 +1029,8 @@ T 69000 28300 5 10 1 1 0 0 1
 refdes=DOWN
 T 69200 28300 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
+T 68800 27700 5 10 0 1 0 0 1
+footprint=tl3301
 }
 C 68800 27000 1 0 0 smt-pushbutton-no.sym
 {
@@ -1044,6 +1038,8 @@ T 69100 27600 5 10 1 1 0 0 1
 refdes=LEFT
 T 69200 27600 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
+T 68800 27000 5 10 0 1 0 0 1
+footprint=tl3301
 }
 C 68800 26300 1 0 0 smt-pushbutton-no.sym
 {
@@ -1051,6 +1047,8 @@ T 69000 26900 5 10 1 1 0 0 1
 refdes=RIGHT
 T 69200 26900 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
+T 68800 26300 5 10 0 1 0 0 1
+footprint=tl3301
 }
 C 68800 25600 1 0 0 smt-pushbutton-no.sym
 {
@@ -1058,6 +1056,8 @@ T 69000 26200 5 10 1 1 0 0 1
 refdes=ENTER
 T 69200 26200 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
+T 68800 25600 5 10 0 1 0 0 1
+footprint=tl3301
 }
 C 68800 24900 1 0 0 smt-pushbutton-no.sym
 {
@@ -1065,6 +1065,8 @@ T 69100 25500 5 10 1 1 0 0 1
 refdes=EXIT
 T 69200 25500 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
+T 68800 24900 5 10 0 1 0 0 1
+footprint=tl3301
 }
 N 66800 29100 66800 29600 4
 {

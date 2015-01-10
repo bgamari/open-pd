@@ -58,7 +58,7 @@ description=Analog multiplexer
 T 2200 600 8 10 0 0 0 0 1
 device=ADG733
 T 2200 400 8 10 0 0 0 0 1
-footprint=TSSOP-16
+footprint=TSSOP-65P-640L1-16N
 T 2200 2000 8 10 0 0 0 0 1
 slotdef=2:14,12,13,11
 T 2200 1800 8 10 0 0 0 0 1
