@@ -20,12 +20,12 @@ pinwidthhorizontal=400
 # if you have a device with slots, you'll have to use slot= and slotdef=
 # use comment= if there are special information you want to add
 version=20060113 1
-name=L79Lxx
-device=AD5L79Lxx
+name=LP5907
+device=LP5907
 refdes=U?
-footprint=SOT89
-description=Fixed negative voltage regulator
-author=Ben Gamari <bgamari@gmail.com>
+footprint=SOT23
+description=Low-noise low-dropout voltage regulator
+author=Ben Gamari <ben@smart-cactus.org>
 numslots=0
 
 [pins]
@@ -43,7 +43,7 @@ numslots=0
 #-----------------------------------------------------
 #pinnr	seq	type	style	posit.	net	label	
 #-----------------------------------------------------
-1		pwr	line	b		GND
-2		pwr	line	l		VIN
-3		pwr	line	r		VOUT
-4		pwr	line	l		VIN
+1		pwr	line	l		IN
+2		pwr	line	b		GND
+3		in	line	t		EN
+5		pwr	line	r		OUT

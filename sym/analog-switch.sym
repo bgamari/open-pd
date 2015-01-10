@@ -10,20 +10,18 @@ pintype=unknown
 T 555 395 5 10 0 1 0 0 1
 pinlabel=unknown
 T 205 445 5 10 1 1 0 6 1
-pinnumber=0
+pinnumber=D
 T -300 450 5 10 0 0 0 0 1
-pinseq=0
+pinseq=1
 }
 P 700 1100 700 800 1 0 0
 {
 T 750 900 5 10 0 0 270 0 1
 pintype=unknown
-T 655 600 5 10 1 1 0 0 1
-pinlabel=A
 T 605 850 5 10 1 1 0 6 1
-pinnumber=0
+pinnumber=SEL
 T 750 900 5 10 0 0 270 0 1
-pinseq=0
+pinseq=4
 }
 P 1400 500 900 500 1 0 0
 {
@@ -32,9 +30,9 @@ pintype=unknown
 T 845 495 5 10 0 1 0 6 1
 pinlabel=unknown
 T 1195 545 5 10 1 1 0 0 1
-pinnumber=0
+pinnumber=A
 T 1700 550 5 10 0 0 0 6 1
-pinseq=0
+pinseq=2
 }
 P 1400 300 900 300 1 0 0
 {
@@ -43,9 +41,27 @@ pintype=unknown
 T 845 295 5 10 0 1 0 6 1
 pinlabel=unknown
 T 1195 145 5 10 1 1 0 0 1
-pinnumber=0
+pinnumber=B
 T 1700 350 5 10 0 0 0 6 1
-pinseq=0
+pinseq=3
 }
 L 500 400 900 500 3 0 1 0 -1 -1
 B 300 100 800 700 3 0 1 0 -1 -1 0 -1 -1 -1 -1 -1
+T 900 900 8 10 1 1 0 0 1
+refdes=U?
+T 2200 1200 8 10 0 0 0 0 1
+slot=2
+T 2200 1000 8 10 0 0 0 0 1
+numslots=4
+T 2200 800 8 10 0 0 0 0 1
+description=Analog multiplexer
+T 2200 600 8 10 0 0 0 0 1
+device=ADG733
+T 2200 400 8 10 0 0 0 0 1
+footprint=TSSOP-16
+T 2200 2000 8 10 0 0 0 0 1
+slotdef=2:14,12,13,11
+T 2200 1800 8 10 0 0 0 0 1
+slotdef=3:15,2,1,10
+T 2200 1600 8 10 0 0 0 0 1
+slotdef=4:4,5,3,9
