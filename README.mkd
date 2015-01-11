@@ -8,7 +8,10 @@ be used either autonomously or as a USB device.
 The device is built using easy-to-solder 0805 surface mount
 passives. The device consists of a compensated transimpedance
 amplifier with a wide range gains, switched with a network of analog
-multiplexers.
+multiplexers. Since dual amplifiers are cheap, an additional voltage
+gain stage is included after the transimpedance amplifier, providing
+another factor of 10 in gain (albeit with the addition noise that this
+implies).
 
 Note that the capacitance and leakage current of these multiplexers
 limit the frequency response and low-current linearity of the
@@ -35,6 +38,7 @@ Specifications
      * 1 volt / amp
  * Theoretical sensitivity: Around 100 nA
  * Realistic sensitivity: We'll see
+ * Maximum measurable current: 10mA
  * Additional voltage gain of 10 after amplifier; both channels can be read by ADC
  * Interface:
      * USB device
@@ -47,15 +51,16 @@ Specifications
 Parts
 -----
 
-| Vendor            | Part           | Qty | Description                        |
-|:------------------|:---------------|:----|:-----------------------------------|
-| Analog Devices    | ADG733         | 2   | Analog multiplexer                 |
-| Freescale         | MK20DX128VLF5  | 1   | Microcontroller                    |
-| Texas Instruments | OPA2376AIDR    | 1   | Dual operational amplifier         |
-| Texas Instruments | TMP100NA       | 1   | I²C temperature sensor             |
-| Texas Instruments | LP5907MFX-3.3  | 1   | 3.3V Low-dropout voltage regulator |
-| Amphenol          | 132289         | 1   | End-launch SMA jack                |
-| C&K Components    | PTS810 SJK 250 | 7   | Tactile switch                     |
+| Vendor            | Part            | Qty | Description                        |
+|:------------------|:----------------|:----|:-----------------------------------|
+| Analog Devices    | ADG733          | 2   | Analog multiplexer                 |
+| Freescale         | MK20DX32VLF5    | 1   | Microcontroller                    |
+| Texas Instruments | OPA2376AIDR     | 1   | Dual operational amplifier         |
+| Texas Instruments | TMP100NA        | 1   | I²C temperature sensor             |
+| Texas Instruments | LP5907MFX-3.3   | 1   | 3.3V Low-dropout voltage regulator |
+| Amphenol          | 132289          | 1   | End-launch SMA jack                |
+| C&K Components    | PTS810 SJK 250  | 7   | Tactile switch                     |
+| FCI               | 10104111-0001LF | 1   | Micro USB connector                |
 
 The passive components are all 0805 packages.
 
