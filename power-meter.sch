@@ -131,9 +131,11 @@ C 50600 25100 1 0 0 gnd-1.sym
 C 48300 25500 1 0 0 BNC-1.sym
 {
 T 48650 26150 5 10 0 0 0 0 1
-device=BNC
+device=SMA
 T 48300 26300 5 10 1 1 0 0 1
 refdes=PD_IN
+T 48300 25500 5 10 0 0 0 0 1
+footprint=sma-board-edge
 }
 N 50100 25600 50200 25600 4
 C 48300 25200 1 0 0 gnd-1.sym
@@ -587,32 +589,17 @@ C 70100 25200 1 90 0 gnd-1.sym
 N 54900 37600 54900 38000 4
 {
 T 55000 38100 5 10 1 1 90 0 1
-netname=UP
+netname=EXIT
 }
 N 55200 37600 55200 38000 4
 {
 T 55300 38100 5 10 1 1 90 0 1
-netname=DOWN
+netname=LEFT
 }
 N 55500 37600 55500 38000 4
 {
 T 55600 38100 5 10 1 1 90 0 1
-netname=LEFT
-}
-N 55800 37600 55800 38000 4
-{
-T 55900 38100 5 10 1 1 90 0 1
-netname=RIGHT
-}
-N 56100 37600 56100 38000 4
-{
-T 56200 38100 5 10 1 1 90 0 1
-netname=ENTER
-}
-N 56400 37600 56400 38000 4
-{
-T 56500 38100 5 10 1 1 90 0 1
-netname=EXIT
+netname=UP
 }
 N 59200 35200 59900 35200 4
 {
@@ -988,7 +975,7 @@ refdes=RESET
 T 69200 29800 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
 T 68800 29200 5 10 0 1 0 0 1
-footprint=tl3301
+footprint=PTS-810
 }
 C 68800 28400 1 0 0 smt-pushbutton-no.sym
 {
@@ -997,7 +984,7 @@ refdes=UP
 T 69200 29000 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
 T 68800 28400 5 10 0 1 0 0 1
-footprint=tl3301
+footprint=PTS-810
 }
 C 68800 27700 1 0 0 smt-pushbutton-no.sym
 {
@@ -1006,7 +993,7 @@ refdes=DOWN
 T 69200 28300 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
 T 68800 27700 5 10 0 1 0 0 1
-footprint=tl3301
+footprint=PTS-810
 }
 C 68800 27000 1 0 0 smt-pushbutton-no.sym
 {
@@ -1015,7 +1002,7 @@ refdes=LEFT
 T 69200 27600 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
 T 68800 27000 5 10 0 1 0 0 1
-footprint=tl3301
+footprint=PTS-810
 }
 C 68800 26300 1 0 0 smt-pushbutton-no.sym
 {
@@ -1024,7 +1011,7 @@ refdes=RIGHT
 T 69200 26900 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
 T 68800 26300 5 10 0 1 0 0 1
-footprint=tl3301
+footprint=PTS-810
 }
 C 68800 25600 1 0 0 smt-pushbutton-no.sym
 {
@@ -1033,7 +1020,7 @@ refdes=ENTER
 T 69200 26200 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
 T 68800 25600 5 10 0 1 0 0 1
-footprint=tl3301
+footprint=PTS-810
 }
 C 68800 24900 1 0 0 smt-pushbutton-no.sym
 {
@@ -1042,7 +1029,7 @@ refdes=EXIT
 T 69200 25500 5 10 0 0 0 0 1
 device=SWITCH_PUSHBUTTON_NO
 T 68800 24900 5 10 0 1 0 0 1
-footprint=tl3301
+footprint=PTS-810
 }
 N 66800 29100 66800 29600 4
 {
@@ -1081,4 +1068,19 @@ N 56700 37600 56700 38000 4
 {
 T 56800 38100 5 10 1 1 90 0 1
 netname=LED
+}
+N 59200 36100 59900 36100 4
+{
+T 60000 36100 5 10 1 1 0 0 1
+netname=RIGHT
+}
+N 59200 35800 59900 35800 4
+{
+T 60000 35800 5 10 1 1 0 0 1
+netname=ENTER
+}
+N 55800 37600 55800 38000 4
+{
+T 55900 38100 5 10 1 1 90 0 1
+netname=DOWN
 }
