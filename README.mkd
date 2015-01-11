@@ -1,127 +1,42 @@
-# skeleton-geda-project
+# OpenPD — Open Source Photodiode amplifier
 
-`skeleton-geda-project` is meant to serve as a batteries-included
-foundation for a [gEDA](http://www.geda-project.org/) project.
+OpenPDj is a low-cost, high dynamic range photodiode amplifier,
+designed for use as a low-bandwidth laser power meter. The device can
+be used either autonomously or as a USB device.
 
+The device is built using easy-to-solder 0805 surface mount passives.
 
-## Getting started
+## Specifications
 
-To begin, run the `init.sh` script. This will prompt you for your name
-of your new project and seed the required configuration.
+ * Analog bandwidth: 1 kHz
+ * Digital sampling rate: Up to 200 ksamples/second
+ * Current amplifier gain ranges (Digitally switched):
+   * 5 megavolt / amp
+   * 33 kilovolt / amp
+   * 150 volt / amp
+   * 1 volt / amp
+ * Additional voltage gain of 10 after amplifier;
+   both channels can be read by ADC
+ * Interface:
+   * USB device
+   * SPI [OLED display][oled] and buttons
 
-Open `NAME.sch` with `gschem`. It is important that `gschem` is
-started from the root directory of the project. Draw your schematic.
+[oled]: http://www.ebay.com/itm/131305379698
 
-When the schematic is largely complete you can run `make pcb` to seed
-the initial PCB layout and update it after the schematic is
-changed. After running this, you'll need to update the netlist
-(`File->Load netlist file` and select `NAME.net`) and add any new
-components (`File->Load layout data to paste-buffer`, select
-`NAME.new.pcb`, and click to place the new elements on a vacant part
-of the board).
+## Parts
 
-Feel free to overwrite this readme when you no longer need it.
-`skeleton-geda-project` is available at
-<http://www.github.com/bgamari/skeleton-geda-project>.
+  Vendor              Part                Qty    Description
+  ================    ================    ====   ================
+  Analog Devices      ADG733              2      Analog multiplexer
+  Freescale           MK20DX128VLF5       1      Microcontroller
+  Texas Instruments   OPA2376AIDR         1      Dual operational amplifier
+  Texas Instruments   TMP100NA            1      I²C temperature sensor
+  Texas Instruments   LP5907MFX-3.3       1      3.3V Low-dropout voltage regulator
+  Amphenol            132289              1      End-launch SMA jack
+  C&K Components      PTS810 SJK 250      7      Tactile switch
 
+## Resources
 
-## Requirements
-
-This requires a complete gEDA installation. On Ubuntu, the required
-packages can be installed with `apt-get`,
-
-    apt-get install geda geda-netlist geda-utils pcb
-
-
-## Makefile rules
-
-The included Makefile has a variety of useful rules,
-
- * `tsymbols`: Generate tragesym symbols
- * `check-symbols`: Run `gsymcheck` on the generated symbols
- * `pcb`: Update the pcb file and netlist
- * `$NAME.pdf`: Generate a PDF of the PCB layout
- * `$NAME.ps`: Generate a Postscript of the PCB layout
- * `$NAME.bom`: Generate a textual bill of materials
- * `gerbers.zip`: Generate a Zip file containing Gerbers of the layout
- * `osh-park-gerbers.zip`: Generate a Zip file containing Gerbers appropriate to send to [OSH Park](http://www.oshpark.com/)
-
-## Where can I find symbols/footprints?
-
-If you are in need of a symbol or footprint, Google and Github are
-always reasonable places to start searching. Moreover, there are
-several repositories of high-quality symbols and footprints
-distributed under a variety of terms,
-
- * `gschem` and `pcb` come with a limited set of symbols and
-   footprints of varying quality
- * [gedasymbols.org](http://www.gedasymbols.org/)
- * [luciani.org](http://www.luciani.org/geda/pcb/pcb-footprint-list.html)
- * [Bdale's component library](http://git.gag.com/?p=hw/bdale;a=summary)
- 
-## How do I make symbols?
-
-There are several ways to create `gschem` symbols. For most cases,
-`tragesym` is the easiest way to compose a symbol. However, in cases
-where more control over layout and presentation is needed, `gschem` is
-preferred.
-
-### With `tragesym`
-The `tragesym` utility (packaged in the `geda-utils` package in
-Debian-derived distributions) is a useful tool for generating symbols
-from a simple text description. You will find an example `tragesym`
-description in the `sym/l79lxx.tsym`. Simply copy this file and update
-the `name`, `device`, `footprint`, `description`, and `author` fields
-in addition to the pin definitions. The Makefiles `tsymbols` rule will
-`.sym` files from all `.tsym` files in the `sym/` directory. As a
-rule, it's best to only add the `.tsym` source to version control.
-
-
-### With `gschem`
-
-One can also create symbols using `gschem` by creating a new
-schematic, drawing the symbol and pins, and saving in the `sym/`
-directory with a `.sym` file extension. See 
-<http://ashwith.wordpress.com/2010/09/23/creating-your-own-symbols-in-gschem/>
-for more details on this process.
-
-## How do I make footprints?
-
-There are several tools for generating footprints. See the
-[gEDA wiki](http://wiki.geda-project.org/geda:pcb_footprints) for more details.
-
-
-## How and why would I use hierarchical sheets?
-
-It is good practice to preserve clean separation between the
-functional units of a design. This is especially true in large designs
-which are too large to fit on a single sheet or which consist of a
-block replicated several times. Hierarchical sheets allow one split a
-schematic into logical units which can be easily replicated.
-
-To create a unit, simply design the unit in a normal schematic, saving
-it in the `sym/` directory. Nets which are to be exposed outside of
-the sheet should be assigned a `net` attribute
-(e.g. `net=CLK:1`). Finally, create a separate symbol file to
-represent the unit (also in the `sym/` directory). The symbol should
-possess a `source` attribute pointing to the unit's schematic
-(e.g. `source=my_unit.sch`) as well as pins for each of the nets the
-unit exposes. Each pin should possess a `net` attribute matching the
-name specified in the schematic.
-
-Units can be inserted like any other symbol. In the netlist,
-components in instances of a unit will be identified by a unique
-`refdes` consisting of the `refdes` of the instance followed by the
-`refdes` of the component (e.g. `refdes=C1` in instance `refdes=CH1`
-will be called `refdes=CH1/C1`).
-
-The [sedrename](https://github.com/bgamari/pcb-sedrename) `pcb` plugin
-is very useful for composing layouts with multiple repeated units.
-
-# Other resources
-
- * The [gEDA wiki](http://wiki.geda-project.org/) contains a wealth of
-   information, although isn't always well organized
- * [sedrename](https://github.com/bgamari/pcb-sedrename) is a useful
-   utility when working with designs composed of many repeated units.
-
+ * Microchip application note AN951 <http://www.microchip.com/wwwAppNotes/AppNotes.aspx?appnote=en021228>
+ * Analog Devices' *Analog Dialogue* 47-05 (May 2013) <http://www.analog.com/library/analogdialogue/archives/47-05/pgtia.pdf>
+ * Datasheets of above parts
