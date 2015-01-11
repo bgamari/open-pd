@@ -35,6 +35,10 @@ Specifications
  * Interface:
      * USB device
      * SPI [OLED display](http://www.ebay.com/itm/131305379698) and buttons
+ * Power:
+     * USB
+	 * 5V power input
+	 * 3.7V lithium polymer battery
 
 Parts
 -----
