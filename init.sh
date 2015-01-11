@@ -31,9 +31,17 @@ schematics $name.sch
 output-name $name
 skip-m4
 EOF
+
+function process() {
+    sed -i -e "s/\\$PROJ_NAME/$name/g" $1
+    git add $1
+}
+process front.gvp
+process back.gvp
+    
 git add project
 git commit -a -m "start project $name"
-git remote remove origin
+git remote rename origin skeleton-geda
 
 echo <<EOF
 
