@@ -18,6 +18,10 @@ general purpose intensity measurements of constant-wave lasers.
 The Hamamatsu S2281 photodiode is a convenient photodiode for use with
 this device.
 
+The device is designed using the [gEDA][] electronic design suite.
+
+[gEDA]: http://geda-project.org/
+
 Specifications
 --------------
 
