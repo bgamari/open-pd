@@ -1,9 +1,22 @@
-OpenPD — Open Source Photodiode amplifier
+OpenPD — Open-source photodiode amplifier
 =========================================
 
-OpenPD is a low-cost, high dynamic range photodiode amplifier, designed for use as a low-bandwidth laser power meter. The device can be used either autonomously or as a USB device.
+OpenPD is a low-cost, high dynamic range photodiode amplifier,
+designed for use as a low-bandwidth laser power meter. The device can
+be used either autonomously or as a USB device.
 
-The device is built using easy-to-solder 0805 surface mount passives.
+The device is built using easy-to-solder 0805 surface mount
+passives. The device consists of a compensated transimpedance
+amplifier with a wide range gains, switched with a network of analog
+multiplexers.
+
+Note that the capacitance and leakage current of these multiplexers
+limit the frequency response and low-current linearity of the
+device. This is acceptable for the intended use-case, which targets
+general purpose intensity measurements of constant-wave lasers.
+
+The Hamamatsu S2281 photodiode is a convenient photodiode for use with
+this device.
 
 Specifications
 --------------
