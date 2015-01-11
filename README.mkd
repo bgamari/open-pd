@@ -63,7 +63,10 @@ The passive components are all 0805 packages.
 Resources
 ---------
 
--   Microchip application note AN951 <http://www.microchip.com/wwwAppNotes/AppNotes.aspx?appnote=en021228>
--   Analog Devices' *Analog Dialogue* 47-05 (May 2013) <http://www.analog.com/library/analogdialogue/archives/47-05/pgtia.pdf>
--   Datasheets of above parts
-
+ * Microchip application note AN951 <http://www.microchip.com/wwwAppNotes/AppNotes.aspx?appnote=en021228>
+ * Analog Devices' *Analog Dialogue* 47-05 (May 2013) <http://www.analog.com/library/analogdialogue/archives/47-05/pgtia.pdf>
+ * Datasheets of above parts
+ * Horowitz and Hill. *The Art of Electronics*
+ * Mancini, R. *Op Amps for Everyone*
+ * Hobbs, Phillip C. D. *Building Electro-Optical Systems: Making It All Work*
+ * Hobbs, Phillip C. D. "Photodiode Front Ends: The Real Story" *Optics and Photonics News* (April 2001)
