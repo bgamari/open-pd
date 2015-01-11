@@ -44,6 +44,6 @@ description=Analog switch
 T 2400 1200 8 10 0 0 0 0 1
 device=ADG733
 T 2400 800 8 10 0 0 0 0 1
-footprint=TSSOP-16
+footprint=TSSOP-65P-640L1-16N
 T 2400 600 8 10 0 0 0 0 1
 author=Ben Gamari

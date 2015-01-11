@@ -740,8 +740,6 @@ T 59000 29900 5 10 1 1 0 0 1
 refdes=U4
 T 60000 29500 5 10 0 0 0 0 1
 device=ADG733
-T 60000 29100 5 10 0 0 0 0 1
-footprint=TSSOP-16
 }
 C 58400 30200 1 0 0 vcc-1.sym
 C 58500 28000 1 0 0 gnd-1.sym
@@ -749,8 +747,6 @@ C 60600 28300 1 0 0 analog-switch-power.sym
 {
 T 63000 29500 5 10 0 0 0 0 1
 device=ADG733
-T 63000 29100 5 10 0 0 0 0 1
-footprint=TSSOP-16
 T 62000 29900 5 10 1 1 0 0 1
 refdes=U5
 }
