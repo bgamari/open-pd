@@ -5,7 +5,7 @@ FileVersion[20091103]
 
 PCB["" 6000.00mil 5000.00mil]
 
-Grid[2500.000000 0.0000 0.0000 0]
+Grid[1000.000000 0.0000 0.0000 0]
 PolyArea[200000000.000000]
 Thermal[0.500000]
 DRC[6.00mil 10.00mil 6.00mil 10.00mil 15.00mil 10.00mil]
@@ -786,7 +786,7 @@ Symbol['~' 12.00mil]
 	SymbolLine[20.00mil 35.00mil 25.00mil 30.00mil 8.00mil]
 )
 Attribute("PCB::grid::unit" "mil")
-Attribute("PCB::grid::size" "25.00mil")
+Attribute("PCB::grid::size" "10.00mil")
 Via[3250.00mil 1900.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
 Via[2900.00mil 1775.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
 Via[3075.00mil 2500.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
@@ -824,10 +824,11 @@ Via[2500.00mil 2550.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
 Via[67.6850mm 66.4150mm 36.00mil 20.00mil 0.0000 20.00mil "" ""]
 Via[2175.00mil 2200.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
 Via[2625.00mil 2125.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
-Via[2600.00mil 2375.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
-Via[2325.00mil 2350.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
 Via[2200.00mil 2150.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
 Via[2300.00mil 1900.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
+Via[2625.00mil 2325.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
+Via[2325.00mil 2350.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
+Via[2250.00mil 1875.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
 
 Element["" "0805" "C13" "100n" 2075.00mil 2625.00mil -51.50mil 28.50mil 0 100 ""]
 (
@@ -838,7 +839,7 @@ Element["" "0805" "C13" "100n" 2075.00mil 2625.00mil -51.50mil 28.50mil 0 100 ""
 
 	)
 
-Element["onsolder" "0805" "C22" "100n" 68.8449mm 2675.00mil -31.50mil 31.50mil 0 100 "auto"]
+Element["onsolder" "0805" "C22" "100n" 68.8449mm 2675.00mil -51.50mil 91.50mil 0 100 "auto"]
 (
 	Pad[-35.43mil -3.93mil -35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "1" "1" "onsolder,square"]
 	Pad[35.43mil -3.93mil 35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "2" "2" "onsolder,square"]
@@ -1168,7 +1169,7 @@ Element["" "0805" "C9" "100n" 3005.00mil 1315.00mil -31.50mil -31.50mil 0 100 ""
 
 	)
 
-Element["onsolder" "0805" "C7" "10u" 75.9351mm 1700.00mil -31.50mil 31.50mil 0 100 "auto"]
+Element["onsolder" "0805" "C7" "10u" 75.9351mm 1700.00mil -131.50mil 21.50mil 0 100 "auto"]
 (
 	Pad[-35.43mil -3.93mil -35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "1" "1" "onsolder,square"]
 	Pad[35.43mil -3.93mil 35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "2" "2" "onsolder,square"]
@@ -1307,7 +1308,7 @@ Element["" "SOT26" "U3" "unknown" 2761.00mil 2400.00mil 109.00mil -81.00mil 0 10
 
 	)
 
-Element["onsolder" "sma-board-edge" "PD_IN" "unknown" 3250.00mil 2425.00mil -80.00mil -175.20mil 3 100 "auto"]
+Element["onsolder" "sma-board-edge" "PD_IN" "unknown" 3250.00mil 2425.00mil -109.80mil -225.00mil 0 100 "auto"]
 (
 	Pad[-100.00mil 0.0000 100.00mil 0.0000 50.00mil 16.00mil 56.00mil "input" "1" "onsolder,square"]
 	Pad[-77.50mil 172.50mil 77.50mil 172.50mil 95.00mil 0.0000 101.00mil "input" "2" "onsolder,square"]
@@ -1352,84 +1353,6 @@ Element["" "0805" "C1" "100n" 1850.00mil 54.3451mm -0.5570mm -3.0752mm 0 100 ""]
 
 	)
 
-Element["onsolder" "PTS-810" "EXIT" "unknown" 53.3200mm 59.7100mm 0.0000 0.0000 2 100 "auto"]
-(
-	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square"]
-	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
-	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square"]
-	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
-	ElementLine [-3.1000mm -1.9000mm 3.1000mm -1.9000mm 10.00mil]
-	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
-	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
-	ElementLine [3.1000mm -1.9000mm 3.1000mm 1.9000mm 10.00mil]
-
-	)
-
-Element["onsolder" "PTS-810" "ENTER" "unknown" 2700.00mil 2350.00mil 0.0000 0.0000 0 100 "auto"]
-(
-	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
-	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square"]
-	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
-	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square"]
-	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
-	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
-	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
-	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
-
-	)
-
-Element["onsolder" "PTS-810" "RIGHT" "unknown" 2575.00mil 2100.00mil 0.0000 0.0000 0 100 "auto"]
-(
-	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
-	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square"]
-	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
-	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square"]
-	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
-	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
-	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
-	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
-
-	)
-
-Element["onsolder" "PTS-810" "LEFT" "unknown" 2225.00mil 2100.00mil 0.0000 0.0000 0 100 "auto"]
-(
-	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
-	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square"]
-	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
-	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square"]
-	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
-	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
-	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
-	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
-
-	)
-
-Element["onsolder" "PTS-810" "DOWN" "unknown" 2400.00mil 1875.00mil 0.0000 0.0000 0 100 "auto"]
-(
-	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
-	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square"]
-	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
-	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square"]
-	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
-	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
-	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
-	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
-
-	)
-
-Element["onsolder" "PTS-810" "UP" "unknown" 2400.00mil 2325.00mil 0.0000 0.0000 0 100 "auto"]
-(
-	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
-	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square"]
-	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
-	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square"]
-	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
-	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
-	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
-	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
-
-	)
-
 Element["" "PTS-810" "RESET" "unknown" 68.1150mm 67.8150mm -110.00mil -140.00mil 0 100 ""]
 (
 	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "square,edge2"]
@@ -1442,13 +1365,101 @@ Element["" "PTS-810" "RESET" "unknown" 68.1150mm 67.8150mm -110.00mil -140.00mil
 	ElementLine [-3.1000mm 1.9000mm -3.1000mm -1.9000mm 10.00mil]
 
 	)
-Rat[58.8850mm 49.0250mm 1 63.5600mm 49.0250mm 1  ""]
-Rat[66.5050mm 61.0900mm 1 71.1800mm 61.0900mm 1  ""]
-Rat[2175.00mil 2300.00mil 1 50.7200mm 58.3100mm 1  ""]
+
+Element["onsolder" "0603" "LED1" "unknown" 2175.00mil 1875.00mil -71.50mil -28.50mil 0 100 "auto"]
+(
+	Pad[25.59mil -4.92mil 25.59mil 4.92mil 29.52mil 20.00mil 35.52mil "1" "1" "onsolder,square"]
+	Pad[-25.59mil -4.92mil -25.59mil 4.92mil 29.52mil 20.00mil 35.52mil "2" "2" "onsolder,square"]
+
+	)
+
+Element["onsolder" "0805" "R7" "1k" 2175.00mil 1975.00mil -141.50mil 31.50mil 0 100 "auto"]
+(
+	Pad[35.43mil -3.93mil 35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "1" "1" "onsolder,square"]
+	Pad[-35.43mil -3.93mil -35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "2" "2" "onsolder,square"]
+	ElementLine [-3.93mil -27.55mil 3.93mil -27.55mil 8.00mil]
+	ElementLine [-3.93mil 27.55mil 3.93mil 27.55mil 8.00mil]
+
+	)
+
+Element["onsolder" "PTS-810" "DOWN" "unknown" 2400.00mil 1875.00mil -70.00mil 140.00mil 0 100 "auto"]
+(
+	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
+	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "3" "onsolder,square"]
+	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
+	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "4" "onsolder,square"]
+	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
+	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
+	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
+	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
+
+	)
+
+Element["onsolder" "PTS-810" "LEFT" "unknown" 2225.00mil 2100.00mil -125.00mil 140.00mil 0 100 "auto"]
+(
+	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
+	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "3" "onsolder,square"]
+	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
+	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "4" "onsolder,square"]
+	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
+	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
+	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
+	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
+
+	)
+
+Element["onsolder" "PTS-810" "RIGHT" "unknown" 2575.00mil 2100.00mil -30.00mil 140.00mil 0 100 "auto"]
+(
+	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
+	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "3" "onsolder,square"]
+	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
+	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "4" "onsolder,square"]
+	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
+	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
+	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
+	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
+
+	)
+
+Element["onsolder" "PTS-810" "EXIT" "unknown" 2100.00mil 2350.00mil -120.00mil 140.00mil 0 100 "auto"]
+(
+	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
+	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "3" "onsolder,square"]
+	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
+	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "4" "onsolder,square"]
+	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
+	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
+	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
+	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
+
+	)
+
+Element["onsolder" "PTS-810" "UP" "unknown" 2400.00mil 2325.00mil -30.00mil 140.00mil 0 100 "auto"]
+(
+	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
+	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "3" "onsolder,square"]
+	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
+	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "4" "onsolder,square"]
+	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
+	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
+	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
+	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
+
+	)
+
+Element["onsolder" "PTS-810" "ENTER" "unknown" 2700.00mil 2350.00mil -40.00mil 140.00mil 0 100 "auto"]
+(
+	Pad[1.5500mm 1.4000mm 2.6000mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "1" "onsolder,square,edge2"]
+	Pad[-2.6000mm 1.4000mm -1.5500mm 1.4000mm 0.7000mm 20.00mil 1.2080mm "" "3" "onsolder,square"]
+	Pad[1.5500mm -1.4000mm 2.6000mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "2" "onsolder,square,edge2"]
+	Pad[-2.6000mm -1.4000mm -1.5500mm -1.4000mm 0.7000mm 20.00mil 1.2080mm "" "4" "onsolder,square"]
+	ElementLine [-3.1000mm 1.9000mm 3.1000mm 1.9000mm 10.00mil]
+	ElementLine [3.1000mm 1.9000mm 3.1000mm -1.9000mm 10.00mil]
+	ElementLine [3.1000mm -1.9000mm -3.1000mm -1.9000mm 10.00mil]
+	ElementLine [-3.1000mm -1.9000mm -3.1000mm 1.9000mm 10.00mil]
+
+	)
 Rat[75.0352mm 43.0802mm 1 75.4271mm 33.3012mm 0  ""]
-Rat[56.8050mm 55.5350mm 0 59.1150mm 54.7400mm 1  ""]
-Rat[62.8050mm 54.7400mm 1 2600.00mil 2150.00mil 0  ""]
-Rat[2325.00mil 60.2850mm 1 63.5600mm 60.4550mm 1  ""]
 Rat[3062.50mil 1637.50mil 1 77.2269mm 33.3012mm 0  ""]
 Layer(1 "top")
 (
@@ -1792,7 +1803,7 @@ Layer(1 "top")
 	Line[2075.00mil 2275.00mil 2050.00mil 2300.00mil 10.00mil 20.00mil "clearline"]
 	Line[54.7550mm 59.2100mm 53.1850mm 59.2100mm 10.00mil 20.00mil "clearline"]
 	Line[53.1850mm 59.2100mm 2075.00mil 2350.00mil 10.00mil 20.00mil "clearline"]
-	Line[54.7550mm 59.7100mm 53.3200mm 59.7100mm 10.00mil 20.00mil "clearline"]
+	Line[54.7550mm 59.7100mm 53.3200mm 59.7100mm 10.00mil 20.00mil "clearline,selected"]
 	Line[2075.00mil 2350.00mil 2050.00mil 2350.00mil 10.00mil 20.00mil "clearline"]
 	Line[53.3200mm 59.7100mm 2062.50mil 2387.50mil 10.00mil 20.00mil "clearline"]
 	Line[2062.50mil 2387.50mil 2037.50mil 2387.50mil 10.00mil 20.00mil "clearline"]
@@ -1847,13 +1858,18 @@ Layer(1 "top")
 	Line[2600.00mil 2300.00mil 2600.00mil 2150.00mil 10.00mil 20.00mil "clearline"]
 	Line[2600.00mil 2150.00mil 2625.00mil 2125.00mil 10.00mil 20.00mil "clearline"]
 	Line[63.3550mm 60.2100mm 65.9250mm 60.2100mm 10.00mil 20.00mil "clearline"]
-	Line[65.9250mm 60.2100mm 2600.00mil 2375.00mil 10.00mil 20.00mil "clearline"]
 	Line[57.3050mm 56.6600mm 57.3050mm 57.9400mm 10.00mil 20.00mil "clearline"]
 	Line[57.3050mm 57.9400mm 2325.00mil 2350.00mil 10.00mil 20.00mil "clearline"]
 	Line[56.8050mm 56.6600mm 56.8050mm 55.5350mm 10.00mil 20.00mil "clearline"]
 	Line[56.8050mm 55.5350mm 2200.00mil 2150.00mil 10.00mil 20.00mil "clearline"]
 	Line[57.8050mm 56.6600mm 57.8050mm 48.8750mm 10.00mil 20.00mil "clearline"]
 	Line[57.8050mm 48.8750mm 2300.00mil 1900.00mil 10.00mil 20.00mil "clearline"]
+	Line[65.9250mm 60.2100mm 2625.00mil 59.4600mm 10.00mil 20.00mil "clearline"]
+	Line[2625.00mil 59.4600mm 2625.00mil 2325.00mil 10.00mil 20.00mil "clearline"]
+	Line[59.3050mm 56.6600mm 59.3050mm 47.2400mm 10.00mil 20.00mil "clearline"]
+	Line[59.3050mm 47.2400mm 2325.00mil 1850.00mil 10.00mil 20.00mil "clearline"]
+	Line[2325.00mil 1850.00mil 2275.00mil 1850.00mil 10.00mil 20.00mil "clearline"]
+	Line[2275.00mil 1850.00mil 2250.00mil 1875.00mil 10.00mil 20.00mil "clearline"]
 )
 Layer(2 "ground")
 (
@@ -1880,17 +1896,27 @@ Layer(2 "ground")
 	Line[3062.50mil 1637.50mil 3100.00mil 1675.00mil 25.00mil 20.00mil "clearline"]
 	Line[2625.00mil 2125.00mil 66.7150mm 2125.00mil 10.00mil 20.00mil "clearline"]
 	Line[66.7150mm 2125.00mil 67.4800mm 54.7400mm 10.00mil 20.00mil "clearline"]
-	Line[2600.00mil 2375.00mil 2600.00mil 60.6250mm 10.00mil 20.00mil "clearline"]
-	Line[2600.00mil 60.6250mm 66.5050mm 61.0900mm 10.00mil 20.00mil "clearline"]
 	Line[2325.00mil 2350.00mil 2325.00mil 60.2850mm 10.00mil 20.00mil "clearline"]
 	Line[2325.00mil 60.2850mm 58.8850mm 60.4550mm 10.00mil 20.00mil "clearline"]
 	Line[54.4400mm 54.7400mm 55.7500mm 54.7400mm 10.00mil 20.00mil "clearline"]
 	Line[55.7500mm 54.7400mm 2200.00mil 2150.00mil 10.00mil 20.00mil "clearline"]
 	Line[2300.00mil 1900.00mil 2300.00mil 48.5600mm 10.00mil 20.00mil "clearline"]
 	Line[2300.00mil 48.5600mm 58.8850mm 49.0250mm 10.00mil 20.00mil "clearline"]
-	Line[2175.00mil 2200.00mil 2175.00mil 2300.00mil 10.00mil 20.00mil "clearline"]
 	Line[67.6850mm 66.4150mm 67.6850mm 67.6850mm 10.00mil 20.00mil "clearline"]
 	Line[67.6850mm 67.6850mm 2675.00mil 2675.00mil 10.00mil 20.00mil "clearline"]
+	Line[58.5900mm 54.7400mm 58.5900mm 54.1450mm 10.00mil 20.00mil ""]
+	Line[63.3300mm 54.7400mm 63.3300mm 55.7100mm 10.00mil 20.00mil ""]
+	Line[63.0350mm 49.0250mm 64.6400mm 49.0250mm 10.00mil 20.00mil ""]
+	Line[2175.00mil 2200.00mil 2175.00mil 2300.00mil 10.00mil 20.00mil "clearline"]
+	Line[2625.00mil 2325.00mil 2625.00mil 58.4600mm 10.00mil 20.00mil "clearline"]
+	Line[2625.00mil 58.4600mm 66.5050mm 58.2900mm 10.00mil 20.00mil "clearline"]
+	Line[70.6550mm 61.0900mm 70.6550mm 62.0600mm 10.00mil 20.00mil ""]
+	Line[51.2650mm 61.0900mm 49.6600mm 61.0900mm 10.00mil 20.00mil ""]
+	Line[63.0350mm 60.4550mm 61.7250mm 60.4550mm 10.00mil 20.00mil ""]
+	Line[2250.00mil 1875.00mil 55.8950mm 1875.00mil 10.00mil 20.00mil "clearline"]
+	Line[54.5950mm 1875.00mil 54.5950mm 49.9151mm 10.00mil 20.00mil "clearline"]
+	Line[54.5950mm 49.9151mm 54.3451mm 1975.00mil 10.00mil 20.00mil "clearline"]
+	Line[56.1449mm 1975.00mil 2250.00mil 1975.00mil 10.00mil 20.00mil ""]
 	Polygon("clearpoly")
 	(
 		[1600.00mil 1600.00mil] [3375.00mil 1600.00mil] [3375.00mil 2950.00mil] [1600.00mil 2950.00mil] 
@@ -1953,17 +1979,17 @@ NetList()
 	)
 	Net("DOWN" "(unknown)")
 	(
-		Connect("DOWN-1")
+		Connect("DOWN-3")
 		Connect("U1-45")
 	)
 	Net("ENTER" "(unknown)")
 	(
-		Connect("ENTER-1")
+		Connect("ENTER-4")
 		Connect("U1-32")
 	)
 	Net("EXIT" "(unknown)")
 	(
-		Connect("EXIT-1")
+		Connect("EXIT-2")
 		Connect("U1-48")
 	)
 	Net("EZP_CS" "(unknown)")
@@ -1991,10 +2017,10 @@ NetList()
 		Connect("C21-1")
 		Connect("C22-2")
 		Connect("DEBUG-2")
-		Connect("DOWN-3")
-		Connect("ENTER-3")
+		Connect("DOWN-1")
+		Connect("ENTER-1")
 		Connect("EXIT-3")
-		Connect("LEFT-3")
+		Connect("LEFT-1")
 		Connect("PD_IN-2")
 		Connect("R7-1")
 		Connect("R9-2")
@@ -2015,7 +2041,7 @@ NetList()
 		Connect("U5-8")
 		Connect("U6-2")
 		Connect("U6-4")
-		Connect("UP-3")
+		Connect("UP-1")
 		Connect("USB-5")
 	)
 	Net("LED" "(unknown)")
@@ -2025,7 +2051,7 @@ NetList()
 	)
 	Net("LEFT" "(unknown)")
 	(
-		Connect("LEFT-1")
+		Connect("LEFT-3")
 		Connect("U1-47")
 	)
 	Net("MOSI" "(unknown)")
@@ -2228,7 +2254,7 @@ NetList()
 	Net("UP" "(unknown)")
 	(
 		Connect("U1-46")
-		Connect("UP-1")
+		Connect("UP-3")
 	)
 	Net("USB_DM" "(unknown)")
 	(
