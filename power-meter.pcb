@@ -1323,7 +1323,7 @@ Element["" "0805" "L1" "unknown" 1800.00mil 2575.00mil -51.50mil -91.50mil 0 100
 
 Element["" "0805" "C1" "100n" 1850.00mil 54.3451mm -0.5570mm 1.4968mm 0 100 ""]
 (
-	Pad[-3.93mil -35.43mil 3.93mil -35.43mil 51.18mil 20.00mil 57.18mil "1" "1" "square"]
+	Pad[-3.93mil -35.43mil 3.93mil -35.43mil 51.18mil 20.00mil 57.18mil "1" "1" "selected,square"]
 	Pad[-3.93mil 35.43mil 3.93mil 35.43mil 51.18mil 20.00mil 57.18mil "2" "2" "square"]
 	ElementLine [27.55mil -3.93mil 27.55mil 3.93mil 8.00mil]
 	ElementLine [-27.55mil -3.93mil -27.55mil 3.93mil 8.00mil]
@@ -1502,6 +1502,19 @@ Element["" "jst-ph-2pin" "BATT" "unknown" 1880.00mil 1620.00mil 0.0000 50.00mil 
 	ElementLine [4.2000mm -0.1000mm 4.2000mm 9.5000mm 10.00mil]
 	ElementLine [4.2000mm 9.5000mm -4.2000mm 9.5000mm 10.00mil]
 	ElementLine [-4.2000mm 9.5000mm -4.2000mm -0.1000mm 10.00mil]
+
+	)
+
+Element["" "JUMPER2" "BAT2" "unknown" 1650.00mil 1925.00mil 25.00mil -200.00mil 3 100 ""]
+(
+	Pin[0.0000 0.0000 60.00mil 30.00mil 66.00mil 38.00mil "1" "1" "square,thermal(1X)"]
+	Pin[0.0000 100.00mil 60.00mil 30.00mil 66.00mil 38.00mil "2" "2" ""]
+	ElementLine [-50.00mil -50.00mil -50.00mil 150.00mil 10.00mil]
+	ElementLine [-50.00mil 150.00mil 50.00mil 150.00mil 10.00mil]
+	ElementLine [50.00mil 150.00mil 50.00mil -50.00mil 10.00mil]
+	ElementLine [50.00mil -50.00mil -50.00mil -50.00mil 10.00mil]
+	ElementLine [-50.00mil 50.00mil 50.00mil 50.00mil 10.00mil]
+	ElementLine [50.00mil 50.00mil 50.00mil -50.00mil 10.00mil]
 
 	)
 Layer(1 "top")
@@ -1935,6 +1948,8 @@ Layer(1 "top")
 	Line[46.7520mm 48.5480mm 46.7520mm 50.5620mm 25.00mil 20.00mil "clearline"]
 	Line[46.7520mm 50.5620mm 49.5150mm 53.3250mm 25.00mil 20.00mil "clearline"]
 	Line[49.5150mm 53.3250mm 1950.00mil 53.3250mm 25.00mil 20.00mil "clearline"]
+	Line[1650.00mil 2025.00mil 1875.00mil 2025.00mil 25.00mil 20.00mil "clearline"]
+	Line[1875.00mil 2025.00mil 1887.50mil 2037.50mil 25.00mil 20.00mil "clearline"]
 )
 Layer(2 "ground")
 (
@@ -2098,6 +2113,7 @@ NetList()
 	)
 	Net("GND" "(unknown)")
 	(
+		Connect("BAT2-1")
 		Connect("BATT-1")
 		Connect("C1-1")
 		Connect("C2-1")
@@ -2364,6 +2380,7 @@ NetList()
 	)
 	Net("unnamed_net18" "(unknown)")
 	(
+		Connect("BAT2-2")
 		Connect("BATT-2")
 		Connect("D1-1")
 	)
