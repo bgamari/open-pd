@@ -807,7 +807,7 @@ Via[2850.00mil 2000.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
 Via[3275.00mil 2825.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
 Via[2575.00mil 2900.00mil 60.00mil 20.00mil 0.0000 35.00mil "" "thermal(1X)"]
 Via[2450.00mil 2625.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
-Via[1975.00mil 1800.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
+Via[1840.00mil 1650.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
 Via[2800.00mil 2350.00mil 36.00mil 20.00mil 0.0000 20.00mil "" "thermal(1X)"]
 Via[2650.00mil 2475.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
 Via[3125.00mil 2350.00mil 36.00mil 20.00mil 0.0000 20.00mil "" ""]
@@ -887,12 +887,12 @@ Element["" "0805" "C4" "100n" 2800.00mil 2225.00mil -61.50mil -91.50mil 0 100 ""
 
 	)
 
-Element["" "0805" "C3" "100n" 48.7898mm 44.7149mm 1.0722mm 0.0998mm 0 100 ""]
+Element["" "0805" "C3" "100n" 47.8681mm 1700.00mil -3.1297mm -0.8001mm 0 100 ""]
 (
-	Pad[-3.93mil 35.43mil 3.93mil 35.43mil 51.18mil 20.00mil 57.18mil "1" "1" "square"]
-	Pad[-3.93mil -35.43mil 3.93mil -35.43mil 51.18mil 20.00mil 57.18mil "2" "2" "square"]
-	ElementLine [-27.55mil -3.93mil -27.55mil 3.93mil 8.00mil]
-	ElementLine [27.55mil -3.93mil 27.55mil 3.93mil 8.00mil]
+	Pad[-35.43mil -3.93mil -35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "1" "1" "square"]
+	Pad[35.43mil -3.93mil 35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "2" "2" "square"]
+	ElementLine [-3.93mil -27.55mil 3.93mil -27.55mil 8.00mil]
+	ElementLine [-3.93mil 27.55mil 3.93mil 27.55mil 8.00mil]
 
 	)
 
@@ -1284,7 +1284,7 @@ Element["" "SOT26" "U3" "unknown" 2761.00mil 2400.00mil 109.00mil -81.00mil 0 10
 
 	)
 
-Element["onsolder" "sma-board-edge" "PD_IN" "unknown" 3250.00mil 2350.00mil -109.80mil -225.00mil 0 100 "auto"]
+Element["onsolder" "sma-board-edge" "PD_IN" "unknown" 3330.00mil 2350.00mil -109.80mil -225.00mil 0 100 "auto"]
 (
 	Pad[-100.00mil 0.0000 100.00mil 0.0000 50.00mil 16.00mil 56.00mil "input" "1" "onsolder,square"]
 	Pad[-77.50mil 172.50mil 77.50mil 172.50mil 95.00mil 0.0000 101.00mil "input" "2" "onsolder,square"]
@@ -1663,10 +1663,6 @@ Layer(1 "top")
 	Line[2175.00mil 1675.00mil 2225.00mil 1625.00mil 10.00mil 20.00mil "clearline"]
 	Line[2225.00mil 1625.00mil 2450.00mil 1625.00mil 10.00mil 20.00mil "clearline"]
 	Line[2450.00mil 1625.00mil 2525.00mil 1700.00mil 10.00mil 20.00mil "clearline"]
-	Line[48.7898mm 1725.00mil 2000.00mil 1725.00mil 25.00mil 20.00mil "clearline"]
-	Line[2000.00mil 1725.00mil 2025.00mil 1700.00mil 25.00mil 20.00mil "clearline"]
-	Line[48.7898mm 45.6148mm 50.0598mm 45.6148mm 10.00mil 20.00mil "clearline"]
-	Line[50.0598mm 45.6148mm 1975.00mil 1800.00mil 10.00mil 20.00mil "clearline"]
 	Line[60.8050mm 67.7900mm 2400.00mil 2675.00mil 10.00mil 20.00mil "clearline"]
 	Line[63.3550mm 63.7100mm 64.3450mm 63.7100mm 10.00mil 20.00mil "clearline"]
 	Line[2575.00mil 2875.00mil 2575.00mil 2850.00mil 25.00mil 20.00mil "clearline"]
@@ -1906,6 +1902,10 @@ Layer(1 "top")
 	Line[2260.00mil 2160.00mil 2260.00mil 1970.00mil 10.00mil 20.00mil ""]
 	Line[2300.00mil 2000.00mil 58.8050mm 51.1850mm 10.00mil 20.00mil "clearline"]
 	Line[58.8050mm 51.1850mm 58.8050mm 56.6600mm 10.00mil 20.00mil "clearline"]
+	Line[2025.00mil 1705.00mil 1925.00mil 1705.00mil 25.00mil 20.00mil "clearline"]
+	Line[1925.00mil 1705.00mil 1920.00mil 1700.00mil 25.00mil 20.00mil "clearline"]
+	Line[1840.00mil 1650.00mil 1840.00mil 42.9478mm 25.00mil 20.00mil "clearline"]
+	Line[1840.00mil 42.9478mm 46.9682mm 1700.00mil 25.00mil 20.00mil "clearline"]
 )
 Layer(2 "ground")
 (
@@ -1958,9 +1958,10 @@ Layer(2 "ground")
 	Line[2300.00mil 2000.00mil 2275.00mil 2025.00mil 10.00mil 20.00mil "clearline"]
 	Line[61.9350mm 54.2350mm 63.2400mm 54.2350mm 10.00mil 20.00mil ""]
 	Line[55.9770mm 1975.00mil 2255.00mil 1975.00mil 10.00mil 20.00mil ""]
+	Line[3330.00mil 2350.00mil 3125.00mil 2350.00mil 25.00mil 20.00mil "clearline"]
 	Polygon("clearpoly")
 	(
-		[1600.00mil 1600.00mil] [3375.00mil 1600.00mil] [3375.00mil 2950.00mil] [1600.00mil 2950.00mil] 
+		[1600.00mil 1610.00mil] [3450.00mil 1610.00mil] [3450.00mil 2950.00mil] [1600.00mil 2950.00mil] 
 	)
 )
 Layer(3 "signal2")
@@ -1977,6 +1978,14 @@ Layer(6 "bottom")
 )
 Layer(7 "outline")
 (
+	Line[1600.00mil 2780.00mil 1600.00mil 1780.00mil 10.00mil 20.00mil "clearline"]
+	Line[1770.00mil 1610.00mil 3280.00mil 1610.00mil 10.00mil 20.00mil "clearline"]
+	Line[3450.00mil 1780.00mil 3450.00mil 2780.00mil 10.00mil 20.00mil "clearline"]
+	Line[3280.00mil 2950.00mil 1770.00mil 2950.00mil 10.00mil 20.00mil "clearline"]
+	Arc[1770.00mil 2780.00mil 170.00mil 170.00mil 10.00mil 20.00mil 0 90 "clearline"]
+	Arc[3280.00mil 2780.00mil 170.00mil 170.00mil 10.00mil 20.00mil 90 90 "clearline"]
+	Arc[3280.00mil 1780.00mil 170.00mil 170.00mil 10.00mil 20.00mil 180 90 "clearline"]
+	Arc[1770.00mil 1780.00mil 170.00mil 170.00mil 10.00mil 20.00mil 270 90 "clearline"]
 )
 Layer(8 "spare")
 (
@@ -1997,11 +2006,11 @@ Layer(10 "silk")
 	Text[2155.00mil 2925.00mil 1 77 "EZP" "clearline"]
 	Text[2205.00mil 2910.00mil 1 77 "CS" "clearline"]
 	Text[2370.00mil 2930.00mil 1 100 "3V3" "clearline"]
-	Text[1625.00mil 1625.00mil 0 143 "OpenPD" "clearline"]
 	Text[2050.00mil 1750.00mil 0 100 "Photodiode amplifier" "clearline"]
 	Text[1625.00mil 1850.00mil 0 100 "Cutoff: 1 kHz" "clearline"]
 	Text[1625.00mil 1925.00mil 0 100 "Ben Gamari" "clearline"]
 	Text[1625.00mil 2000.00mil 0 100 "ben@smart-cactus.org" "clearline"]
+	Text[1625.00mil 1745.00mil 0 143 "OpenPD" "clearline"]
 )
 NetList()
 (
