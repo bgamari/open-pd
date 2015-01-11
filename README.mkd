@@ -61,6 +61,7 @@ Parts
 | Amphenol          | 132289          | 1   | End-launch SMA jack                |
 | C&K Components    | PTS810 SJK 250  | 7   | Tactile switch                     |
 | FCI               | 10104111-0001LF | 1   | Micro USB connector                |
+| JST               | S2B-PH-SM4-TB   | 1   | LiPo Battery connector             |
 
 The passive components are all 0805 packages.
 
