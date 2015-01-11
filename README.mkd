@@ -35,6 +35,28 @@ The device is built using easy-to-solder 0805 surface mount passives.
   Amphenol            132289              1      End-launch SMA jack
   C&K Components      PTS810 SJK 250      7      Tactile switch
 
+The passive components are all 0805 packages.
+
+  Value               Qty
+  ==========          ===========
+  *Capacitors*
+  10 nF               1
+  100 nF              13
+  1 uF                1
+  10 uF               2
+  330 pF              1
+  4700 pF             1
+  58 nF               1
+  680 nF              1
+  *Resistors*
+  1 ohm               1
+  100 ohm             2
+  10 kohm             3
+  150 ohm             1
+  1 kohm              3
+  33 kohm             1
+  5 Mohm              1
+
 ## Resources
 
  * Microchip application note AN951 <http://www.microchip.com/wwwAppNotes/AppNotes.aspx?appnote=en021228>
