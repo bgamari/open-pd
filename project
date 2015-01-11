@@ -1,0 +1,4 @@
+schematics myproject.sch
+output-name myproject
+skip-m4
+
