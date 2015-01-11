@@ -26,7 +26,7 @@ The device is built using easy-to-solder 0805 surface mount passives.
 ## Parts
 
   Vendor              Part                Qty    Description
-  ================    ================    ====   ================
+  ------------------  ----------------    ----   --------------------------------------
   Analog Devices      ADG733              2      Analog multiplexer
   Freescale           MK20DX128VLF5       1      Microcontroller
   Texas Instruments   OPA2376AIDR         1      Dual operational amplifier
@@ -38,7 +38,7 @@ The device is built using easy-to-solder 0805 surface mount passives.
 The passive components are all 0805 packages.
 
   Value               Qty
-  ==========          ===========
+  --------------      -----
   *Capacitors*
   10 nF               1
   100 nF              13
@@ -56,6 +56,8 @@ The passive components are all 0805 packages.
   1 kohm              3
   33 kohm             1
   5 Mohm              1
+  *Choke*
+  1uH                 1
 
 ## Resources
 
