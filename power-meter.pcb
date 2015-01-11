@@ -1284,7 +1284,7 @@ Element["" "SOT26" "U3" "unknown" 2761.00mil 2400.00mil 109.00mil -81.00mil 0 10
 
 	)
 
-Element["onsolder" "sma-board-edge" "PD_IN" "unknown" 3250.00mil 2425.00mil -109.80mil -225.00mil 0 100 "auto"]
+Element["onsolder" "sma-board-edge" "PD_IN" "unknown" 3250.00mil 2350.00mil -109.80mil -225.00mil 0 100 "auto"]
 (
 	Pad[-100.00mil 0.0000 100.00mil 0.0000 50.00mil 16.00mil 56.00mil "input" "1" "onsolder,square"]
 	Pad[-77.50mil 172.50mil 77.50mil 172.50mil 95.00mil 0.0000 101.00mil "input" "2" "onsolder,square"]
@@ -1918,9 +1918,6 @@ Layer(2 "ground")
 	Line[2700.00mil 1725.00mil 2700.00mil 1950.00mil 25.00mil 20.00mil "clearline"]
 	Line[2800.00mil 1825.00mil 2800.00mil 1900.00mil 10.00mil 20.00mil "clearline"]
 	Line[75.0352mm 1700.00mil 2900.00mil 1700.00mil 10.00mil 20.00mil ""]
-	Line[3250.00mil 2425.00mil 3150.00mil 2425.00mil 10.00mil 20.00mil "clearline"]
-	Line[3150.00mil 2425.00mil 3125.00mil 2400.00mil 10.00mil 20.00mil "clearline"]
-	Line[3125.00mil 2400.00mil 3125.00mil 2350.00mil 10.00mil 20.00mil "clearline"]
 	Line[2500.00mil 2550.00mil 2575.00mil 2550.00mil 10.00mil 20.00mil "clearline"]
 	Line[2575.00mil 2550.00mil 2650.00mil 2475.00mil 10.00mil 20.00mil "clearline"]
 	Line[2750.00mil 2675.00mil 2800.00mil 2675.00mil 10.00mil 20.00mil ""]
