@@ -112,11 +112,12 @@ enum range {
 	RANGE4,  // highest gain
 };
 
+// cba
 uint8_t range_muxes[4] = {
-	0b101,     // RANGE1
-	0b001,     // RANGE2
-	0b010,     // RANGE3
-	0b000,     // RANGE4
+	0b000,     // RANGE1
+	0b010,     // RANGE2
+	0b101,     // RANGE3
+	0b001,     // RANGE4
 };
 
 // In volts per amp
@@ -163,7 +164,7 @@ int sample_pd(enum gain_stage stage);
 void sample_pd_done(uint16_t val, int error, void *cbdata) {
 	enum gain_stage stage = (enum gain_stage) cbdata;
 	// ADC voltage in microvolts
-	uint32_t microvolts = 1e6 * adc_as_voltage(val);
+	float microvolts = 1e6 * adc_as_voltage(val);
 	// photodiode current in microamps
 	float microamps = 1. * microvolts / stage_gain[stage] / range_gain[active_range];
 	float sensitivity = interpolate(sensitivity_lut, wavelength);
@@ -192,16 +193,16 @@ void sample_pd_done(uint16_t val, int error, void *cbdata) {
 	}
 	//printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
 
-        printf("%d\t%d\t%lu\r\n", stage, active_range, microvolts);
+        printf("%d\t%d\t%u\r\n", stage, active_range, val);
 
 	if (stage == STAGE2) {
 		return;
 	} else if (autoscale && microvolts < autoscale_min_thresh && active_range != RANGE4) {
 		set_range(active_range + 1);
-		printf("# moving gain to up range %d\r\n", active_range);
+		printf("# moving gain to up range %d\r\n", active_range+1);
 	} else if (autoscale && microvolts > autoscale_max_thresh && active_range != RANGE1) {
 		set_range(active_range - 1);
-		printf("# moving gain to down range %d\r\n", active_range);
+		printf("# moving gain to down range %d\r\n", active_range+1);
 	} else if (microvolts < autoscale_min_thresh && stage == STAGE1) {
 		sample_pd(STAGE2);
 	}
@@ -222,9 +223,9 @@ static void new_data(uint8_t *data, size_t len)
 	case '3':
 	case '4':
 		{
-			enum range rng = data[0] - '0';
+			enum range rng = data[0] - '1';
 			set_range(rng);
-			printf("# set range %d\r\n", rng);
+			printf("# set range %d\r\n", rng+1);
 			break;
 		}
 	case 'a':

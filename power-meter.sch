@@ -1158,3 +1158,7 @@ refdes=D2
 T 48800 35800 5 10 0 0 0 0 1
 footprint=0603
 }
+T 53200 23900 9 12 1 0 0 0 1
+Symbols show state where SEL is low
+T 47700 23900 9 12 1 0 0 0 1
+Switch pins 12, 2, and 5 connected when SEL is low
