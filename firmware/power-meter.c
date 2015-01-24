@@ -10,6 +10,7 @@ struct pair {
 	accum x, y;
 };
 
+// in milliamps per watt
 struct pair sensitivity_lut[] = {
 	{1, 1},
 	// sentinal
@@ -31,9 +32,12 @@ float interpolate(struct pair* samples, float x) {
 #define PD1 ADC_PTB1
 #define PD2 ADC_PTB0
 
-enum pd_channel {
+enum gain_stage {
 	STAGE1, STAGE2
 };
+
+// gain of voltage stages
+float stage_gain[2] = {1, 100};
 
 // range switches
 #define SEL_A GPIO_PTC1
@@ -46,17 +50,41 @@ enum pd_channel {
 #define PD_EN GPIO_PTA19
 
 enum range {
-	RANGE1 = 0b101,  // lowest gain
-	RANGE2 = 0b001,
-	RANGE3 = 0b010,
-	RANGE4 = 0b000,  // highest gain
+	RANGE1,  // lowest gain
+	RANGE2,
+	RANGE3,
+	RANGE4,  // highest gain
 };
 
+uint8_t range_muxes[4] = {
+	0b101,     // RANGE1
+	0b001,     // RANGE2
+	0b010,     // RANGE3
+	0b000,     // RANGE4
+};
+
+// In volts per amp
+float range_gain[4] = {
+	1,
+	150,
+	33e3,
+	4.7e6,
+};
+
+static bool autoscale = false;
+// Minimum tolerable voltage before increasing gain
+static accum autoscale_min_thresh = 0.1;
+// Maximum tolerable voltage before decreasing gain
+static accum autoscale_max_thresh = 3.1;
+static enum range active_range;
+
 void set_range(enum range rng) {
+	active_range = rng;
 	if (!amp_on) return;
-	gpio_write(SEL_B, (rng & 2) != 0);
-	gpio_write(SEL_C, (rng & 4) != 0);
-	gpio_write(SEL_A, (rng & 1) != 0);
+	uint8_t mux = range_muxes[rng];
+	gpio_write(SEL_B, (mux & 2) != 0);
+	gpio_write(SEL_C, (mux & 4) != 0);
+	gpio_write(SEL_A, (mux & 1) != 0);
 }
 
 void set_power(bool on) {
@@ -68,26 +96,38 @@ void set_power(bool on) {
 		gpio_write(PD_EN, 0);
 	} else {
 		gpio_write(PD_EN, 1);
+		set_range(active_range);
 	}
 	gpio_write(LED1, on);
 	gpio_write(LED2, on);
 }
 
-int sample_pd(enum pd_channel channel);
+int sample_pd(enum gain_stage stage);
 
 void sample_pd_done(uint16_t val, int error, void *cbdata) {
-	unsigned accum v = adc_as_voltage(val);
+	enum gain_stage stage = (enum gain_stage) cbdata;
+	float v = adc_as_voltage(val);
 	accum sensitivity = interpolate(sensitivity_lut, wavelength);
+	accum current = v * stage_gain[stage] * range_gain[active_range];
+	accum power = current * sensitivity;
+
 	unsigned long mv = 1000. * v;
-	enum pd_channel channel = (enum pd_channel) cbdata;
-        printf("power %d: raw=%lu\r\n", channel, mv);
-	if (channel == STAGE1)
+        printf("power %d: raw=%lu\r\n", stage, mv);
+
+	if (autoscale && v < autoscale_min_thresh && active_range != RANGE4) {
+		set_range(active_range + 1);
+		printf("# moving gain to up range %d\r\n", active_range);
+	} else if (autoscale && v > autoscale_max_thresh && active_range != RANGE1) {
+		set_range(active_range - 1);
+		printf("# moving gain to down range %d\r\n", active_range);
+	} else if (v < autoscale_min_thresh && stage == STAGE1) {
 		sample_pd(STAGE2);
+	}
 }	
 
-int sample_pd(enum pd_channel channel) {
+int sample_pd(enum gain_stage stage) {
 	adc_sample_prepare(ADC_MODE_SAMPLE_LONG | ADC_MODE_POWER_NORMAL | ADC_MODE_AVG_32);
-	return adc_sample_start(channel == STAGE1 ? PD1 : PD2, sample_pd_done, (void*) channel);
+	return adc_sample_start(stage == STAGE1 ? PD1 : PD2, sample_pd_done, (void*) stage);
 }
 
 static struct cdc_ctx cdc;
@@ -96,20 +136,20 @@ static void new_data(uint8_t *data, size_t len)
 {
 	switch (data[0]) {
 	case '1':
-		set_range(RANGE1);
-		printf("set range 1\r\n");
-		break;
 	case '2':
-		set_range(RANGE2);
-		printf("set range 2\r\n");
-		break;
 	case '3':
-		set_range(RANGE3);
-		printf("set range 3\r\n");
-		break;
 	case '4':
-		set_range(RANGE4);
-		printf("set range 4\r\n");
+		{
+			enum range rng = data[0] - '0';
+			set_range(rng);
+			printf("# set range %d\r\n", rng);
+			break;
+		}
+	case 'a':
+		autoscale = false;
+		break;
+	case 'A':
+		autoscale = true;
 		break;
 	}
 	sample_pd(STAGE1);
