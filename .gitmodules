@@ -1,0 +1,3 @@
+[submodule "firmware/mchck"]
+	path = firmware/mchck
+	url = git://github.com/mchck/mchck
