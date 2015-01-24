@@ -1,4 +1,6 @@
 #!/bin/bash
 
-( while true; do echo > /dev/ttyACM0; sleep 10; done; )&
+delay=$1
+
+( while true; do echo > /dev/ttyACM0; sleep $delay; done; )&
 cat /dev/ttyACM0
