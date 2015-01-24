@@ -29,7 +29,11 @@ float interpolate(struct pair* samples, float x) {
 }
 
 #define PD1 ADC_PTB1
-#define PD2 ADC_PTB2
+#define PD2 ADC_PTB0
+
+enum pd_channel {
+	STAGE1, STAGE2
+};
 
 // range switches
 #define SEL_A GPIO_PTC1
@@ -45,14 +49,14 @@ enum range {
 	RANGE1 = 0b101,  // lowest gain
 	RANGE2 = 0b001,
 	RANGE3 = 0b010,
-	RANGE4 = 0x000,  // highest gain
+	RANGE4 = 0b000,  // highest gain
 };
 
 void set_range(enum range rng) {
 	if (!amp_on) return;
-	gpio_write(SEL_B, rng & 2);
-	gpio_write(SEL_C, rng & 4);
-	gpio_write(SEL_A, rng & 1);
+	gpio_write(SEL_B, (rng & 2) != 0);
+	gpio_write(SEL_C, (rng & 4) != 0);
+	gpio_write(SEL_A, (rng & 1) != 0);
 }
 
 void set_power(bool on) {
@@ -69,15 +73,21 @@ void set_power(bool on) {
 	gpio_write(LED2, on);
 }
 
+int sample_pd(enum pd_channel channel);
+
 void sample_pd_done(uint16_t val, int error, void *cbdata) {
 	unsigned accum v = adc_as_voltage(val);
 	accum sensitivity = interpolate(sensitivity_lut, wavelength);
 	unsigned long mv = 1000. * v;
-        printf("power: raw=%lu\r\n", mv);
+	enum pd_channel channel = (enum pd_channel) cbdata;
+        printf("power %d: raw=%lu\r\n", channel, mv);
+	if (channel == STAGE1)
+		sample_pd(STAGE2);
 }	
 
-int sample_pd() {
-	return adc_sample_start(ADC_PTB1, sample_pd_done, NULL);
+int sample_pd(enum pd_channel channel) {
+	adc_sample_prepare(ADC_MODE_SAMPLE_LONG | ADC_MODE_POWER_NORMAL | ADC_MODE_AVG_32);
+	return adc_sample_start(channel == STAGE1 ? PD1 : PD2, sample_pd_done, (void*) channel);
 }
 
 static struct cdc_ctx cdc;
@@ -102,7 +112,7 @@ static void new_data(uint8_t *data, size_t len)
 		printf("set range 4\r\n");
 		break;
 	}
-	sample_pd();
+	sample_pd(STAGE1);
         cdc_read_more(&cdc);
 }
 
@@ -119,12 +129,12 @@ int main() {
         pin_mode(PD_EN, PIN_MODE_MUX_GPIO);
 	gpio_dir(PD_EN, GPIO_OUTPUT);
 
-	gpio_dir(SEL_A, GPIO_OUTPUT);
-	gpio_dir(SEL_B, GPIO_OUTPUT);
-	gpio_dir(SEL_C, GPIO_OUTPUT);
 	pin_mode(SEL_A, PIN_MODE_MUX_GPIO);
 	pin_mode(SEL_B, PIN_MODE_MUX_GPIO);
 	pin_mode(SEL_C, PIN_MODE_MUX_GPIO);
+	gpio_dir(SEL_A, GPIO_OUTPUT);
+	gpio_dir(SEL_B, GPIO_OUTPUT);
+	gpio_dir(SEL_C, GPIO_OUTPUT);
 
 	gpio_dir(LED1, GPIO_OUTPUT);
 	gpio_dir(LED2, GPIO_OUTPUT);
