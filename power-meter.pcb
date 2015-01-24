@@ -954,7 +954,7 @@ Element["" "TQFP48" "U1" "unknown" 2325.00mil 2400.00mil 150.00mil -4.5400mm 0 1
 
 	)
 
-Element["" "0805" "R2" "5M" 80.9099mm 2300.00mil 68.50mil -31.50mil 0 100 ""]
+Element["" "0805" "R2" "4.7M" 80.9099mm 2300.00mil 68.50mil -31.50mil 0 100 ""]
 (
 	Pad[-35.43mil -3.93mil -35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "1" "1" "square"]
 	Pad[35.43mil -3.93mil 35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "2" "2" "square"]
@@ -981,7 +981,7 @@ Element["" "0805" "R1" "33k" 80.9099mm 2125.00mil 68.50mil -31.50mil 0 100 ""]
 
 	)
 
-Element["" "0805" "C10" "4500p" 80.9099mm 2050.00mil 68.50mil -31.50mil 0 100 ""]
+Element["" "0805" "C10" "4.7n" 80.9099mm 2050.00mil 68.50mil -31.50mil 0 100 ""]
 (
 	Pad[-35.43mil -3.93mil -35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "1" "1" "square"]
 	Pad[35.43mil -3.93mil 35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "2" "2" "square"]
@@ -1017,7 +1017,7 @@ Element["" "0805" "C12" "330p" 80.9099mm 2225.00mil 68.50mil -31.50mil 0 100 ""]
 
 	)
 
-Element["" "0805" "C15" "58n" 77.2051mm 2225.00mil -3.8263mm -31.50mil 0 100 ""]
+Element["" "0805" "C15" "56n" 77.2051mm 2225.00mil -3.8263mm -31.50mil 0 100 ""]
 (
 	Pad[35.43mil -3.93mil 35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "1" "1" "square"]
 	Pad[-35.43mil -3.93mil -35.43mil 3.93mil 51.18mil 20.00mil 57.18mil "2" "2" "square"]
@@ -1947,6 +1947,8 @@ Layer(1 "top")
 	Line[1875.00mil 2025.00mil 1887.50mil 2037.50mil 25.00mil 20.00mil "clearline"]
 	Line[2250.00mil 1875.00mil 59.3050mm 49.7800mm 10.00mil 20.00mil "clearline"]
 	Line[59.3050mm 49.7800mm 59.3050mm 56.6600mm 10.00mil 20.00mil "clearline"]
+	Line[57.8050mm 65.2600mm 57.8050mm 62.8850mm 10.00mil 20.00mil "clearline"]
+	Line[57.8050mm 62.8850mm 2275.00mil 2475.00mil 10.00mil 20.00mil "clearline"]
 )
 Layer(2 "ground")
 (
@@ -2071,6 +2073,7 @@ NetList()
 		Connect("SCREEN-1")
 		Connect("U1-1")
 		Connect("U1-5")
+		Connect("U1-16")
 		Connect("U1-22")
 		Connect("U3-4")
 	)
