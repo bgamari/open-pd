@@ -193,7 +193,7 @@ void sample_pd_done(uint16_t val, int error, void *cbdata) {
 	}
 	//printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
 
-        printf("%d\t%d\t%u\r\n", stage, active_range, val);
+        printf("%d\t%d\t%u\r\n", stage, active_range+1, val);
 
 	if (stage == STAGE2) {
 		return;
