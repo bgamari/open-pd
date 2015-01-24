@@ -10,9 +10,65 @@ struct pair {
 	accum x, y;
 };
 
-// in milliamps per watt
+// wavelength in nanometers
+// sensitivity in milliamps per watt
 struct pair sensitivity_lut[] = {
-	{1, 1},
+	{200,    117},
+	{210,    125},
+	{220,    128},
+	{230,    133},
+	{240,    137},
+	{250,    130},
+	{260,    118},
+	{270,    100},
+	{280,    102},
+	{290,    116},
+	{300,    130},
+	{310,    137},
+	{320,    140},
+	{330,    148},
+	{340,    151},
+	{350,    151},
+	{360,    151},
+	{370,    152},
+	{380,    162},
+	{390,    177},
+	{400,    187},
+	{420,    205},
+	{440,    221},
+	{460,    234},
+	{480,    246},
+	{500,    261},
+	{520,    274},
+	{540,    285},
+	{560,    297},
+	{580,    310},
+	{600,    321},
+	{620,    333},
+	{640,    346},
+	{660,    356},
+	{680,    368},
+	{700,    377},
+	{720,    389},
+	{740,    401},
+	{760,    412},
+	{780,    425},
+	{800,    434},
+	{820,    444},
+	{840,    456},
+	{860,    467},
+	{880,    478},
+	{900,    491},
+	{920,    500},
+	{940,    511},
+	{960,    522},
+	{980,    520},
+	{1000,   505},
+	{1020,   464},
+	{1040,   391},
+	{1060,   287},
+	{1080,   206},
+	{1100,   142},
 	// sentinal
 	{-1, -1}
 };
@@ -72,10 +128,10 @@ float range_gain[4] = {
 };
 
 static bool autoscale = false;
-// Minimum tolerable voltage before increasing gain
-static accum autoscale_min_thresh = 0.1;
-// Maximum tolerable voltage before decreasing gain
-static accum autoscale_max_thresh = 3.1;
+// Minimum tolerable voltage before increasing gain in microvolts
+static uint32_t autoscale_min_thresh = 0.1 * 1e6;
+// Maximum tolerable voltage before decreasing gain in microvolts
+static uint32_t autoscale_max_thresh = 3.1 * 1e6;
 static enum range active_range;
 
 void set_range(enum range rng) {
@@ -106,21 +162,47 @@ int sample_pd(enum gain_stage stage);
 
 void sample_pd_done(uint16_t val, int error, void *cbdata) {
 	enum gain_stage stage = (enum gain_stage) cbdata;
-	float v = adc_as_voltage(val);
-	accum sensitivity = interpolate(sensitivity_lut, wavelength);
-	accum current = v * stage_gain[stage] * range_gain[active_range];
-	accum power = current * sensitivity;
+	// ADC voltage in microvolts
+	uint32_t microvolts = 1e6 * adc_as_voltage(val);
+	// photodiode current in microamps
+	float microamps = 1. * microvolts / stage_gain[stage] / range_gain[active_range];
+	float sensitivity = interpolate(sensitivity_lut, wavelength);
+	// power in microwatts
+	float power = 1000. * microamps / sensitivity;
 
-	unsigned long mv = 1000. * v;
-        printf("power %d: raw=%lu\r\n", stage, mv);
+	char *unit;
+	uint32_t real_power;
+	int exp;
+	if (power > 1e8) {
+		unit = "";
+		exp = 0;
+		real_power = power / 1e6;
+	} else if (power > 1e5) {
+		unit = "milli";
+		exp = -3;
+		real_power = power / 1e3;
+	} else if (power > 1e2) {
+		unit = "micro";
+		exp = -6;
+		real_power = power;
+	} else {
+		unit = "nano";
+		exp = -9;
+		real_power = power * 1e3;
+	}
+	//printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
 
-	if (autoscale && v < autoscale_min_thresh && active_range != RANGE4) {
+        printf("%d\t%d\t%lu\r\n", stage, active_range, microvolts);
+
+	if (stage == STAGE2) {
+		return;
+	} else if (autoscale && microvolts < autoscale_min_thresh && active_range != RANGE4) {
 		set_range(active_range + 1);
 		printf("# moving gain to up range %d\r\n", active_range);
-	} else if (autoscale && v > autoscale_max_thresh && active_range != RANGE1) {
+	} else if (autoscale && microvolts > autoscale_max_thresh && active_range != RANGE1) {
 		set_range(active_range - 1);
 		printf("# moving gain to down range %d\r\n", active_range);
-	} else if (v < autoscale_min_thresh && stage == STAGE1) {
+	} else if (microvolts < autoscale_min_thresh && stage == STAGE1) {
 		sample_pd(STAGE2);
 	}
 }	
