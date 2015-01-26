@@ -4,6 +4,10 @@
 
 static bool amp_on = false;
 
+static uint8_t oversample = 16;
+static uint8_t oversample_counter;
+static uint32_t oversample_accum;
+
 static accum wavelength = 488;
 
 struct pair {
@@ -112,7 +116,7 @@ enum range {
 	RANGE4,  // highest gain
 };
 
-// cba
+// c,b,a
 uint8_t range_muxes[4] = {
 	0b000,     // RANGE1
 	0b010,     // RANGE2
@@ -132,7 +136,7 @@ static bool autoscale = false;
 // Minimum tolerable voltage before increasing gain in microvolts
 static uint32_t autoscale_min_thresh = 0.05 * 1e6;
 // Maximum tolerable voltage before decreasing gain in microvolts
-static uint32_t autoscale_max_thresh = 3.25 * 1e6;
+static uint32_t autoscale_max_thresh = 3.2 * 1e6;
 static enum range active_range;
 
 void set_range(enum range rng) {
@@ -159,12 +163,17 @@ void set_power(bool on) {
 	gpio_write(LED2, on);
 }
 
+// Forward declarations
 int sample_pd(enum gain_stage stage);
+void sample_pd_done(uint16_t val, int error, void *cbdata);
 
-void sample_pd_done(uint16_t val, int error, void *cbdata) {
-	enum gain_stage stage = (enum gain_stage) cbdata;
+static int start_sample_pd(enum gain_stage stage) {
+	return adc_sample_start(stage == STAGE1 ? PD1 : PD2, sample_pd_done, (void*) stage);
+}
+
+static void show_sample(float avg_codepoint, enum gain_stage stage){
 	// ADC voltage in microvolts
-	float microvolts = 1e6 * adc_as_voltage(val);
+	float microvolts = 3.3 * 1e6 * avg_codepoint / (1<<16);
 	// photodiode current in microamps
 	float microamps = 1. * microvolts / stage_gain[stage] / range_gain[active_range];
 	float sensitivity = interpolate(sensitivity_lut, wavelength);
@@ -191,9 +200,9 @@ void sample_pd_done(uint16_t val, int error, void *cbdata) {
 		exp = -9;
 		real_power = power * 1e3;
 	}
-	//printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
+	printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
 
-        printf("%d\t%d\t%u\r\n", stage, active_range+1, val);
+        printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t ) avg_codepoint);
 
 	if (stage == STAGE2) {
 		return;
@@ -208,9 +217,20 @@ void sample_pd_done(uint16_t val, int error, void *cbdata) {
 	}
 }	
 
+void sample_pd_done(uint16_t val, int error, void *cbdata) {
+	enum gain_stage stage = (enum gain_stage) cbdata;
+	oversample_accum += val;
+	oversample_counter++;
+	if (oversample_counter >= oversample) 
+		show_sample(1. * oversample_accum / oversample_counter, stage);
+	else
+		start_sample_pd(stage);
+}
+
 int sample_pd(enum gain_stage stage) {
 	adc_sample_prepare(ADC_MODE_SAMPLE_LONG | ADC_MODE_POWER_NORMAL | ADC_MODE_AVG_32);
-	return adc_sample_start(stage == STAGE1 ? PD1 : PD2, sample_pd_done, (void*) stage);
+	oversample_counter = 0;
+	return start_sample_pd(stage);
 }
 
 static struct cdc_ctx cdc;
