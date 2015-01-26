@@ -202,7 +202,7 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
 	}
 	printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
 
-        printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t ) avg_codepoint);
+	printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t ) avg_codepoint);
 
 	if (stage == STAGE2) {
 		return;
@@ -215,13 +215,13 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
 	} else if (microvolts < autoscale_min_thresh && stage == STAGE1) {
 		sample_pd(STAGE2);
 	}
-}	
+}
 
 void sample_pd_done(uint16_t val, int error, void *cbdata) {
 	enum gain_stage stage = (enum gain_stage) cbdata;
 	oversample_accum += val;
 	oversample_counter++;
-	if (oversample_counter >= oversample) 
+	if (oversample_counter >= oversample)
 		show_sample(1. * oversample_accum / oversample_counter, stage);
 	else
 		start_sample_pd(stage);
@@ -256,20 +256,20 @@ static void new_data(uint8_t *data, size_t len)
 		break;
 	}
 	sample_pd(STAGE1);
-        cdc_read_more(&cdc);
+	cdc_read_more(&cdc);
 }
 
 void
 init_vcdc(int enable)
 {
-        if (enable) {
-                cdc_init(new_data, NULL, &cdc);
+	if (enable) {
+		cdc_init(new_data, NULL, &cdc);
 		cdc_set_stdout(&cdc);
-        }
+	}
 }
 
 int main() {
-        pin_mode(PD_EN, PIN_MODE_MUX_GPIO);
+	pin_mode(PD_EN, PIN_MODE_MUX_GPIO);
 	gpio_dir(PD_EN, GPIO_OUTPUT);
 
 	pin_mode(SEL_A, PIN_MODE_MUX_GPIO);
@@ -281,16 +281,16 @@ int main() {
 
 	gpio_dir(LED1, GPIO_OUTPUT);
 	gpio_dir(LED2, GPIO_OUTPUT);
-        pin_mode(LED1, PIN_MODE_DRIVE_HIGH);
-        pin_mode(LED2, PIN_MODE_DRIVE_HIGH);
+	pin_mode(LED1, PIN_MODE_DRIVE_HIGH);
+	pin_mode(LED2, PIN_MODE_DRIVE_HIGH);
 
-        pin_mode(PIN_PTB1, PIN_MODE_MUX_ANALOG);
-        pin_mode(PIN_PTB2, PIN_MODE_MUX_ANALOG);
+	pin_mode(PIN_PTB1, PIN_MODE_MUX_ANALOG);
+	pin_mode(PIN_PTB2, PIN_MODE_MUX_ANALOG);
 
 	adc_init();
 	set_range(RANGE1);
 	set_power(true);
 
-        usb_init(&cdc_device);
-        sys_yield_for_frogs();
+	usb_init(&cdc_device);
+	sys_yield_for_frogs();
 }
