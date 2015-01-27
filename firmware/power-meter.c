@@ -254,9 +254,11 @@ static void new_data(uint8_t *data, size_t len)
 		}
 	case 'a':
 		autoscale = false;
+		printf("# autoscale off\r\n");
 		break;
 	case 'A':
 		autoscale = true;
+		printf("# autoscale on\r\n");
 		break;
 	}
 	sample_pd(STAGE1);
