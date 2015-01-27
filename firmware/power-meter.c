@@ -229,6 +229,7 @@ void sample_pd_done(uint16_t val, int error, void *cbdata) {
 
 int sample_pd(enum gain_stage stage) {
 	adc_sample_prepare(ADC_MODE_SAMPLE_LONG | ADC_MODE_POWER_NORMAL | ADC_MODE_AVG_32);
+	oversample_accum = 0;
 	oversample_counter = 0;
 	return start_sample_pd(stage);
 }
