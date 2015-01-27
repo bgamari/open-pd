@@ -4,6 +4,9 @@
 
 static bool amp_on = false;
 
+// Always sample both gain stages (for diagnostics)
+static bool always_both = true;
+
 static uint8_t oversample = 16;
 static uint8_t oversample_counter;
 static uint32_t oversample_accum;
@@ -212,7 +215,7 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
 	} else if (autoscale && microvolts > autoscale_max_thresh && active_range != RANGE1) {
 		set_range(active_range - 1);
 		printf("# moving gain to down range %d\r\n", active_range+1);
-	} else if (microvolts < autoscale_min_thresh && stage == STAGE1) {
+	} else if (always_both || (microvolts < autoscale_min_thresh && stage == STAGE1)) {
 		sample_pd(STAGE2);
 	}
 }
