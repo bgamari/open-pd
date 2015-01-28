@@ -1,0 +1,13 @@
+*.o
+*.d
+power-meter.bin
+power-meter.desc.c
+power-meter.desc.h
+power-meter.desc.linkdep
+power-meter.elf
+power-meter.hex
+power-meter.ld
+power-meter.ld-template
+power-meter.linkdep
+power-meter.map
+
