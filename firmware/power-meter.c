@@ -5,7 +5,7 @@
 static bool amp_on = false;
 
 // Always sample both gain stages (for diagnostics)
-static bool always_both = true;
+static bool always_both = false;
 
 static uint8_t oversample = 16;
 static uint8_t oversample_counter;
