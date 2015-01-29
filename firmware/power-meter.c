@@ -198,15 +198,19 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
 		unit = "micro";
 		exp = -6;
 		real_power = power;
-	} else {
+	} else if (power > 1e-1) {
 		unit = "nano";
 		exp = -9;
 		real_power = power * 1e3;
+	} else {
+		unit = "pico";
+		exp = -12;
+		real_power = power * 1e6;
 	}
-	printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
+	printf("%d %d %luE%d  # %lu %swatts\r\n", active_range+1, stage, real_power, exp, real_power, unit);
 
 	if (false)
-		printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t ) avg_codepoint);
+		printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t) avg_codepoint);
 
 	if (stage == STAGE2) {
 		return;
