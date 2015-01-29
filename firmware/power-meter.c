@@ -176,7 +176,7 @@ static int start_sample_pd(enum gain_stage stage) {
 
 static void show_sample(float avg_codepoint, enum gain_stage stage){
 	// ADC voltage in microvolts
-	float microvolts = 3.3 * 1e6 * avg_codepoint / (1<<16);
+	float microvolts = 3.3e6 * avg_codepoint / (1<<16);
 	// photodiode current in microamps
 	float microamps = 1. * microvolts / stage_gain[stage] / range_gain[active_range];
 	float sensitivity = interpolate(sensitivity_lut, wavelength);
@@ -205,7 +205,8 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
 	}
 	printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
 
-	printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t ) avg_codepoint);
+	if (false)
+		printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t ) avg_codepoint);
 
 	if (stage == STAGE2) {
 		return;
