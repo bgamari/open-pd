@@ -278,7 +278,7 @@ handle_command()
 {
         switch (cmd_buf[0]) {
         case 's':
-		// Save configuration to FLASH
+                // Save configuration to FLASH
                 {
                         int res = write_config();
                         if (res)
@@ -292,7 +292,7 @@ handle_command()
         case '2':
         case '3':
         case '4':
-		// Manually set range
+                // Manually set range
                 {
                         enum range rng = cmd_buf[0] - '1';
                         set_range(rng);
@@ -301,7 +301,7 @@ handle_command()
                 }
 
         case 'g':
-		// Configure amplifier gain
+                // Configure amplifier gain
                 {
                         char* end;
                         unsigned long range = strtoul(&cmd_buf[1], &end, 10);
@@ -317,43 +317,43 @@ handle_command()
                                 }
                                 active_config.stage_gains[range] = gain;
                         }
-			unsigned int gain = active_config.stage_gains[range-1];
-			printf("# gain %lu = %u ohms\r\n", range, gain);
+                        unsigned int gain = active_config.stage_gains[range-1];
+                        printf("# gain %lu = %u ohms\r\n", range, gain);
                         break;
                 }
 
         case 'w':
-		// Current wavelength
+                // Current wavelength
                 {
-			if (cmd_buf[1] == '=') {
-				char* end;
-				unsigned long wl = strtoul(&cmd_buf[2], &end, 10);
-				if (end == &cmd_buf[1]) {
-					printf("# error 1\r\n");
-					break;
-				}
-				active_config.wavelength = wl;
-			}
-			printf("# wavelength = %d\r\n", active_config.wavelength);
-			break;
-		}
+                        if (cmd_buf[1] == '=') {
+                                char* end;
+                                unsigned long wl = strtoul(&cmd_buf[2], &end, 10);
+                                if (end == &cmd_buf[1]) {
+                                        printf("# error 1\r\n");
+                                        break;
+                                }
+                                active_config.wavelength = wl;
+                        }
+                        printf("# wavelength = %d\r\n", active_config.wavelength);
+                        break;
+                }
 
         case 'a':
         case 'A':
-		// Enable/disable autoscaling
+                // Enable/disable autoscaling
                 autoscale = cmd_buf[0] == 'A';
                 printf("# autoscale %s\r\n", autoscale ? "on" : "off");
                 break;
 
         case 'v':
         case 'V':
-		// Enable/disable verbose output
+                // Enable/disable verbose output
                 verbose = cmd_buf[0] == 'V';
                 printf("# verbose %s\r\n", verbose ? "on" : "off");
                 break;
 
         default:
-		// Take measurement
+                // Take measurement
                 sample_pd(STAGE1);
         }
 }
@@ -386,7 +386,7 @@ init_vcdc(int enable)
 static void
 reset_config_to_default()
 {
-	memcpy(&active_config, &default_config, sizeof(struct config));
+        memcpy(&active_config, &default_config, sizeof(struct config));
 }
 
 int main() {
@@ -414,9 +414,9 @@ int main() {
 
         if (flash_config != NULL && flash_config->magic == CONFIG_MAGIC) {
                 memcpy(&active_config, flash_config, sizeof(struct config));
-	} else {
-		reset_config_to_default();
-	}
+        } else {
+                reset_config_to_default();
+        }
 
         usb_init(&cdc_device);
         sys_yield_for_frogs();
