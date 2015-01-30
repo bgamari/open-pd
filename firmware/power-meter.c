@@ -8,7 +8,7 @@ static bool amp_on = false;
 static bool verbose = false;
 
 // Always sample both gain stages (for diagnostics)
-static bool always_both = true;
+static bool always_both = false;
 
 static uint8_t oversample = 16;
 static uint8_t oversample_counter;
@@ -103,7 +103,7 @@ enum gain_stage {
 };
 
 // gain of voltage stages
-float stage_gain[2] = {1, 10};
+float stage_gain[2] = {1, 11};
 
 // range switches
 #define SEL_A GPIO_PTC1
@@ -179,7 +179,7 @@ static int start_sample_pd(enum gain_stage stage) {
 
 static void show_sample(float avg_codepoint, enum gain_stage stage){
 	// ADC voltage in microvolts
-	float microvolts = 3.3 * 1e6 * avg_codepoint / (1<<16);
+	float microvolts = 3.3e6 * avg_codepoint / (1<<16);
 	// photodiode current in microamps
 	float microamps = 1. * microvolts / stage_gain[stage] / range_gain[active_range];
 	float sensitivity = interpolate(sensitivity_lut, wavelength);
@@ -201,14 +201,19 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
 		unit = "micro";
 		exp = -6;
 		real_power = power;
-	} else {
+	} else if (power > 1e-1) {
 		unit = "nano";
 		exp = -9;
 		real_power = power * 1e3;
+	} else {
+		unit = "pico";
+		exp = -12;
+		real_power = power * 1e6;
 	}
-	printf("%d %luE%d  # %lu %swatts\r\n", stage, real_power, exp, real_power, unit);
+	printf("%d %d %luE%d  # %lu %swatts\r\n", active_range+1, stage, real_power, exp, real_power, unit);
 
-	printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t ) avg_codepoint);
+	if (false)
+		printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t) avg_codepoint);
 
 	if (stage == STAGE2) {
 		return;
