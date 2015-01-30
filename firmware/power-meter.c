@@ -14,73 +14,88 @@ static uint8_t oversample = 16;
 static uint8_t oversample_counter;
 static uint32_t oversample_accum;
 
-static accum wavelength = 488;
-
 struct pair {
-	accum x, y;
+	uint16_t x, y;
 };
 
-// wavelength in nanometers
-// sensitivity in milliamps per watt
-struct pair sensitivity_lut[] = {
-	{200,    117},
-	{210,    125},
-	{220,    128},
-	{230,    133},
-	{240,    137},
-	{250,    130},
-	{260,    118},
-	{270,    100},
-	{280,    102},
-	{290,    116},
-	{300,    130},
-	{310,    137},
-	{320,    140},
-	{330,    148},
-	{340,    151},
-	{350,    151},
-	{360,    151},
-	{370,    152},
-	{380,    162},
-	{390,    177},
-	{400,    187},
-	{420,    205},
-	{440,    221},
-	{460,    234},
-	{480,    246},
-	{500,    261},
-	{520,    274},
-	{540,    285},
-	{560,    297},
-	{580,    310},
-	{600,    321},
-	{620,    333},
-	{640,    346},
-	{660,    356},
-	{680,    368},
-	{700,    377},
-	{720,    389},
-	{740,    401},
-	{760,    412},
-	{780,    425},
-	{800,    434},
-	{820,    444},
-	{840,    456},
-	{860,    467},
-	{880,    478},
-	{900,    491},
-	{920,    500},
-	{940,    511},
-	{960,    522},
-	{980,    520},
-	{1000,   505},
-	{1020,   464},
-	{1040,   391},
-	{1060,   287},
-	{1080,   206},
-	{1100,   142},
-	// sentinal
-	{-1, -1}
+#define CONFIG_MAGIC 0xdead00ed
+
+struct config {
+	uint32_t magic;
+	uint16_t wavelength;      // in nanometers
+	float stage_gains[2];     // dimensionless
+	float range_gains[4];     // in ohms    
+
+	// wavelength in nanometers
+	// sensitivity in milliamps per watt
+	struct pair sensitivity_lut[64];
+};
+
+static struct config *flash_config = (struct config*) 0x10000000;
+
+static struct config active_config = {
+	.magic = CONFIG_MAGIC,
+	.wavelength = 488,
+	.stage_gains = {1, 11},
+	.range_gains = {1, 150, 33e3, 4.7e6},
+	.sensitivity_lut = {
+		{200,    117},
+		{210,    125},
+		{220,    128},
+		{230,    133},
+		{240,    137},
+		{250,    130},
+		{260,    118},
+		{270,    100},
+		{280,    102},
+		{290,    116},
+		{300,    130},
+		{310,    137},
+		{320,    140},
+		{330,    148},
+		{340,    151},
+		{350,    151},
+		{360,    151},
+		{370,    152},
+		{380,    162},
+		{390,    177},
+		{400,    187},
+		{420,    205},
+		{440,    221},
+		{460,    234},
+		{480,    246},
+		{500,    261},
+		{520,    274},
+		{540,    285},
+		{560,    297},
+		{580,    310},
+		{600,    321},
+		{620,    333},
+		{640,    346},
+		{660,    356},
+		{680,    368},
+		{700,    377},
+		{720,    389},
+		{740,    401},
+		{760,    412},
+		{780,    425},
+		{800,    434},
+		{820,    444},
+		{840,    456},
+		{860,    467},
+		{880,    478},
+		{900,    491},
+		{920,    500},
+		{940,    511},
+		{960,    522},
+		{980,    520},
+		{1000,   505},
+		{1020,   464},
+		{1040,   391},
+		{1060,   287},
+		{1080,   206},
+		{1100,   142},
+	},
 };
 
 float interpolate(struct pair* samples, float x) {
@@ -130,14 +145,6 @@ uint8_t range_muxes[4] = {
 	0b001,     // RANGE4
 };
 
-// In volts per amp
-float range_gain[4] = {
-	1,
-	150,
-	33e3,
-	4.7e6,
-};
-
 static bool autoscale = false;
 // Minimum tolerable voltage before increasing gain in microvolts
 static uint32_t autoscale_min_thresh = 0.05 * 1e6;
@@ -181,8 +188,8 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
 	// ADC voltage in microvolts
 	float microvolts = 3.3e6 * avg_codepoint / (1<<16);
 	// photodiode current in microamps
-	float microamps = 1. * microvolts / stage_gain[stage] / range_gain[active_range];
-	float sensitivity = interpolate(sensitivity_lut, wavelength);
+	float microamps = 1. * microvolts / active_config.stage_gains[stage] / active_config.range_gains[active_range];
+	float sensitivity = interpolate(active_config.sensitivity_lut, active_config.wavelength);
 	// power in microwatts
 	float power = 1000. * microamps / sensitivity;
 
@@ -245,33 +252,98 @@ int sample_pd(enum gain_stage stage) {
 	return start_sample_pd(stage);
 }
 
+int
+write_config()
+{
+	unsigned int offset = 0;
+	const char *buf = (const char*) &active_config;
+	while (offset < sizeof(struct config)) {
+		int res = flash_program_sector(buf + offset, (uintptr_t) flash_config + offset, FLASH_SECTOR_SIZE);
+		if (res)
+			return res;
+		offset += FLASH_SECTOR_SIZE;
+	}
+	return 0;
+}
+
 static struct cdc_ctx cdc;
 
-static void new_data(uint8_t *data, size_t len)
+char cmd_buf[128];
+unsigned int tail = 0;
+
+static void
+handle_command()
 {
-	switch (data[0]) {
+	switch (cmd_buf[0]) {
+	case 's':
+		{
+			int res = write_config();
+			if (res)
+				printf("# error %d\r\n", res);
+			else
+				printf("# saved\r\n");
+			break;
+		}
+
 	case '1':
 	case '2':
 	case '3':
 	case '4':
 		{
-			enum range rng = data[0] - '1';
+			enum range rng = cmd_buf[0] - '1';
 			set_range(rng);
 			printf("# set range %d\r\n", rng+1);
 			break;
 		}
+		
+	case 'g':
+		{
+			char* end;
+			unsigned long range = strtoul(&cmd_buf[1], &end, 10);
+			if (end == &cmd_buf[1] || range >= 4) {
+				printf("# error 1\r\n");
+				break;
+			}
+			if (cmd_buf[2] == '=') {
+				unsigned long gain = strtoul(end, &end, 10);
+				if (end == &cmd_buf[2]) {
+					printf("# error 2\r\n");
+					break;
+				}
+				active_config.stage_gains[range] = gain;
+			}
+			printf("# gain %lu = %f\r\n", range, active_config.stage_gains[range]);
+			break;
+		}
+		
 	case 'a':
 	case 'A':
-		autoscale = data[0] == 'A';
+		autoscale = cmd_buf[0] == 'A';
 		printf("# autoscale %s\r\n", autoscale ? "on" : "off");
 		break;
 	case 'v':
 	case 'V':
-		verbose = data[0] == 'V';
+		verbose = cmd_buf[0] == 'V';
 		printf("# verbose %s\r\n", verbose ? "on" : "off");
 		break;
+	default:
+		sample_pd(STAGE1);
 	}
-	sample_pd(STAGE1);
+}
+
+static void
+new_data(uint8_t *data, size_t len)
+{
+	for (int i=0; i < len; i++) {
+		if (data[i] == '\n' || data[i] == '\r') {
+			cmd_buf[tail] = 0;
+			handle_command();
+			tail = 0;
+		} else {
+		    cmd_buf[tail] = data[i];
+		    tail = (tail + 1) % sizeof(cmd_buf);
+		}
+	}
 	cdc_read_more(&cdc);
 }
 
@@ -306,6 +378,13 @@ int main() {
 	adc_init();
 	set_range(RANGE1);
 	set_power(true);
+
+	if (flash_config != NULL && flash_config->magic == CONFIG_MAGIC) {
+		memcpy(&active_config, flash_config, sizeof(struct config));
+	} else {
+		flash_set_partitioning(FTFL_FLEXNVM_DATA_16_EEPROM_16,
+				       FTFL_EEPROM_SIZE_128);
+	}
 
 	usb_init(&cdc_device);
 	sys_yield_for_frogs();
