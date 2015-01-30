@@ -276,6 +276,7 @@ handle_command()
 {
         switch (cmd_buf[0]) {
         case 's':
+		// Save configuration to FLASH
                 {
                         int res = write_config();
                         if (res)
@@ -289,6 +290,7 @@ handle_command()
         case '2':
         case '3':
         case '4':
+		// Manually set range
                 {
                         enum range rng = cmd_buf[0] - '1';
                         set_range(rng);
@@ -297,6 +299,7 @@ handle_command()
                 }
 
         case 'g':
+		// Configure amplifier gain
                 {
                         char* end;
                         unsigned long range = strtoul(&cmd_buf[1], &end, 10);
@@ -334,15 +337,20 @@ handle_command()
 
         case 'a':
         case 'A':
+		// Enable/disable autoscaling
                 autoscale = cmd_buf[0] == 'A';
                 printf("# autoscale %s\r\n", autoscale ? "on" : "off");
                 break;
+
         case 'v':
         case 'V':
+		// Enable/disable verbose output
                 verbose = cmd_buf[0] == 'V';
                 printf("# verbose %s\r\n", verbose ? "on" : "off");
                 break;
+
         default:
+		// Take measurement
                 sample_pd(STAGE1);
         }
 }
