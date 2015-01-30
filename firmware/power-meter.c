@@ -148,7 +148,7 @@ static bool autoscale = false;
 // Minimum tolerable voltage before increasing gain in microvolts
 static uint32_t autoscale_min_thresh = 0.05 * 1e6;
 // Maximum tolerable voltage before decreasing gain in microvolts
-static uint32_t autoscale_max_thresh = 3.2 * 1e6;
+static uint32_t autoscale_max_thresh = 3.25 * 1e6;
 static enum range active_range;
 
 void set_range(enum range rng) {
