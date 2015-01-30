@@ -33,7 +33,9 @@ struct config {
 
 static struct config *flash_config = (struct config*) 0x10000000;
 
-static struct config active_config = {
+static struct config active_config;
+
+static const struct config default_config = {
         .magic = CONFIG_MAGIC,
         .wavelength = 488,
         .stage_gains = {1, 11},
@@ -381,6 +383,12 @@ init_vcdc(int enable)
         }
 }
 
+static void
+reset_config_to_default()
+{
+	memcpy(&active_config, &default_config, sizeof(struct config));
+}
+
 int main() {
         pin_mode(PD_EN, PIN_MODE_MUX_GPIO);
         gpio_dir(PD_EN, GPIO_OUTPUT);
@@ -406,6 +414,8 @@ int main() {
 
         if (flash_config != NULL && flash_config->magic == CONFIG_MAGIC) {
                 memcpy(&active_config, flash_config, sizeof(struct config));
+	} else {
+		reset_config_to_default();
 	}
 
         usb_init(&cdc_device);
