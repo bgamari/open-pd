@@ -303,19 +303,20 @@ handle_command()
                 {
                         char* end;
                         unsigned long range = strtoul(&cmd_buf[1], &end, 10);
-                        if (end == &cmd_buf[1] || range >= 4) {
-                                printf("# error 1\r\n");
+                        if (end == &cmd_buf[1] || range < 1 || range > 4) {
+                                printf("# error invalid range\r\n");
                                 break;
                         }
                         if (cmd_buf[2] == '=') {
                                 unsigned long gain = strtoul(end, &end, 10);
                                 if (end == &cmd_buf[2]) {
-                                        printf("# error 2\r\n");
+                                        printf("# error invalid gain\r\n");
                                         break;
                                 }
                                 active_config.stage_gains[range] = gain;
                         }
-                        printf("# gain %lu = %f\r\n", range, active_config.stage_gains[range]);
+			unsigned int gain = active_config.stage_gains[range-1];
+			printf("# gain %lu = %u ohms\r\n", range, gain);
                         break;
                 }
 
