@@ -316,7 +316,7 @@ handle_command()
                         // range gain in ohms
                         char* end;
                         unsigned long range = strtoul(&cmd_buf[1], &end, 10);
-                        if (end == &cmd_buf[1] || range > 8) {
+                        if (end == &cmd_buf[1] || range >= 8) {
                                 printf("# error invalid range\r\n");
                                 break;
                         }
@@ -330,6 +330,29 @@ handle_command()
                         }
                         unsigned long gain = active_config.range_gains[range];
                         printf("# gain %lu = %lu ohms\r\n", range, gain);
+                        break;
+                }
+
+        case 'o':
+                // Configure amplifier offset
+                {
+                        // range gain in microamps
+                        char* end;
+                        unsigned long range = strtoul(&cmd_buf[1], &end, 10);
+                        if (end == &cmd_buf[1] || range >= 8) {
+                                printf("# error invalid range\r\n");
+                                break;
+                        }
+                        if (cmd_buf[2] == '=') {
+                                unsigned long offset = strtoul(&cmd_buf[3], &end, 10);
+                                if (end == &cmd_buf[3]) {
+                                        printf("# error invalid offset\r\n");
+                                        break;
+                                }
+                                active_config.range_offsets[range] = offset;
+                        }
+                        unsigned long offset = active_config.range_offsets[range];
+                        printf("# offset %lu = %lu microamps\r\n", range, offset);
                         break;
                 }
 
