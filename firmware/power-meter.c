@@ -7,9 +7,6 @@ static bool amp_on = false;
 // Verbose
 static bool verbose = false;
 
-// Always sample both gain stages (for diagnostics)
-static bool always_both = false;
-
 static uint8_t oversample = 16;
 static uint8_t oversample_counter;
 static uint32_t oversample_accum;
@@ -20,11 +17,12 @@ struct pair {
 
 #define CONFIG_MAGIC 0xdead00ed
 
+
 struct config {
         uint32_t magic;
         uint16_t wavelength;      // in nanometers
-        float stage_gains[2];     // dimensionless
-        float range_gains[4];     // in ohms
+        float range_gains[8];     // in ohms
+        float range_offsets[4];   // in microamps
 
         // wavelength in nanometers
         // sensitivity in milliamps per watt
@@ -38,8 +36,12 @@ static struct config active_config;
 static const struct config default_config = {
         .magic = CONFIG_MAGIC,
         .wavelength = 488,
-        .stage_gains = {1, 11},
-        .range_gains = {1, 150, 33e3, 4.7e6},
+        .range_gains = {
+                1,        1*11,
+                150,      150*11,
+                33e3,     33e3*11,
+                4.7e6,    4.7e6*11
+        },
         .sensitivity_lut = {
                 {200,    117},
                 {210,    125},
@@ -112,12 +114,9 @@ float interpolate(struct pair* samples, float x) {
         return samples->y;
 }
 
-#define PD1 ADC_PTB1
-#define PD2 ADC_PTB0
-
-enum gain_stage {
-        STAGE1, STAGE2
-};
+// Gain stage ADC taps
+#define STAGE1 ADC_PTB1
+#define STAGE2 ADC_PTB0
 
 // range switches
 #define SEL_A GPIO_PTC1
@@ -129,11 +128,17 @@ enum gain_stage {
 
 #define PD_EN GPIO_PTA19
 
+// Lowest order bit defines which gain stage to sample.
+// Next two bits define which transimpedance range.
 enum range {
-        RANGE1,  // lowest gain
+        RANGE1 = 0, // lowest gain
+        RANGE1P,    // lowest gain after secondary gain stage
         RANGE2,
+        RANGE2P,
         RANGE3,
-        RANGE4,  // highest gain
+        RANGE3P,
+        RANGE4,
+        RANGE4P,    // highest gain
 };
 
 // c,b,a
@@ -151,10 +156,10 @@ static uint32_t autoscale_min_thresh = 0.05 * 1e6;
 static uint32_t autoscale_max_thresh = 3.25 * 1e6;
 static enum range active_range;
 
-void set_range(enum range rng) {
+void set_range_mux(enum range rng) {
         active_range = rng;
         if (!amp_on) return;
-        uint8_t mux = range_muxes[rng];
+        uint8_t mux = range_muxes[rng >> 1];
         gpio_write(SEL_B, (mux & 2) != 0);
         gpio_write(SEL_C, (mux & 4) != 0);
         gpio_write(SEL_A, (mux & 1) != 0);
@@ -169,25 +174,29 @@ void set_power(bool on) {
                 gpio_write(PD_EN, 0);
         } else {
                 gpio_write(PD_EN, 1);
-                set_range(active_range);
+                set_range_mux(active_range);
         }
         gpio_write(LED1, on);
         gpio_write(LED2, on);
 }
 
 // Forward declarations
-int sample_pd(enum gain_stage stage);
 void sample_pd_done(uint16_t val, int error, void *cbdata);
 
-static int start_sample_pd(enum gain_stage stage) {
-        return adc_sample_start(stage == STAGE1 ? PD1 : PD2, sample_pd_done, (void*) stage);
+static int
+start_sample_pd(enum range range)
+{
+        enum adc_channel channel = range & 1 ? STAGE2 : STAGE1;
+        return adc_sample_start(channel, sample_pd_done, (void*) range);
 }
 
-static void show_sample(float avg_codepoint, enum gain_stage stage){
+static void
+show_sample(float avg_codepoint, enum range range)
+{
         // ADC voltage in microvolts
         float microvolts = 3.3e6 * avg_codepoint / (1<<16);
         // photodiode current in microamps
-        float microamps = 1. * microvolts / active_config.stage_gains[stage] / active_config.range_gains[active_range];
+        float microamps = 1. * microvolts / active_config.range_gains[range] + active_config.range_offsets[range];
         float sensitivity = interpolate(active_config.sensitivity_lut, active_config.wavelength);
         // power in microwatts
         float power = 1000. * microamps / sensitivity;
@@ -216,39 +225,36 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
                 exp = -12;
                 real_power = power * 1e6;
         }
-        printf("%d %d %luE%d  # %lu %swatts\r\n", active_range+1, stage, real_power, exp, real_power, unit);
+        printf("%d %luE%d  # %lu %swatts\r\n", range, real_power, exp, real_power, unit);
 
         if (false)
-                printf("& %d\t%d\t%lu\r\n", stage, active_range+1, (uint32_t) avg_codepoint);
+                printf("& %d\t%lu\r\n", range, (uint32_t) avg_codepoint);
 
-        if (stage == STAGE2) {
-                return;
-        } else if (autoscale && microvolts < autoscale_min_thresh && active_range != RANGE4) {
-                set_range(active_range + 1);
-                if (verbose) printf("# moving gain to up range %d\r\n", active_range+1);
-        } else if (autoscale && microvolts > autoscale_max_thresh && active_range != RANGE1) {
-                set_range(active_range - 1);
-                if (verbose) printf("# moving gain to down range %d\r\n", active_range+1);
-        } else if (always_both || (microvolts < autoscale_min_thresh && stage == STAGE1)) {
-                sample_pd(STAGE2);
+        if (autoscale && microvolts < autoscale_min_thresh && range != RANGE4P) {
+                if (verbose) printf("# moving gain to up range %d\r\n", range+1);
+                set_range_mux(range + 1);
+        } else if (autoscale && microvolts > autoscale_max_thresh && range != RANGE1) {
+                if (verbose) printf("# moving gain to down range %d\r\n", range-1);
+                set_range_mux(range - 1);
         }
 }
 
 void sample_pd_done(uint16_t val, int error, void *cbdata) {
-        enum gain_stage stage = (enum gain_stage) cbdata;
+        enum range range = (enum range) cbdata;
         oversample_accum += val;
         oversample_counter++;
         if (oversample_counter >= oversample)
-                show_sample(1. * oversample_accum / oversample_counter, stage);
+                show_sample(1. * oversample_accum / oversample_counter, range);
         else
-                start_sample_pd(stage);
+                start_sample_pd(range);
 }
 
-int sample_pd(enum gain_stage stage) {
+int sample_pd(enum range range) {
+        set_range_mux(range);
         adc_sample_prepare(ADC_MODE_SAMPLE_LONG | ADC_MODE_POWER_NORMAL | ADC_MODE_AVG_32);
         oversample_accum = 0;
         oversample_counter = 0;
-        return start_sample_pd(stage);
+        return start_sample_pd(range);
 }
 
 // Address bit 23 of FLASH commands specifies program or data flash
@@ -288,55 +294,44 @@ handle_command()
                         break;
                 }
 
+        case '0':
         case '1':
         case '2':
         case '3':
         case '4':
+        case '5':
+        case '6':
+        case '7':
                 // Manually set range
                 {
-                        enum range rng = cmd_buf[0] - '1';
-                        set_range(rng);
-                        printf("# set range %d\r\n", rng+1);
+                        enum range rng = cmd_buf[0] - '0';
+                        set_range_mux(rng);
+                        printf("# set range %d\r\n", rng);
                         break;
                 }
 
         case 'g':
                 // Configure amplifier gain
-                if (cmd_buf[1] == 'r') {
+                {
                         // range gain in ohms
                         char* end;
-                        unsigned long range = strtoul(&cmd_buf[2], &end, 10);
-                        if (end == &cmd_buf[2] || range < 1 || range > 4) {
+                        unsigned long range = strtoul(&cmd_buf[1], &end, 10);
+                        if (end == &cmd_buf[1] || range > 8) {
                                 printf("# error invalid range\r\n");
                                 break;
                         }
-                        if (cmd_buf[3] == '=') {
-                                unsigned long gain = strtoul(&cmd_buf[4], &end, 10);
-                                if (end == &cmd_buf[4]) {
-                                        printf("# error invalid gain\r\n");
-                                        break;
-                                }
-                                active_config.range_gains[range-1] = gain;
-                        }
-                        unsigned long gain = active_config.range_gains[range-1];
-                        printf("# gain %lu = %lu ohms\r\n", range, gain);
-                } else if (cmd_buf[1] == 's') {
-                        // second stage gain in volts per millivolt
-                        if (cmd_buf[3] == '=') {
-                                char* end;
+                        if (cmd_buf[2] == '=') {
                                 unsigned long gain = strtoul(&cmd_buf[3], &end, 10);
                                 if (end == &cmd_buf[3]) {
                                         printf("# error invalid gain\r\n");
                                         break;
                                 }
-                                active_config.stage_gains[1] = gain / 1000.0;
+                                active_config.range_gains[range] = gain;
                         }
-                        unsigned long gain = active_config.range_gains[1] * 1000;
-                        printf("# gain = %lu V/mV\r\n", gain);
-                } else {
-                        printf("# error\r\n");
+                        unsigned long gain = active_config.range_gains[range];
+                        printf("# gain %lu = %lu ohms\r\n", range, gain);
+                        break;
                 }
-                break;
 
         case 'w':
                 // Current wavelength
@@ -370,7 +365,7 @@ handle_command()
 
         default:
                 // Take measurement
-                sample_pd(STAGE1);
+                sample_pd(active_range);
         }
 }
 
@@ -425,7 +420,7 @@ int main() {
         pin_mode(PIN_PTB2, PIN_MODE_MUX_ANALOG);
 
         adc_init();
-        set_range(RANGE1);
+        set_range_mux(RANGE1);
         set_power(true);
 
         if (flash_config != NULL && flash_config->magic == CONFIG_MAGIC) {
