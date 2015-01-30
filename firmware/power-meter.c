@@ -117,9 +117,6 @@ enum gain_stage {
         STAGE1, STAGE2
 };
 
-// gain of voltage stages
-float stage_gain[2] = {1, 11};
-
 // range switches
 #define SEL_A GPIO_PTC1
 #define SEL_B GPIO_PTC2
