@@ -99,9 +99,9 @@ static struct config active_config = {
 };
 
 float interpolate(struct pair* samples, float x) {
-        while (1) {
+        for (int i=0; i<64; i++) {
                 struct pair* next = samples+1;
-                if (next->x == -1)
+                if (next->y == 0)
                         break;
                 if (next->x > x)
                         return samples->y + (next->y - samples->y) / (next->x - samples->x) * (x - samples->x);
