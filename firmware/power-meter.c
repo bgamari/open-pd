@@ -302,25 +302,41 @@ handle_command()
 
         case 'g':
                 // Configure amplifier gain
-                {
+                if (cmd_buf[1] == 'r') {
+                        // range gain in milliohms
                         char* end;
-                        unsigned long range = strtoul(&cmd_buf[1], &end, 10);
-                        if (end == &cmd_buf[1] || range < 1 || range > 4) {
+                        unsigned long range = strtoul(&cmd_buf[2], &end, 10);
+                        if (end == &cmd_buf[2] || range < 1 || range > 4) {
                                 printf("# error invalid range\r\n");
                                 break;
                         }
-                        if (cmd_buf[2] == '=') {
-                                unsigned long gain = strtoul(end, &end, 10);
-                                if (end == &cmd_buf[2]) {
+                        if (cmd_buf[3] == '=') {
+                                unsigned long gain = strtoul(&cmd_buf[4], &end, 10);
+                                if (end == &cmd_buf[4]) {
                                         printf("# error invalid gain\r\n");
                                         break;
                                 }
-                                active_config.stage_gains[range] = gain;
+                                active_config.range_gains[range-1] = gain / 1000.0;
                         }
-                        unsigned int gain = active_config.stage_gains[range-1];
-                        printf("# gain %lu = %u ohms\r\n", range, gain);
-                        break;
+                        unsigned int gain = active_config.range_gains[range-1] * 1000;
+                        printf("# gain %lu = %u milliohms\r\n", range, gain);
+                } else if (cmd_buf[1] == 's') {
+                        // second stage gain in 1/1000
+                        if (cmd_buf[3] == '=') {
+                                char* end;
+                                unsigned long gain = strtoul(&cmd_buf[3], &end, 10);
+                                if (end == &cmd_buf[3]) {
+                                        printf("# error invalid gain\r\n");
+                                        break;
+                                }
+                                active_config.stage_gains[1] = gain / 1000.0;
+                        }
+                        unsigned int gain = active_config.range_gains[1] * 1000;
+                        printf("# gain = %u milliohms\r\n", gain);
+                } else {
+                        printf("# error\r\n");
                 }
+                break;
 
         case 'w':
                 // Current wavelength
