@@ -316,6 +316,22 @@ handle_command()
                         break;
                 }
 
+        case 'w':
+		// Current wavelength
+                {
+			if (cmd_buf[1] == '=') {
+				char* end;
+				unsigned long wl = strtoul(&cmd_buf[2], &end, 10);
+				if (end == &cmd_buf[1]) {
+					printf("# error 1\r\n");
+					break;
+				}
+				active_config.wavelength = wl;
+			}
+			printf("# wavelength = %d\r\n", active_config.wavelength);
+			break;
+		}
+
         case 'a':
         case 'A':
                 autoscale = cmd_buf[0] == 'A';
