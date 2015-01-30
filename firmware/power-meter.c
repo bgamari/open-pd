@@ -4,6 +4,9 @@
 
 static bool amp_on = false;
 
+// Verbose
+static bool verbose = false;
+
 // Always sample both gain stages (for diagnostics)
 static bool always_both = true;
 
@@ -211,10 +214,10 @@ static void show_sample(float avg_codepoint, enum gain_stage stage){
 		return;
 	} else if (autoscale && microvolts < autoscale_min_thresh && active_range != RANGE4) {
 		set_range(active_range + 1);
-		printf("# moving gain to up range %d\r\n", active_range+1);
+		if (verbose) printf("# moving gain to up range %d\r\n", active_range+1);
 	} else if (autoscale && microvolts > autoscale_max_thresh && active_range != RANGE1) {
 		set_range(active_range - 1);
-		printf("# moving gain to down range %d\r\n", active_range+1);
+		if (verbose) printf("# moving gain to down range %d\r\n", active_range+1);
 	} else if (always_both || (microvolts < autoscale_min_thresh && stage == STAGE1)) {
 		sample_pd(STAGE2);
 	}
@@ -253,12 +256,14 @@ static void new_data(uint8_t *data, size_t len)
 			break;
 		}
 	case 'a':
-		autoscale = false;
-		printf("# autoscale off\r\n");
-		break;
 	case 'A':
-		autoscale = true;
-		printf("# autoscale on\r\n");
+		autoscale = data[0] == 'A';
+		printf("# autoscale %s\r\n", autoscale ? "on" : "off");
+		break;
+	case 'v':
+	case 'V':
+		verbose = data[0] == 'V';
+		printf("# verbose %s\r\n", verbose ? "on" : "off");
 		break;
 	}
 	sample_pd(STAGE1);
