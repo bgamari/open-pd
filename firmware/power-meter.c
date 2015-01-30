@@ -303,7 +303,7 @@ handle_command()
         case 'g':
                 // Configure amplifier gain
                 if (cmd_buf[1] == 'r') {
-                        // range gain in milliohms
+                        // range gain in ohms
                         char* end;
                         unsigned long range = strtoul(&cmd_buf[2], &end, 10);
                         if (end == &cmd_buf[2] || range < 1 || range > 4) {
@@ -316,12 +316,12 @@ handle_command()
                                         printf("# error invalid gain\r\n");
                                         break;
                                 }
-                                active_config.range_gains[range-1] = gain / 1000.0;
+                                active_config.range_gains[range-1] = gain;
                         }
-                        unsigned int gain = active_config.range_gains[range-1] * 1000;
-                        printf("# gain %lu = %u milliohms\r\n", range, gain);
+                        unsigned long gain = active_config.range_gains[range-1];
+                        printf("# gain %lu = %lu milliohms\r\n", range, gain);
                 } else if (cmd_buf[1] == 's') {
-                        // second stage gain in 1/1000
+                        // second stage gain in volts per millivolt
                         if (cmd_buf[3] == '=') {
                                 char* end;
                                 unsigned long gain = strtoul(&cmd_buf[3], &end, 10);
@@ -331,8 +331,8 @@ handle_command()
                                 }
                                 active_config.stage_gains[1] = gain / 1000.0;
                         }
-                        unsigned int gain = active_config.range_gains[1] * 1000;
-                        printf("# gain = %u milliohms\r\n", gain);
+                        unsigned long gain = active_config.range_gains[1] * 1000;
+                        printf("# gain = %lu V/mV\r\n", gain);
                 } else {
                         printf("# error\r\n");
                 }
