@@ -21,7 +21,7 @@ struct pair {
 struct config {
         uint32_t magic;
         uint16_t wavelength;      // in nanometers
-        float range_gains[8];     // in ohms
+        float range_gains[8];     // in volt/amp
         float range_offsets[4];   // in microamps
 
         // wavelength in nanometers
@@ -313,7 +313,7 @@ handle_command()
         case 'g':
                 // Configure amplifier gain
                 {
-                        // range gain in ohms
+                        // range gain in volt/amp
                         char* end;
                         unsigned long range = strtoul(&cmd_buf[1], &end, 10);
                         if (end == &cmd_buf[1] || range >= 8) {
@@ -329,7 +329,7 @@ handle_command()
                                 active_config.range_gains[range] = gain;
                         }
                         unsigned long gain = active_config.range_gains[range];
-                        printf("# gain %lu = %lu ohms\r\n", range, gain);
+                        printf("# gain %lu = %lu V/A\r\n", range, gain);
                         break;
                 }
 
