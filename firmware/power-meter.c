@@ -249,13 +249,16 @@ int sample_pd(enum gain_stage stage) {
         return start_sample_pd(stage);
 }
 
+// Address bit 23 of FLASH commands specifies program or data flash
+#define DATA_FLASH (1<<23)
+
 int
 write_config()
 {
         unsigned int offset = 0;
         const char *buf = (const char*) &active_config;
         while (offset < sizeof(struct config)) {
-                int res = flash_program_sector(buf + offset, (uintptr_t) flash_config + offset, FLASH_SECTOR_SIZE);
+                int res = flash_program_sector(buf + offset, DATA_FLASH | offset, FLASH_SECTOR_SIZE);
                 if (res)
                         return res;
                 offset += FLASH_SECTOR_SIZE;
@@ -402,10 +405,7 @@ int main() {
 
         if (flash_config != NULL && flash_config->magic == CONFIG_MAGIC) {
                 memcpy(&active_config, flash_config, sizeof(struct config));
-        } else {
-                flash_set_partitioning(FTFL_FLEXNVM_DATA_16_EEPROM_16,
-                                       FTFL_EEPROM_SIZE_128);
-        }
+	}
 
         usb_init(&cdc_device);
         sys_yield_for_frogs();
