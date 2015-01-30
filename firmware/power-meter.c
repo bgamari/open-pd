@@ -15,7 +15,7 @@ struct pair {
         uint16_t x, y;
 };
 
-#define CONFIG_MAGIC 0xdead00ed
+#define CONFIG_MAGIC 0xdead0ed0
 
 
 struct config {
