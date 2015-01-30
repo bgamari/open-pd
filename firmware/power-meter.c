@@ -227,8 +227,10 @@ show_sample(float avg_codepoint, enum range range)
         }
         printf("%d %luE%d  # %lu %swatts\r\n", range, real_power, exp, real_power, unit);
 
-        if (false)
-                printf("& %d\t%lu\r\n", range, (uint32_t) avg_codepoint);
+        if (verbose) {
+                uint32_t c = avg_codepoint;
+                printf("& %d\t%lu\r\n", range, c);
+        }
 
         if (autoscale && microvolts < autoscale_min_thresh && range != RANGE4P) {
                 if (verbose) printf("# moving gain to up range %d\r\n", range+1);
