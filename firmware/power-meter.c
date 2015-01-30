@@ -319,7 +319,7 @@ handle_command()
                                 active_config.range_gains[range-1] = gain;
                         }
                         unsigned long gain = active_config.range_gains[range-1];
-                        printf("# gain %lu = %lu milliohms\r\n", range, gain);
+                        printf("# gain %lu = %lu ohms\r\n", range, gain);
                 } else if (cmd_buf[1] == 's') {
                         // second stage gain in volts per millivolt
                         if (cmd_buf[3] == '=') {
