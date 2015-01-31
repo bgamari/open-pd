@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 delay=$1
 if [ "$delay" == "" ]; then delay=0.5; fi
