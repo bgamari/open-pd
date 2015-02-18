@@ -14,9 +14,9 @@ parser.add_argument('-o', '--output', type=argparse.FileType('w'), default=sys.s
 args = parser.parse_args()
 
 if args.device is None:
-    meter = openpd.PowerMeter()
+    meter = openpd.OpenPD()
 else:
-    meter = openpd.PowerMeter(args.device.name)
+    meter = openpd.OpenPD(args.device.name)
 
 output = args.output
 while True:

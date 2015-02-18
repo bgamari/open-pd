@@ -1,6 +1,8 @@
+import os.path
 import serial
+import zmq
 
-class PowerMeter(object):
+class RawOpenPD(object):
     def __init__(self, device='/dev/ttyUSB.openpd'):
         """ Open a power meter device """
         self.dev = serial.Serial(device, timeout=10)
@@ -28,3 +30,22 @@ class PowerMeter(object):
                 return (rng, power)
             except:
                 pass
+
+def _device_socket(device):
+    path = os.path.basename(device)
+    return 'ipc://' + os.path.join('/tmp', 'openpd-'+path)
+
+class OpenPD(object):
+    """ Connect through daemon """
+    def __init__(self, device='/dev/ttyUSB.openpd'):
+        self.ctx = zmq.Context()
+        self.sock = self.ctx.socket(zmq.REQ)
+        self.sock.connect(_device_socket(device))
+
+    def sample(self):
+        self.sock.send('')
+        msg = self.sock.recv()
+        l = msg.split()
+        rng = int(l[0])
+        power = float(l[1])
+        return (rng, power)
