@@ -3,11 +3,14 @@
 import time
 import argparse
 import openpd
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--timestamps', action='store_true', help='Emit timestamps with samples')
 parser.add_argument('-n', '--period', type=float, default=0.5, help='Sampling period in seconds')
 parser.add_argument('-d', '--device', type=argparse.FileType('r'), help='Sampling period in seconds')
+parser.add_argument('-o', '--output', type=argparse.FileType('w'), default=sys.stdout,
+                    help='Output file')
 args = parser.parse_args()
 
 if args.device is None:
@@ -15,12 +18,13 @@ if args.device is None:
 else:
     meter = openpd.PowerMeter(args.device.name)
 
+output = args.output
 while True:
     _, power = meter.sample()
     if args.timestamps:
-        log.write('%f\t%g\n' % (time.time(), power))
+        output.write('%f\t%g\n' % (time.time(), power))
     else:
-        log.write('%g\n' % power)
+        output.write('%g\n' % power)
 
-    log.flush()
+    output.flush()
     time.sleep(args.period)
