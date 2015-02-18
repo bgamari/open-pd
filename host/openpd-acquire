@@ -20,7 +20,7 @@ else:
 
 output = args.output
 while True:
-    _, power = meter.sample()
+    power = meter.sample()['power']
     if args.timestamps:
         output.write('%f\t%g\n' % (time.time(), power))
     else:

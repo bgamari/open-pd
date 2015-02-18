@@ -27,7 +27,7 @@ class RawOpenPD(object):
                 l = l.split()
                 rng = int(l[0])
                 power = float(l[1])
-                return (rng, power)
+                return {'range': rng, 'power': power}
             except:
                 pass
 
@@ -44,8 +44,4 @@ class OpenPD(object):
 
     def sample(self):
         self.sock.send('')
-        msg = self.sock.recv()
-        l = msg.split()
-        rng = int(l[0])
-        power = float(l[1])
-        return (rng, power)
+        return self.sock.recv_json()

@@ -19,4 +19,4 @@ s = ctx.socket(zmq.REP)
 s.bind(openpd._device_socket(device))
 while True:
     s.recv()
-    s.send('%d %g' % dev.sample())
+    s.send_json(dev.sample())
