@@ -18,18 +18,20 @@ class RawOpenPD(object):
 
     def sample(self):
         """ Sample the power """
-        self.dev.write('\n')
+        # How I wish this weren't so brittle
         while True:
-            l = self.dev.readline()
-            if l.startswith('#'):
-                continue
-            try:
-                l = l.split()
-                rng = int(l[0])
-                power = float(l[1])
-                return {'range': rng, 'power': power}
-            except:
-                pass
+            self.dev.write('\n')
+            for i in range(10):
+                l = self.dev.readline()
+                if l.startswith('#'):
+                    continue
+                try:
+                    l = l.split()
+                    rng = int(l[0])
+                    power = float(l[1])
+                    return {'range': rng, 'power': power}
+                except:
+                    pass
 
 def _device_socket(device):
     path = os.path.basename(device)
