@@ -10,4 +10,7 @@ setup(name='openpd',
       url='https://www.github.com/bgamari/open-pd',
       py_modules=['openpd'],
       scripts=['openpd-acquire'],
+      data_files=[
+          ('/etc/udev/rules.d', ['99-openpd.rules']),
+      ],
      )
