@@ -10,7 +10,11 @@ parser.add_argument('-n', '--period', type=float, default=0.5, help='Sampling pe
 parser.add_argument('-d', '--device', type=argparse.FileType('r'), help='Sampling period in seconds')
 args = parser.parse_args()
 
-meter  = openpd.PowerMeter(args.device)
+if args.device is None:
+    meter = openpd.PowerMeter()
+else:
+    meter = openpd.PowerMeter(args.device.name)
+
 while True:
     _, power = meter.sample()
     if args.timestamps:

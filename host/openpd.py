@@ -1,9 +1,9 @@
 import serial
 
 class PowerMeter(object):
-    def __init__(self, dev):
+    def __init__(self, device='/dev/ttyUSB.openpd'):
         """ Open a power meter device """
-        self.dev = serial.Serial(dev, timeout=10)
+        self.dev = serial.Serial(device, timeout=10)
         self.dev.flushInput()
         self.dev.write('v=0\n')
         self.dev.readline()
