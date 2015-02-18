@@ -7,8 +7,12 @@ class PowerMeter(object):
         self.dev.flushInput()
         self.dev.write('v=0\n')
         self.dev.readline()
+        self.dev.write('3\n')  # force to intermediate range
+        self.dev.readline()
         self.dev.write('A\n')
         self.dev.readline()
+        # Force a sample
+        self.sample()
 
     def sample(self):
         """ Sample the power """
