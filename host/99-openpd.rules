@@ -1,2 +1,2 @@
 # OpenPD photodiode amplifier
-SUBSYSTEMS=="tty", ACTION=="add", ATTR{idVendor}=="2323", ATTR{idProduct}=="0003", ATTR{iProduct}=="power meter", MODE="0666", SYMLINK+="ttyUSB.openpd"
+SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="2323", ATTRS{idProduct}=="0003", ATTRS{product}=="power meter", MODE="0666", SYMLINK+="ttyUSB.openpd"
