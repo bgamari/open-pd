@@ -21,7 +21,10 @@ class PowerMeter(object):
             l = self.dev.readline()
             if l.startswith('#'):
                 continue
-            l = l.split()
-            rng = int(l[0])
-            power = float(l[1])
-            return (rng, power)
+            try:
+                l = l.split()
+                rng = int(l[0])
+                power = float(l[1])
+                return (rng, power)
+            except:
+                pass
