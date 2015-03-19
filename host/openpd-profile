@@ -1,0 +1,28 @@
+#!/usr/bin/python
+
+from __future__ import division
+import sys
+import argparse
+import numpy as np
+import openpd
+
+parser = argparse.ArgumentParser(description='A tool for taking beam profiles')
+parser.add_argument('-O', '--oversample', type=int, default=50,
+                    help='Number of samples to average for each reading')
+parser.add_argument('-s', '--step', type=float, default=1, help='Distance of step')
+parser.add_argument('-d', '--device', type=argparse.FileType('r'), help='Sampling period in seconds')
+parser.add_argument('-o', '--output', type=argparse.FileType('w'), required=True,
+                    help='Output file')
+args = parser.parse_args()
+meter = openpd.OpenPD()
+
+position = 0
+oversample = args.oversample
+output = args.output
+while True:
+    raw_input('Press enter to sample position %1.2f\t' % position)
+    samples = [meter.sample()['power'] for i in range(oversample)]
+    print np.mean(samples)
+    output.write('%f\t%g\t%g\n' % (position, np.mean(samples), np.std(samples)))
+    position += args.step
+
