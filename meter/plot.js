@@ -18,8 +18,7 @@ $(function() {
     });
 
     var numeric = $("#numeric");
-
-    var socket = new WebSocket("ws://localhost:3000/", "protocolOne");
+    var socket = new WebSocket('ws://' + location.hostname + ':' + location.port + '/', 'protocolOne');
     socket.onmessage = function (event) {
 	sample = JSON.parse(event.data);
 	points.push(sample.power / 1e-6);
