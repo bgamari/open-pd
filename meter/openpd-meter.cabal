@@ -11,6 +11,7 @@ copyright:           (c) 2015 Ben Gamari
 category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
+data-files:          index.html, plot.js
 
 executable openpd-meter
   main-is:             Main.hs
