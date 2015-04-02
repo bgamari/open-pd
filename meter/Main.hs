@@ -12,6 +12,8 @@ import qualified System.ZMQ4 as ZMQ
 import Network.Wai.Handler.WebSockets
 import qualified Network.Wai.Handler.Warp as Warp
 
+import Paths_openpd_meter (getDataFileName)
+
 sampleRate = 33
 
 socketListen :: TChan ByteString -> WS.PendingConnection -> IO ()
@@ -34,9 +36,11 @@ pollMeter samples = ZMQ.withContext $ \ctx -> ZMQ.withSocket ctx ZMQ.Req $ \sock
 main = do
     samples <- newBroadcastTChanIO
     async $ pollMeter samples
+    indexHtml <- getDataFileName "index.html"
+    plotJs <- getDataFileName "plot.js"
     app <- scottyApp $ do
-        get "/" $ file "index.html"
-        get "/plot.js" $ file "plot.js"
+        get "/" $ file indexHtml
+        get "/plot.js" $ file plotJs
     let connOpts = WS.defaultConnectionOptions
     let port = 3000
     putStrLn $ "Running on port "++show port

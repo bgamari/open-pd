@@ -7,15 +7,21 @@ license:             BSD3
 license-file:        LICENSE
 author:              Ben Gamari
 maintainer:          ben@smart-cactus.org
--- copyright:           
+copyright:           (c) 2015 Ben Gamari
 category:            Web
 build-type:          Simple
--- extra-source-files:  
 cabal-version:       >=1.10
+data-files:          index.html, plot.js
 
 executable openpd-meter
   main-is:             Main.hs
-  -- other-modules:       
-  -- other-extensions:    
-  build-depends:       base >=4.6 && <4.7, bytestring >=0.10 && <0.11, scotty >=0.9 && <0.10, websockets >=0.9 && <0.10, zeromq4-haskell >=0.6 && <0.7, stm >=2.4 && <2.5, async, warp >= 3.0 && < 3.1, wai-websockets
+  build-depends:       base >=4.6 && <4.9,
+                       bytestring >=0.10 && <0.11,
+                       scotty >=0.9 && <0.10,
+                       websockets >=0.9 && <0.10,
+                       zeromq4-haskell >=0.6 && <0.7,
+                       stm >=2.4 && <2.5,
+                       async,
+                       warp >= 3.0 && < 3.1,
+                       wai-websockets
   default-language:    Haskell2010
