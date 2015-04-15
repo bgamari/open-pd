@@ -1,2 +1,2 @@
 # OpenPD photodiode amplifier
-SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="2323", ATTRS{idProduct}=="0003", ATTRS{product}=="power meter", MODE="0666", SYMLINK+="ttyUSB.openpd", RUN+="/usr/local/bin/openpd-daemon --fork", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="2323", ATTRS{idProduct}=="0003", ATTRS{product}=="power meter", MODE="0666", SYMLINK+="ttyUSB.openpd", ENV{ID_MODEL}="OpenPD photodiode amplifier", ENV{SYSTEMD_WANTS}+="openpd-daemon.service", ENV{ID_MM_DEVICE_IGNORE}="1"
