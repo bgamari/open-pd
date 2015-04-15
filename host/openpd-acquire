@@ -14,7 +14,7 @@ parser.add_argument('-o', '--output', type=argparse.FileType('w'), default=sys.s
                     help='Output file')
 args = parser.parse_args()
 
-if args.raw:
+if not args.raw:
     if args.device is None:
         meter = openpd.OpenPD()
     else:
