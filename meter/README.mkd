@@ -1,0 +1,15 @@
+# Web application
+
+This is a simple Web interface to the OpenPD with rudimentary real-time
+plotting support.
+
+## Installation
+
+In a reasonable moderate Ubuntu/Debian environment,
+
+```bash
+$ sudo apt-get install cabal-install zlib1g-dev
+$ cabal update
+$ cabal install
+```
+
