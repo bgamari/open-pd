@@ -1,0 +1,5 @@
+[Unit]
+Description=Data acquisition daemon for OpenPD photodiode amplifier
+
+[Service]
+ExecStart=/usr/local/bin/openpd-daemon

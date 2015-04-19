@@ -12,5 +12,6 @@ setup(name='openpd',
       scripts=['openpd-acquire', 'openpd-daemon'],
       data_files=[
           ('/etc/udev/rules.d', ['99-openpd.rules']),
+          ('/lib/systemd/system', ['openpd-daemon.service']),
       ],
      )

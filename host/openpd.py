@@ -1,6 +1,9 @@
 import os.path
 import serial
-import zmq
+try:
+    import zmq
+except:
+    print "Failed to import ZeroMQ; daemon unavailable"
 
 class RawOpenPD(object):
     def __init__(self, device='/dev/ttyUSB.openpd'):
