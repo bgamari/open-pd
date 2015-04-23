@@ -9,7 +9,7 @@ setup(name='openpd',
       author_email='ben@smart-cactus.org',
       url='https://www.github.com/bgamari/open-pd',
       py_modules=['openpd'],
-      scripts=['openpd-acquire', 'openpd-daemon'],
+      scripts=['openpd-acquire', 'openpd-daemon', 'plot-power'],
       data_files=[
           ('/etc/udev/rules.d', ['99-openpd.rules']),
           ('/lib/systemd/system', ['openpd-daemon.service']),
