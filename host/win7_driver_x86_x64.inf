@@ -1,0 +1,54 @@
+; Windows USB CDC Setup File
+
+[Version]
+Signature="$Windows NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%MFGNAME%
+LayoutFile=layout.inf
+;CatalogFile=%MFGFILENAME%.cat
+DriverVer=04/15/2015,1.0
+
+[Manufacturer]
+%MFGNAME%=DeviceList, NTx86, NTamd64
+
+[DestinationDirs]
+DefaultDestDir=12
+
+[DeviceList.NTx86]
+%DESCRIPTION%=DriverInstall,USB\VID_2323&PID_0003
+
+[DeviceList.NTamd64] 
+%DESCRIPTION%=DriverInstall,USB\VID_2323&PID_0003
+
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles
+AddReg=DriverInstall.nt.AddReg
+
+[DriverCopyFiles]
+Usbser.sys,,,0x20
+
+[DriverInstall.NT.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,Usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[DriverInstall.NT.Services]
+AddService=usbser, 0x00000002, DriverService
+
+[DriverService]
+DisplayName=%SERVICE%
+ServiceType= 1
+StartType = 3
+ErrorControl = 1
+ServiceBinary = %12%\Usbser.sys
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+;Modify these strings to customize your device
+;------------------------------------------------------------------------------
+[Strings]
+MFGNAME="OpenPD"
+DESCRIPTION="OpenPD Virtual Com Port"
+SERVICE="OpenPD Virtual COM Driver" 
