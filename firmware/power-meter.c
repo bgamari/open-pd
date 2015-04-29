@@ -388,6 +388,10 @@ handle_command()
                 printf("# verbose %s\r\n", verbose ? "on" : "off");
                 break;
 
+        case '?':
+                printf("# OpenPD\r\n");
+                break;
+
         default:
                 // Take measurement
                 sample_pd(active_range);
