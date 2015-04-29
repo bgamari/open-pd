@@ -132,6 +132,12 @@ class OpenPD(object):
 
 class Daemon(object):
     def __init__(self, find_devices=True, watch=True):
+        """
+        :type find_devices: :class:`bool`
+        :param find_devices: Whether to call :func:`find_devices` during initialization
+        :type watch: :class:`bool`
+        :param watch: Whether to monitor the system for new devices
+        """
         self.devices = {}
         if find_devices:
             self.find_devices()
