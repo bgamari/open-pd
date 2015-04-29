@@ -170,7 +170,8 @@ class Daemon(object):
         """
         logging.info('Trying to add device %s' % device.device_path)
         version, dev_id = device.get_id()
-        self.devices[dev_id] = device
+        if dev_id not in self.devices:
+            self.devices[dev_id] = device
 
     params = {
         'wavelength': (RawOpenPD.get_wavelength, RawOpenPD.set_wavelength),
