@@ -21,7 +21,7 @@ def open_device(args):
         else:
             return conn.device(args.device.name)
 
-def action(args):
+def acquire(args):
     meter = open_device(args)
     output = args.output
     while True:
