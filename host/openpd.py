@@ -225,7 +225,7 @@ class Daemon(object):
             except IOError as e:
                 logging.error('Saw IOError for device %s, removing' % req['device'])
                 reply({'error': 'IO error'})
-                req.pop('device')
+                self.devices.pop(req['device'])
                 # In case the event dropped out earlier but has since returned
                 self.find_devices()
 
