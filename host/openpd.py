@@ -21,6 +21,27 @@ class RawOpenPD(object):
         # Force a sample
         self.sample()
 
+    def _read_setting(self, cmd):
+        self.dev.write('%s\n' % cmd)
+        l = self.dev.readline()
+        return l.split('=')[1]
+
+    def get_wavelength(self):
+        """
+        Retrieve the configured wavelength
+        """
+        return self._read_setting('w')
+
+    def set_wavelength(self, wavelength):
+        """
+        Sets the configured wavelength
+
+        :param wavelength: Wavelength in nanometers
+        :type wavelength: :class:`int`
+        """
+        self.dev.write('w=%d\n' % wavelength)
+        assert not self.dev.readline().startwith('# error')
+
     def get_id(self):
         """
         Get the device ID.
