@@ -74,13 +74,13 @@ class RawOpenPD(object):
                 l = self.dev.readline()
                 if l.startswith('#'):
                     continue
-                try:
-                    l = l.split()
-                    rng = int(l[0])
-                    power = float(l[1])
-                    return {'range': rng, 'power': power}
-                except:
-                    pass
+
+                l = l.split()
+                if len(l) < 2:
+                    continue
+                rng = int(l[0])
+                power = float(l[1])
+                return {'range': rng, 'power': power}
 
 class OpenPDError(Exception):
     def __init__(self, error):
