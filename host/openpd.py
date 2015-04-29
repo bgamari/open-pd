@@ -110,8 +110,18 @@ class OpenPD(object):
         self.conn = conn
         self.device = device
 
+    def _command(self, cmd):
+        cmd['device'] = self.device
+        return self.conn._command(cmd)
+
+    def get_wavelength(self):
+        return self._command({'type': 'get'})['wavelength']
+
+    def set_wavelength(self, wavelength):
+        return self._command({'type': 'set', 'wavelength': wavelength})
+
     def sample(self):
-        return self.conn._command({'type': 'sample', 'device': self.device})
+        return self._command({'type': 'sample'})
 
 class Daemon(object):
     def __init__(self):
