@@ -389,7 +389,8 @@ handle_command()
                 break;
 
         case '?':
-                printf("# OpenPD\r\n");
+                printf("# OpenPD 0.0 %08lx%08lx%08lx%08lx\r\n",
+                       SIM.uidl, SIM.uidml, SIM.uidmh, SIM.uidh);
                 break;
 
         default:
