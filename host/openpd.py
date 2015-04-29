@@ -22,6 +22,12 @@ class RawOpenPD(object):
         # Force a sample
         self.sample()
 
+    def device_path(self):
+        """
+        The path to the underlaying port device
+        """
+        return self.dev.name
+
     def _read_setting(self, cmd):
         self.dev.write('%s\n' % cmd)
         l = self.dev.readline()
