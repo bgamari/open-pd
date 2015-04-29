@@ -1,0 +1,18 @@
+# Host utilities
+
+## Daemon
+
+The `openpd-daemon` script provides a simple abstraction layer for allowing
+concurrent access to one or more OpenPD devices by multiplier users.
+
+The daemon exposes a ZeroMQ `REP` socket on `tcp://127.0.0.1:9276`. Users can
+submit requests in the form of JSON objects to this socket. The reply will be
+returned in the form of a JSON object. The known commands are,
+
+* list known devices:
+    * request: `{type: 'list-devices'}`
+    * response: `{devices: ['device-id-1', 'device-id-2', ...]}`
+* sample a device:
+    * request: `{type: 'sample', device: 'device-id-1'}`
+    * response: `{power: 1.4e-6, range: 3}` (power in watts)
+     
