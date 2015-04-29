@@ -125,7 +125,7 @@ class OpenPD(object):
         return self._command({'type': 'sample'})
 
 class Daemon(object):
-    def __init__(self, find_device=True, watch=True):
+    def __init__(self, find_devices=True, watch=True):
         self.devices = {}
         if find_devices:
             self.find_devices()
