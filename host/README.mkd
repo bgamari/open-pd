@@ -1,5 +1,19 @@
 # Host utilities
 
+## Acquire tool
+
+The `openpd-acquire` tool is a small utility for acquiring samples from the OpenPD.
+It will output a tab-separated file of power and an optional timestamp (given in
+UNIX epoch time).
+
+For instance,
+```bash
+$ openpd-acquire --timestamps
+1430280904.436060	8.97e-10
+1430280904.938442	8.92e-10
+1430280905.441401	8.89e-10
+```
+
 ## Daemon
 
 The `openpd-daemon` script provides a simple abstraction layer for allowing
