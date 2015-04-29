@@ -6,6 +6,7 @@ import openpd
 import sys
 
 parser = argparse.ArgumentParser(description='Periodically poll photodiode for power samples')
+parser.add_argument('-l', '--list', action='store_true', help='List devices')
 parser.add_argument('-t', '--timestamps', action='store_true', help='Emit timestamps with samples')
 parser.add_argument('-n', '--period', type=float, default=0.5, help='Sampling period in seconds')
 parser.add_argument('-d', '--device', type=argparse.FileType('r'), help='Name of serial device')
@@ -13,6 +14,13 @@ parser.add_argument('-r', '--raw', action='store_true', help="Don't use daemon")
 parser.add_argument('-o', '--output', type=argparse.FileType('w'), default=sys.stdout,
                     help='Output file')
 args = parser.parse_args()
+
+if args.list:
+    conn = openpd.Connection()
+    print 'Known OpenPD devices:'
+    print
+    print '\n'.join(conn.list_devices())
+    sys.exit(0)
 
 if not args.raw:
     conn = openpd.Connection()
