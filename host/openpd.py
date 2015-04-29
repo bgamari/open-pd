@@ -159,7 +159,7 @@ class Daemon(object):
             import pyudev
             context = pyudev.Context()
             for device in iter(context.list_devices(tag='openpd')):
-                self.add_device(RawOpenPD(device.device_path))
+                self.add_device(RawOpenPD(device.device_node))
         else:
             logging.info("Don't know how to find devices for platform %s" % sys.platform)
 
