@@ -10,7 +10,7 @@ def open_device(args):
         if args.device is None:
             raise RuntimeError('Must specify device path when running with --raw')
         else:
-            return openpd.RawOpenPD(args.device.name)
+            return openpd.RawOpenPD(args.device)
     else:
         conn = openpd.Connection()
         if args.device is None:
@@ -19,7 +19,7 @@ def open_device(args):
                 raise RuntimeError('Daemon knows of no devices')
             return conn.device(devices[0])
         else:
-            return conn.device(args.device.name)
+            return conn.device(args.device)
 
 def acquire(args):
     meter = open_device(args)
