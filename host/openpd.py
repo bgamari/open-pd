@@ -224,6 +224,7 @@ class Daemon(object):
                     reply(resp)
             except IOError as e:
                 logging.error('Saw IOError for device %s, removing' % req['device'])
+                reply({'error': 'IO error'})
                 del req['device']
 
     def run(self):
