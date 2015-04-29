@@ -129,6 +129,10 @@ class Daemon(object):
         version, dev_id = device.get_id()
         self.devices[dev_id] = device
 
+    params = {
+        'wavelength': (RawOpenPD.get_wavelength, RawOpenPD.set_wavelength),
+    }
+
     def _handle_request(self, req):
         req_type = req.get('type')
         reply = self.sock.send_json
@@ -141,11 +145,27 @@ class Daemon(object):
                 reply({'error': 'expected device'})
             elif req['device'] not in self.devices:
                 reply({'error': 'unknown device'})
+
             device = self.devices[req['device']]
             if req_type == 'sample':
                 reply(device.sample())
 
+            elif req_type == 'set':
+                for k, (_, setter) in Daemon.params:
+                    if k in req:
+                        setter(device, req[k])
+                reply({'status': 'ok'})
+
+            elif req_type == 'get':
+                resp = {}
+                for k, (getter, _) in Daemon.params:
+                    resp[k] = getter(device)
+                reply(resp)
+
     def run(self):
+        """
+        Run the daemon's handler loop
+        """
         while True:
             try:
                 req = self.sock.recv_json()
