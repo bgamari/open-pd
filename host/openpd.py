@@ -168,7 +168,7 @@ class Daemon(object):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
         monitor.filter_by_tag('openpd')
-        for device in iter(monitor.poll()):
+        for device in iter(monitor.poll, None):
             if device.action == 'add':
                 try:
                     self.add_device(device.device_path)
