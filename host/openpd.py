@@ -212,14 +212,14 @@ class Daemon(object):
                     reply(device.sample())
 
                 elif req_type == 'set':
-                    for k, (_, setter) in Daemon.params:
+                    for k, (_, setter) in Daemon.params.items():
                         if k in req:
                             setter(device, req[k])
                     reply({'status': 'ok'})
 
                 elif req_type == 'get':
                     resp = {}
-                    for k, (getter, _) in Daemon.params:
+                    for k, (getter, _) in Daemon.params.items():
                         resp[k] = getter(device)
                     reply(resp)
             except IOError as e:
