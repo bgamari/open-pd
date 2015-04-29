@@ -33,5 +33,5 @@ returned in the form of a JSON object. The known commands are,
     * request: `{"type": "set", "device": "device-id-1", "wavelength": 514}`
     * response: `{"status": "ok"}`
 * get the current wavelength:
-    * request: `{"type": "set", "device": "device-id-1"}`
+    * request: `{"type": "get", "device": "device-id-1"}`
     * response: `{"wavelength": 514}`
