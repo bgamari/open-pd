@@ -142,10 +142,14 @@ class Daemon(object):
             self.watcher = t
 
     def find_devices(self):
-        import pyudev
-        context = pyudev.Context()
-        for device in iter(context.list_devices(tag='openpd')):
-            self.add_device(device.device_path)
+        import sys
+        if sys.platform == 'linux2':
+            import pyudev
+            context = pyudev.Context()
+            for device in iter(context.list_devices(tag='openpd')):
+                self.add_device(device.device_path)
+        else:
+            logging.info("Don't know how to find devices for platform %s" % sys.platform)
 
     def watch_devices(self):
         import pyudev
