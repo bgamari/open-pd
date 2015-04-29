@@ -125,8 +125,11 @@ class OpenPD(object):
         return self._command({'type': 'sample'})
 
 class Daemon(object):
-    def __init__(self, watch=True):
+    def __init__(self, find_device=True, watch=True):
         self.devices = {}
+        if find_devices:
+            self.find_devices()
+
         self.zmq_ctx = zmq.Context()
         self.sock = self.zmq_ctx.socket(zmq.REP)
         self.sock.bind(daemon_socket)
@@ -138,6 +141,12 @@ class Daemon(object):
             t.start()
             self.watcher = t
 
+    def find_devices(self):
+        import pyudev
+        context = pyudev.Context()
+        for device in iter(context.list_devices(tag='openpd')):
+            self.add_device(device.device_path)
+
     def watch_devices(self):
         import pyudev
         context = pyudev.Context()
@@ -145,7 +154,6 @@ class Daemon(object):
         monitor.filter_by_tag('openpd')
         for device in iter(monitor.poll):
             if device.action == 'add':
-                logging.info('Trying to add device %s' % device.device_path)
                 try:
                     self.add_device(device.device_path)
                 except Exception as e:
@@ -160,6 +168,7 @@ class Daemon(object):
 
         :param device: The :class:`RawOpenPD` object for the device
         """
+        logging.info('Trying to add device %s' % device.device_path)
         version, dev_id = device.get_id()
         self.devices[dev_id] = device
 
