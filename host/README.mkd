@@ -9,9 +9,9 @@ UNIX epoch time).
 For instance,
 ```bash
 $ openpd-acquire --timestamps
-1430280904.436060	8.97e-10
-1430280904.938442	8.92e-10
-1430280905.441401	8.89e-10
+1430280904.436060	8.97e-6
+1430280904.938442	8.92e-6
+1430280905.441401	8.89e-6
 ```
 
 ## Daemon
@@ -24,9 +24,14 @@ submit requests in the form of JSON objects to this socket. The reply will be
 returned in the form of a JSON object. The known commands are,
 
 * list known devices:
-    * request: `{type: 'list-devices'}`
-    * response: `{devices: ['device-id-1', 'device-id-2', ...]}`
+    * request: `{"type": "list-devices"}`
+    * response: `{"devices": ["device-id-1", "device-id-2", ...]}`
 * sample a device:
-    * request: `{type: 'sample', device: 'device-id-1'}`
-    * response: `{power: 1.4e-6, range: 3}` (power in watts)
-     
+    * request: `{"type": "sample", "device": "device-id-1"}`
+    * response: `{"power": 1.4e-6, "range": 3}` (power in watts)
+* set the current wavelength:
+    * request: `{"type": "set", "device": "device-id-1", "wavelength": 514}`
+    * response: `{"status": "ok"}`
+* get the current wavelength:
+    * request: `{"type": "set", "device": "device-id-1"}`
+    * response: `{"wavelength": 514}`
