@@ -191,20 +191,24 @@ class Daemon(object):
                 reply({'error': 'unknown device'})
 
             device = self.devices[req['device']]
-            if req_type == 'sample':
-                reply(device.sample())
+            try:
+                if req_type == 'sample':
+                    reply(device.sample())
 
-            elif req_type == 'set':
-                for k, (_, setter) in Daemon.params:
-                    if k in req:
-                        setter(device, req[k])
-                reply({'status': 'ok'})
+                elif req_type == 'set':
+                    for k, (_, setter) in Daemon.params:
+                        if k in req:
+                            setter(device, req[k])
+                    reply({'status': 'ok'})
 
-            elif req_type == 'get':
-                resp = {}
-                for k, (getter, _) in Daemon.params:
-                    resp[k] = getter(device)
-                reply(resp)
+                elif req_type == 'get':
+                    resp = {}
+                    for k, (getter, _) in Daemon.params:
+                        resp[k] = getter(device)
+                    reply(resp)
+            except IOError as e:
+                logging.error('Saw IOError for device %s, removing' % req['device'])
+                del req['device']
 
     def run(self):
         """
