@@ -1,3 +1,4 @@
+import logging
 import os.path
 import serial
 try:
@@ -124,11 +125,34 @@ class OpenPD(object):
         return self._command({'type': 'sample'})
 
 class Daemon(object):
-    def __init__(self):
+    def __init__(self, watch=True):
         self.devices = {}
         self.zmq_ctx = zmq.Context()
         self.sock = self.zmq_ctx.socket(zmq.REP)
         self.sock.bind(daemon_socket)
+
+        if watch:
+            import threading
+            t = threading.Thread(target=self.watch_devices)
+            t.daemon = True
+            t.start()
+            self.watcher = t
+
+    def watch_devices(self):
+        import pyudev
+        context = pyudev.Context()
+        monitor = pyudev.Monitor.from_netlink(context)
+        monitor.filter_by_tag('openpd')
+        for device in iter(monitor.poll):
+            if device.action == 'add':
+                logging.info('Trying to add device %s' % device.device_path)
+                try:
+                    self.add_device(device.device_path)
+                except Exception as e:
+                    logging.error('Failed adding device %s: %s' % (device.device_path, e))
+            elif device.action == 'remove':
+                logging.info('Removing device %s' % device.device_path)
+                # TODO
 
     def add_device(self, device):
         """
