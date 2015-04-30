@@ -41,6 +41,6 @@ elif os.sys.platform == 'win32':
           author_email='ben@smart-cactus.org',
           url='https://www.github.com/bgamari/open-pd',
           py_modules=['openpd'],
-          scripts=['openpd', 'plot-power', 'openpd-winsvc.py'],
+          scripts=['openpd', 'openpd.bat', 'plot-power', 'openpd-winsvc.py'],
           cmdclass={'install': Install},
          )
