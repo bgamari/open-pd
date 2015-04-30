@@ -1,0 +1,19 @@
+# Web application
+
+## building on Windows
+
+ 1. Install [Haskell Platform][].
+ 2. Install [ZeroMQ][]
+ 3. Run,
+
+```
+cabal install 
+```
+
+[ZeroMQ]: http://zeromq.org/distro:microsoft-windows
+[Haskell Platform]: https://www.haskell.org/platform/windows.html
+
+### Issues
+
+ * Issues with
+   [network page](https://stackoverflow.com/questions/1415309/problem-using-network-package-in-ghc)
