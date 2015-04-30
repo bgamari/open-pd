@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 import Control.Monad (forever, mzero)
 import Data.Monoid ((<>), mempty)
@@ -23,8 +24,10 @@ import qualified Network.WebSockets as WS
 import qualified System.ZMQ4 as ZMQ
 import Network.Wai.Handler.WebSockets
 import qualified Network.Wai.Handler.Warp as Warp
+import Data.FileEmbed
 
-import Paths_openpd_meter (getDataFileName)
+index_html = $(embedFile "index.html")
+plot_js = $(embedFile "plot.js")
 
 sampleRate = 33 -- per second
 
@@ -70,11 +73,9 @@ main :: IO ()
 main = do
     samples <- newBroadcastTChanIO
     async $ pollMeter samples
-    indexHtml <- getDataFileName "index.html"
-    plotJs <- getDataFileName "plot.js"
     app <- scottyApp $ do
-        get "/" $ file indexHtml
-        get "/plot.js" $ file plotJs
+        get "/" $ raw $ LBS.fromStrict index_html
+        get "/plot.js" $ raw $ LBS.fromStrict plot_js
     let connOpts = WS.defaultConnectionOptions
     let port = 3000
     putStrLn $ "Running on port "++show port

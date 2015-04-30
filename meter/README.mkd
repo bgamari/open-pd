@@ -1,19 +1,30 @@
-Installation on Windows:
+# Installation on Windows
 
-Install MinGHC
+Install [MinGHC][]
 
 To build everything properly we must make sure to clear the path and
 run minghc.bat
 
+```
 set PATH="C:\Windows\System32"
 "C:\Program Files\MinGHC-7.8.4\switch\minghc.bat"
+```
 
-Install ZeroMQ
+Install [ZeroMQ][].
 There needs to be a dll named libzmq.dll but the installer doesn't provide 
-one or even a link to one. Choose one in the bin dir and copy it to libzmq.dll
- 
-libzmq-vxxx-???.dll to libzmq.dll in "C:\Program Files\ZeroMQ 4.0.4\bin"
 
+`libzmq-vxxx-???.dll` to `libzmq.dll` in `"C:\Program Files\ZeroMQ 4.0.4\bin"`
+
+```
 cabal update
 cabal install --extra-include-dirs="C:\Program Files\ZeroMQ 4.0.4\include"
 			  --extra-lib-dirs="C:\Program Files\ZeroMQ 4.0.4\bin"
+```
+
+### Potential Issues
+
+ * Issues with
+   [network page](https://stackoverflow.com/questions/1415309/problem-using-network-package-in-ghc)
+
+[ZeroMQ]: http://zeromq.org/distro:microsoft-windows
+[MinGHC]: http://github.com/fpco/minghc 
