@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE CPP #-}
 
 import Control.Monad (forever, mzero)
 import Data.Monoid ((<>), mempty)
@@ -25,6 +26,11 @@ import qualified System.ZMQ4 as ZMQ
 import Network.Wai.Handler.WebSockets
 import qualified Network.Wai.Handler.Warp as Warp
 import Data.FileEmbed
+
+#ifdef WINDOWS
+import Control.Concurrent.MVar
+import System.Win32.SystemServices.Services
+#endif
 
 index_html = $(embedFile "index.html")
 plot_js = $(embedFile "plot.js")
@@ -69,8 +75,8 @@ pollMeter samples = ZMQ.withContext $ \ctx -> ZMQ.withSocket ctx ZMQ.Req $ \sock
         msg <- command sock "sample" (HM.fromList ["device" .= Aeson.String dev])
         atomically $ writeTChan samples msg
 
-main :: IO ()
-main = do
+runDaemon :: IO ()
+runDaemon = do
     samples <- newBroadcastTChanIO
     async $ pollMeter samples
     app <- scottyApp $ do
@@ -80,3 +86,29 @@ main = do
     let port = 3000
     putStrLn $ "Running on port "++show port
     Warp.run port $ websocketsOr connOpts (socketListen samples) app
+
+#ifdef WINDOWS
+main :: IO ()
+main = do
+    mStop <- newEmptyMVar
+    startServiceCtrlDispatcher "OpenPD Meter" 3000 (handler mStop) $ \_ _ h -> do
+        setServiceStatus h running
+        worker <- async runDaemon
+        takeMVar mStop
+        cancel worker
+        setServiceStatus h stopped
+
+handler :: MVar () -> HandlerFunction
+handler mStop hStatus STOP = do
+    setServiceStatus hStatus stopPending
+    putMVar mStop ()
+    return True
+handler _ _ INTERROGATE = return True
+handler _ _ _           = return False
+
+running = SERVICE_STATUS WIN32_OWN_PROCESS RUNNING [ACCEPT_STOP] nO_ERROR 0 0 0
+stopped = SERVICE_STATUS WIN32_OWN_PROCESS STOPPED [] nO_ERROR 0 0 0
+stopPending = SERVICE_STATUS WIN32_OWN_PROCESS STOP_PENDING [ACCEPT_STOP] nO_ERROR 0 0 0
+#else
+main = runDaemon
+#endif

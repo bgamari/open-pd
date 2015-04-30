@@ -1,25 +1,37 @@
 # Installation on Windows
 
-Install [MinGHC][]
+ 1. Install [MinGHC][]
 
-To build everything properly we must make sure to clear the path and
-run minghc.bat
+    To build everything properly we must make sure to clear the path and
+    run `minghc.bat`,
 
-```
-set PATH="C:\Windows\System32"
-"C:\Program Files\MinGHC-7.8.4\switch\minghc.bat"
-```
+    ```
+    set PATH="C:\Windows\System32"
+    "C:\Program Files\MinGHC-7.8.4\switch\minghc.bat"
+    ```
 
-Install [ZeroMQ][].
-There needs to be a dll named libzmq.dll but the installer doesn't provide 
+ 2. Install [ZeroMQ][].
+    
+    There needs to be a DLL named `libzmq.dll` but the installer doesn't provide 
 
-`libzmq-vxxx-???.dll` to `libzmq.dll` in `"C:\Program Files\ZeroMQ 4.0.4\bin"`
+    Copy `libzmq-vxxx-???.dll` to `libzmq.dll` in `C:\Program Files\ZeroMQ 4.0.4\bin`
 
-```
-cabal update
-cabal install --extra-include-dirs="C:\Program Files\ZeroMQ 4.0.4\include"
-			  --extra-lib-dirs="C:\Program Files\ZeroMQ 4.0.4\bin"
-```
+    ```
+    cabal update
+    cabal install --extra-include-dirs="C:\Program Files\ZeroMQ 4.0.4\include"
+                  --extra-lib-dirs="C:\Program Files\ZeroMQ 4.0.4\bin"
+    ```
+ 3. Building
+ 
+    ```
+    cabal install
+    ```
+ 4. Install the service
+ 
+    ```
+    sc create OpenPDMeter start=auto binPath=\path\to\openpd-meter
+    sc start OpenPDMeter
+    ```
 
 ### Potential Issues
 
