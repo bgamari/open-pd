@@ -1,0 +1,37 @@
+# Host utilities
+
+## Acquire tool
+
+The `openpd-acquire` tool is a small utility for acquiring samples from the OpenPD.
+It will output a tab-separated file of power and an optional timestamp (given in
+UNIX epoch time).
+
+For instance,
+```bash
+$ openpd-acquire --timestamps
+1430280904.436060	8.97e-6
+1430280904.938442	8.92e-6
+1430280905.441401	8.89e-6
+```
+
+## Daemon
+
+The `openpd-daemon` script provides a simple abstraction layer for allowing
+concurrent access to one or more OpenPD devices by multiplier users.
+
+The daemon exposes a ZeroMQ `REP` socket on `tcp://127.0.0.1:9276`. Users can
+submit requests in the form of JSON objects to this socket. The reply will be
+returned in the form of a JSON object. The known commands are,
+
+* list known devices:
+    * request: `{"type": "list-devices"}`
+    * response: `{"devices": ["device-id-1", "device-id-2", ...]}`
+* sample a device:
+    * request: `{"type": "sample", "device": "device-id-1"}`
+    * response: `{"power": 1.4e-6, "range": 3}` (power in watts)
+* set the current wavelength:
+    * request: `{"type": "set", "device": "device-id-1", "wavelength": 514}`
+    * response: `{"status": "ok"}`
+* get the current wavelength:
+    * request: `{"type": "get", "device": "device-id-1"}`
+    * response: `{"wavelength": 514}`
