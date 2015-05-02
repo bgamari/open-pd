@@ -26,10 +26,10 @@
     ```
     cabal install
     ```
- 4. Install the service
+ 4. Install the service, note that the space after `=` is required.
  
     ```
-    sc create OpenPDMeter start=auto binPath=\path\to\openpd-meter
+    sc create OpenPDMeter start= auto binPath= \path\to\openpd-meter
     sc start OpenPDMeter
     ```
 
