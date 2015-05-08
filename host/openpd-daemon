@@ -5,29 +5,22 @@ import os
 import openpd
 import zmq
 
-def main(device):
-    dev = openpd.RawOpenPD(device)
-
-    ctx = zmq.Context()
-    s = ctx.socket(zmq.REP)
-    path = openpd._device_socket(device)
-    s.bind(path)
-    os.chmod(path[6:], 0666) # Oh god the horror
-    while True:
-        s.recv()
-        s.send_json(dev.sample())
+def main(devices):
+    daemon = openpd.Daemon()
+    for dev in devices:
+        dev = openpd.RawOpenPD(dev)
+        daemon.add_device(dev)
+    daemon.run()
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--device', type=argparse.FileType('r'), help='Device path')
+parser.add_argument('-d', '--device', type=str, default=[], action='append',
+                    metavar='PORT', help='Device path')
 parser.add_argument('-f', '--fork', action='store_true', help='Run as daemon')
 args = parser.parse_args()
 
-device = '/dev/ttyUSB.openpd'
-if args.device is not None:
-    device = args.device.name
 if args.fork:
     import daemon
     with daemon.DaemonContext():
-        main(device)
+        main(args.device)
 else:
-    main(device)
+    main(args.device)
