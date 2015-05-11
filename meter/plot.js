@@ -18,8 +18,8 @@ $(function() {
     });
 
     function format_power(power) {
-        if (power >= 1e-4) {
-            return "" + power.toFixed(3) + " mW";
+        if (power >= 1e4) {
+            return "" + (power / 1000).toFixed(3) + " mW";
         } else {
             return "" + power.toFixed(3) + " μW";
         }
