@@ -1,4 +1,19 @@
-# Installation on Windows
+# Web application
+
+This is a simple Web interface to the OpenPD with rudimentary real-time
+plotting support.
+
+## Installation on Linux
+
+In a reasonable moderate Ubuntu/Debian environment,
+
+```bash
+$ sudo apt-get install cabal-install zlib1g-dev
+$ cabal update
+$ cabal install
+```
+
+## Installation on Windows
 
  1. Install [MinGHC][]
 
@@ -40,3 +55,4 @@
 
 [ZeroMQ]: http://zeromq.org/distro:microsoft-windows
 [MinGHC]: http://github.com/fpco/minghc 
+

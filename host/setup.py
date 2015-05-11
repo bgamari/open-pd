@@ -3,7 +3,7 @@
 from distutils.core import setup
 import os
 
-if os.sys.platform == 'posix':
+if os.sys.platform == 'linux2':
     setup(name='openpd',
           version='1.0',
           description='Library for interfacing with OpenPD laser power meter',
@@ -44,3 +44,6 @@ elif os.sys.platform == 'win32':
           scripts=['openpd', 'openpd.bat', 'plot-power', 'openpd-winsvc.py'],
           cmdclass={'install': Install},
          )
+
+else:
+    raise RuntimeError("(Currently) Unsupported platform. Feel free to contribute!")
