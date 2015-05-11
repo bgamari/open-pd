@@ -48,4 +48,8 @@ $(function() {
         plot.setupGrid();
         plot.draw();
     };
+
+    $(window).on('beforeunload', function(){
+        socket.close();
+    });
 });
