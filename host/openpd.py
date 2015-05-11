@@ -47,7 +47,7 @@ class RawOpenPD(object):
         :type wavelength: :class:`int`
         """
         self.dev.write('w=%d\n' % wavelength)
-        assert not self.dev.readline().startwith('# error')
+        assert not self.dev.readline().startswith('# error')
 
     def get_id(self):
         """
