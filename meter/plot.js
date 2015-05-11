@@ -39,6 +39,9 @@ $(function() {
         accum /= nAvg;
         numeric.text(""+accum.toFixed(3)+" μW");
 
+    };
+
+    function redraw() {
         // update plot
         var res = [];
         for (var i = 0; i < points.length; ++i) {
@@ -47,7 +50,8 @@ $(function() {
         plot.setData([res]);
         plot.setupGrid();
         plot.draw();
-    };
+    }
+    window.setInterval(function(event) {redraw();}, 33);
 
     $(window).on('beforeunload', function(){
         socket.close();
