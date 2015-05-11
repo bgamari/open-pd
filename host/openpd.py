@@ -15,10 +15,8 @@ class RawOpenPD(object):
         self.dev.flushInput()
         self.dev.write('v=0\n')
         self.dev.readline()
-        self.dev.write('3\n')  # force to intermediate range
-        self.dev.readline()
-        self.dev.write('A\n')
-        self.dev.readline()
+        self.force_range(3)  # force to intermediate range
+        self.set_auto_range(True)
         # Force a sample
         self.sample()
 
@@ -47,6 +45,21 @@ class RawOpenPD(object):
         :type wavelength: :class:`int`
         """
         self.dev.write('w=%d\n' % wavelength)
+        assert not self.dev.readline().startswith('# error')
+
+    def force_range(self, rng):
+        """
+        Force the gain range of the device
+        """
+        assert rng in range(8)
+        self.dev.write('%d\n' % rng)
+        assert not self.dev.readline().startswith('# error')
+
+    def set_auto_range(self, on):
+        """
+        Enable/disable autoranging
+        """
+        self.dev.write('A\n' if on else 'a\n')
         assert not self.dev.readline().startswith('# error')
 
     def get_id(self):
