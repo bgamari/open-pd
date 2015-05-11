@@ -51,7 +51,7 @@ $(function() {
         plot.setupGrid();
         plot.draw();
     }
-    window.setInterval(function(event) {redraw();}, 33);
+    window.setInterval(function(event) {redraw();}, 1000/24);
 
     $(window).on('beforeunload', function(){
         socket.close();
