@@ -17,8 +17,17 @@ $(function() {
         colors: ["#dba255"]
     });
 
+    function format_power(power) {
+        if (power >= 1e-4) {
+            return "" + power.toFixed(3) + " mW";
+        } else {
+            return "" + power.toFixed(3) + " μW";
+        }
+    }
+
     var numeric = $("#numeric");
     var socket = new WebSocket('ws://' + location.hostname + ':' + location.port + '/', 'protocolOne');
+
     socket.onmessage = function (event) {
         sample = JSON.parse(event.data);
         points.push(sample.power / 1e-6);
@@ -37,8 +46,7 @@ $(function() {
             accum += points[i];
         }
         accum /= nAvg;
-        numeric.text(""+accum.toFixed(3)+" μW");
-
+        numeric.text(format_power(accum));
     };
 
     function redraw() {
