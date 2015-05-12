@@ -10,7 +10,7 @@ passives. The device consists of a compensated transimpedance
 amplifier with a wide range gains, switched with a network of analog
 multiplexers. Since dual amplifiers are cheap, an additional voltage
 gain stage is included after the transimpedance amplifier, providing
-another factor of 10 in gain (albeit with the addition noise that this
+another factor of 10 in gain (albeit with the additional noise that this
 implies).
 
 Note that the capacitance and leakage current of these multiplexers
