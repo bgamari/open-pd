@@ -7,7 +7,7 @@ be used either autonomously or as a USB device.
 
 The device is built using easy-to-solder 0805 surface mount
 passives. The device consists of a compensated transimpedance
-amplifier with a wide range gains, switched with a network of analog
+amplifier with a wide range of gains switched with a network of analog
 multiplexers. Since dual amplifiers are cheap, an additional voltage
 gain stage is included after the transimpedance amplifier, providing
 another factor of 10 in gain (albeit with the additional noise that this
@@ -19,7 +19,8 @@ device. This is acceptable for the intended use-case, which targets
 general purpose intensity measurements of constant-wave lasers.
 
 The Hamamatsu S2281 photodiode is a convenient photodiode for use with
-this device.
+this device. With this diode the device has been shown to resolve from tens of
+nanowatts to hundreds of milliwatts.
 
 The device is designed using the [gEDA][] electronic design suite.
 
