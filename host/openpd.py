@@ -179,7 +179,14 @@ class Daemon(object):
         else:
             logging.info("Don't know how to find devices for platform %s" % sys.platform)
 
+
     def watch_devices(self):
+        if sys.platform == 'linux2':
+            self.watch_devices_linux()
+        else:
+            logging.info("Don't know how to watch for devices on platform %s" % sys.platform)
+
+    def watch_devices_linux(self):
         import pyudev
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
