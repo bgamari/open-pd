@@ -1,6 +1,7 @@
 import logging
 import os.path
 import serial
+import sys
 try:
     import zmq
 except:
