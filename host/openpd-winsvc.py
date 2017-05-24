@@ -7,6 +7,10 @@ pywintypes = win32gui_struct.pywintypes
 import win32con
 import threading
 import openpd
+import serial
+import serial.tools.list_ports as lp
+from time import sleep
+from servicemanager import LogMsg, EVENTLOG_INFORMATION_TYPE, PYS_SERVICE_STARTED
 
 GUID_DEVINTERFACE_USB_DEVICE = "{A5DCBF10-6530-11D2-901F-00C04FB951ED}"
 DBT_DEVICEARRIVAL = 0x8000
@@ -48,13 +52,12 @@ class OpenPDSvc(win32serviceutil.ServiceFramework):
 
     def __init__(self,args):
         win32serviceutil.ServiceFramework.__init__(self,args)
-        
-        Filter = win32gui_struct.PackDEV_BROADCAST_DEVICEINTERFACE(
-                    GUID_DEVINTERFACE_USB_DEVICE)
-        self.hDevNotify = win32gui.RegisterDeviceNotification(self.ssh,
-                                    Filter,win32con.DEVICE_NOTIFY_SERVICE_HANDLE)
-        
         self.stopEvent = threading.Event()
+        
+        FILTER = win32gui_struct.PackDEV_BROADCAST_DEVICEINTERFACE(
+                                   GUID_DEVINTERFACE_USB_DEVICE)
+        self.hDevNotify = win32gui.RegisterDeviceNotification(self.ssh,
+                                   FILTER,win32con.DEVICE_NOTIFY_SERVICE_HANDLE)
 
     # Override the base class so we can accept additional events.
     def GetAcceptedControls(self):
@@ -62,13 +65,9 @@ class OpenPDSvc(win32serviceutil.ServiceFramework):
         rc |= win32service.SERVICE_CONTROL_DEVICEEVENT
         return rc
 
-    def _log(self, message, eventID = 0xF000):
-        from servicemanager import LogMsg, EVENTLOG_INFORMATION_TYPE
+    def log(self, message, eventID = 0xF000):
         LogMsg(EVENTLOG_INFORMATION_TYPE, eventID, (message,''))
 
-    def log(self, message):
-        self._log(message)
-        
     def SvcOtherEx(self, control, event_type, data):
         """
         Handle non-standard service events (including our device broadcasts)
@@ -77,21 +76,20 @@ class OpenPDSvc(win32serviceutil.ServiceFramework):
         if control == win32service.SERVICE_CONTROL_DEVICEEVENT:
             info = win32gui_struct.UnpackDEV_BROADCAST(data)
             if event_type == DBT_DEVICEARRIVAL:
-                self.log("Device %s arrived" % info.name)
                 if "VID_2323&PID_0003" in info.name:
+                    self.log("Device %s arrived. Finding Devices..." % info.name)
                     self.find_devices()
                 
             elif event_type == DBT_DEVICEREMOVECOMPLETE:
                 self.log("Device %s removed" % info.name)
                 # device removal handled by openpd.Daemon
-            
+             
     def SvcStop(self):
         self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
         self.stopEvent.set()
 
     def log_started(self):
-        from servicemanager import PYS_SERVICE_STARTED
-        self._log(self._svc_name_, PYS_SERVICE_STARTED)
+        self.log(self._svc_name_, PYS_SERVICE_STARTED)
 
     def SvcDoRun(self):
         self.log_started()
@@ -99,11 +97,7 @@ class OpenPDSvc(win32serviceutil.ServiceFramework):
         self.stopEvent.wait()
 
     def find_devices(self):
-        import serial
-        import serial.tools.list_ports as lp
-        from time import sleep
-        
-        ports = list(lp.comports())
+        ports = lp.comports()
         for port in ports:
             portName = port[0]
             if 'OpenPD' in port[1] or port[2] == 'USB VID:PID=2323:0003':
@@ -115,29 +109,27 @@ class OpenPDSvc(win32serviceutil.ServiceFramework):
                         dev = openpd.RawOpenPD(portName)
                         self.daemon.add_device(dev)
                         portUp = True
-                        self._log("Added device on port %s to OpenPD Daemon" % portName)
+                        self.log("Added device on port %s to OpenPD Daemon" % portName)
                     except serial.serialutil.SerialException as e:
-                        # This is a hack to get the error number form the message
-                        errno = int(e.message[e.message.find('WindowsError')+13])
-                        if errno == 2:
-                            sleep(0.5)
-                            sleeptime += 0.5
-                        elif errno == 5:
-                            self.log("Could not connect to port %s: " % portName +\
-                                     "Access is denied")
-                            failedToConnect = True
-                    if sleeptime >= 10:
+                        sleep(1)
+                        sleeptime += 1
+                        self.log("Serial exception occured: %s" %e.args[0])
+                    if sleeptime >= 20:
                         failedToConnect = True
-                        self.log("Timed out while trying to connect to port %s: " % portName +\
-                                 "port does not exist")
+                        self.log("Timed out while trying to connect to port %s: " % portName)
                         
     def main(self):
+        self.log("Initializing OpenPD Daemon...")
         self.daemon = openpd.Daemon()
+        self.log("Finding Devices...")
         self.find_devices()
-
+        
+        self.log("Setting up daemon in a python thread...")
         thread = threading.Thread(target=self.daemon.run)
         thread.daemon = True
+        self.log("Starting thread...")
         thread.start()
+        self.log("Thread started")
 
 if __name__ == '__main__':
     win32serviceutil.HandleCommandLine(OpenPDSvc)

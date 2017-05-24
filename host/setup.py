@@ -32,7 +32,7 @@ elif os.sys.platform == 'win32':
             winsvc_path = os.path.join(self.install_base,'Scripts',
                                        'openpd-winsvc.py')
             check_call(['python',winsvc_path,'--startup','auto','install'])
-            check_call(['python',winsvc_path,'start'])
+            check_call(['python',winsvc_path,'restart'])
     
     setup(name='openpd',
           version='1.0',

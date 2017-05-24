@@ -1,5 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
+from __future__ import print_function
 import time
 import argparse
 import openpd
@@ -38,13 +39,13 @@ def configure(args):
     meter = open_device(args)
     if args.wavelength is not None:
         meter.set_wavelength(args.wavelength)
-    print 'wavelength = ', meter.get_wavelength()
+    print('wavelength = ', meter.get_wavelength())
 
 def list(args):
     conn = openpd.Connection()
-    print 'Known OpenPD devices:'
-    print
-    print '\n'.join(conn.list_devices())
+    print('Known OpenPD devices:')
+    print()
+    print('\n'.join(conn.list_devices()))
     sys.exit(0)
 
 def main():
@@ -72,7 +73,10 @@ def main():
     subp.set_defaults(action=lambda args: parser.print_help())
 
     args = parser.parse_args()
-    args.action(args)
+    try:
+        args.action(args)
+    except AttributeError:
+        parser.print_help()
 
 if __name__ == '__main__':
     main()

@@ -5,7 +5,7 @@ import sys
 try:
     import zmq
 except:
-    print "Failed to import ZeroMQ; daemon unavailable"
+    print("Failed to import ZeroMQ; daemon unavailable")
 
 daemon_socket = 'tcp://127.0.0.1:9276'
 
@@ -14,7 +14,7 @@ class RawOpenPD(object):
         """ Open a power meter device """
         self.dev = serial.Serial(device, timeout=10)
         self.dev.flushInput()
-        self.dev.write('v=0\n')
+        self.dev.write(b'v=0\n')
         self.dev.readline()
         self.force_range(3)  # force to intermediate range
         self.set_auto_range(True)
@@ -28,8 +28,8 @@ class RawOpenPD(object):
         return self.dev.name
 
     def _read_setting(self, cmd):
-        self.dev.write('%s\n' % cmd)
-        l = self.dev.readline()
+        self.dev.write(b'%s\n' % cmd)
+        l = self.dev.readline().decode('utf-8')
         return l.split('=')[1]
 
     def get_wavelength(self):
@@ -45,23 +45,23 @@ class RawOpenPD(object):
         :param wavelength: Wavelength in nanometers
         :type wavelength: :class:`int`
         """
-        self.dev.write('w=%d\n' % wavelength)
-        assert not self.dev.readline().startswith('# error')
+        self.dev.write(b'w=%d\n' % wavelength)
+        assert not self.dev.readline().decode('utf-8').startswith('# error')
 
     def force_range(self, rng):
         """
         Force the gain range of the device
         """
         assert rng in range(8)
-        self.dev.write('%d\n' % rng)
-        assert not self.dev.readline().startswith('# error')
+        self.dev.write(b'%d\n' % rng)
+        assert not self.dev.readline().decode('utf-8').startswith('# error')
 
     def set_auto_range(self, on):
         """
         Enable/disable autoranging
         """
-        self.dev.write('A\n' if on else 'a\n')
-        assert not self.dev.readline().startswith('# error')
+        self.dev.write(b'A\n' if on else 'a\n')
+        assert not self.dev.readline().decode('utf-8').startswith('# error')
 
     def get_id(self):
         """
@@ -69,8 +69,8 @@ class RawOpenPD(object):
 
         :returns: a tuple containing the firmware version and the device id.
         """
-        self.dev.write('?\n')
-        l = self.dev.readline()
+        self.dev.write(b'?\n')
+        l = self.dev.readline().decode('utf-8')
         parts = l.split()
         if parts[1] != 'OpenPD':
             raise RuntimeError('Invalid response to ? command')
@@ -83,9 +83,9 @@ class RawOpenPD(object):
         """ Sample the power """
         # How I wish this weren't so brittle
         while True:
-            self.dev.write('\n')
+            self.dev.write(b'\n')
             for i in range(10):
-                l = self.dev.readline()
+                l = self.dev.readline().decode('utf-8')
                 if l.startswith('#'):
                     continue
 
@@ -223,7 +223,7 @@ class Daemon(object):
         if req_type is None:
             reply({'error': 'malformed request'})
         elif req_type == 'list-devices':
-            reply({'devices': self.devices.keys()})
+            reply({'devices': list(self.devices.keys())})
         else:
             if 'device' not in req:
                 reply({'error': 'expected device'})
@@ -236,14 +236,14 @@ class Daemon(object):
                     reply(device.sample())
 
                 elif req_type == 'set':
-                    for k, (_, setter) in Daemon.params.items():
+                    for k, (_, setter) in list(Daemon.params.items()):
                         if k in req:
                             setter(device, req[k])
                     reply({'status': 'ok'})
 
                 elif req_type == 'get':
                     resp = {}
-                    for k, (getter, _) in Daemon.params.items():
+                    for k, (getter, _) in list(Daemon.params.items()):
                         resp[k] = getter(device)
                     reply(resp)
             except IOError as e:
