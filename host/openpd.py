@@ -28,6 +28,7 @@ class RawOpenPD(object):
         return self.dev.name
 
     def _read_setting(self, cmd):
+        if not type(cmd) == bytes: cmd = cmd.encode('utf-8')
         self.dev.write(b'%s\n' % cmd)
         l = self.dev.readline().decode('utf-8')
         return l.split('=')[1]
@@ -46,7 +47,7 @@ class RawOpenPD(object):
         :type wavelength: :class:`int`
         """
         self.dev.write(b'w=%d\n' % wavelength)
-        assert not self.dev.readline().decode('utf-8').startswith('# error')
+        assert not self.dev.readline().startswith(b'# error')
 
     def force_range(self, rng):
         """
@@ -54,14 +55,14 @@ class RawOpenPD(object):
         """
         assert rng in range(8)
         self.dev.write(b'%d\n' % rng)
-        assert not self.dev.readline().decode('utf-8').startswith('# error')
+        assert not self.dev.readline().startswith(b'# error')
 
     def set_auto_range(self, on):
         """
         Enable/disable autoranging
         """
         self.dev.write(b'A\n' if on else 'a\n')
-        assert not self.dev.readline().decode('utf-8').startswith('# error')
+        assert not self.dev.readline().startswith(b'# error')
 
     def get_id(self):
         """
