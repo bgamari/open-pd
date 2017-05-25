@@ -61,7 +61,7 @@ class RawOpenPD(object):
         """
         Enable/disable autoranging
         """
-        self.dev.write(b'A\n' if on else 'a\n')
+        self.dev.write(b'A\n' if on else b'a\n')
         assert not self.dev.readline().startswith(b'# error')
 
     def get_id(self):

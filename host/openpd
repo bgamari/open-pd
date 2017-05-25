@@ -39,7 +39,8 @@ def configure(args):
     meter = open_device(args)
     if args.wavelength is not None:
         meter.set_wavelength(args.wavelength)
-    print('wavelength = ', meter.get_wavelength())
+    print('wavelength = %d' % int(meter.get_wavelength()))
+    print('range      = %d' % int(meter.sample()['range']))
 
 def list(args):
     conn = openpd.Connection()
