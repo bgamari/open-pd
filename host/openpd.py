@@ -21,6 +21,7 @@ class RawOpenPD(object):
         # Force a sample
         self.sample()
 
+    @property
     def device_path(self):
         """
         The path to the underlaying port device
@@ -84,9 +85,12 @@ class RawOpenPD(object):
         """ Sample the power """
         # How I wish this weren't so brittle
         while True:
+            logging.info('Requesting a sample')
             self.dev.write(b'\n')
             for i in range(10):
                 l = self.dev.readline().decode('utf-8')
+                logging.info('Read a sample')
+
                 if l.startswith('#'):
                     continue
 
@@ -193,15 +197,21 @@ class Daemon(object):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
         monitor.filter_by_tag('openpd')
+	logging.info('Begin monitoring for udev notification')
         for device in iter(monitor.poll, None):
+            logging.info('udev: got a device %s' % device)
             if device.action == 'add':
                 try:
-                    self.add_device(device.device_path)
+                    self.add_device(RawOpenPD(device.device_node))
                 except Exception as e:
                     logging.error('Failed adding device %s: %s' % (device.device_path, e))
             elif device.action == 'remove':
                 logging.info('Removing device %s' % device.device_path)
-                # TODO
+                s = device['ID_SERIAL_SHORT']
+                dev_id = s[16:]+s[10:16]+s[:8]+'ffffffff'
+                if dev_id in self.devices:
+                    self.devices.pop(dev_id)
+                
 
     def add_device(self, device):
         """
