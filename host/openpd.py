@@ -114,10 +114,14 @@ class Connection(object):
         self.zmq_ctx = zmq.Context()
         self.sock = self.zmq_ctx.socket(zmq.REQ)
         self.sock.connect(daemon_socket)
+	self.sock.setsockopt(zmq.RCVTIMEO,2000)
 
     def _command(self, cmd):
         self.sock.send_json(cmd)
-        reply = self.sock.recv_json()
+        try:
+            reply = self.sock.recv_json()
+        except zmq.error.Again:
+            raise RuntimeError('No response from daemon. It is likely not running.')
         if 'error' in reply:
             raise RuntimeError(reply['error'])
         else:
